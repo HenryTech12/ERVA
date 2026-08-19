@@ -24,7 +24,7 @@ export function Inspector({ node, onClose }) {
   const contributingAlerts = risk?.contributing_alert_ids ?? risk?.contributingAlertIds ?? []
 
   return (
-    <aside className="w-80 shrink-0 bg-[#131B2E] border-l border-[#26314D] overflow-y-auto">
+    <aside className="fixed inset-y-0 right-0 z-30 w-full max-w-80 lg:static lg:z-auto lg:w-80 lg:max-w-none shrink-0 bg-[#131B2E] border-l border-[#26314D] overflow-y-auto">
       <div className="flex items-center justify-between px-4 py-3 border-b border-[#26314D] sticky top-0 bg-[#131B2E] z-10">
         <p className="text-xs text-[#8891A8] uppercase tracking-wider font-medium">Inspector</p>
         <button

@@ -31,7 +31,7 @@ function CaseRow({ alert, isSelected, onSelect }) {
 
 export function CaseRail({ alerts, isLoading, selectedAlertId, onSelectAlert, entityCount, openCount }) {
   return (
-    <aside className="w-72 shrink-0 bg-[#131B2E] border-r border-[#26314D] flex flex-col overflow-hidden">
+    <aside className="hidden lg:flex w-72 shrink-0 bg-[#131B2E] border-r border-[#26314D] flex-col overflow-hidden">
       <div className="px-4 py-3 border-b border-[#26314D]">
         <p className="text-xs text-[#8891A8] uppercase tracking-wider font-medium mb-2">Case Rail</p>
         <div className="flex items-center gap-3 text-[11px] font-mono text-[#8891A8]">

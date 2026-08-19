@@ -88,7 +88,7 @@ export function IngestActivityLog({ transactions, isLoading, onRowClick }) {
     <div className="bg-[#131B2E] border border-[#26314D] rounded-lg overflow-hidden">
       {/* Toolbar */}
       <div className="px-4 py-3 border-b border-[#26314D] flex flex-wrap items-center gap-3">
-        <div className="flex items-center gap-2 flex-1 min-w-48">
+        <div className="flex items-center gap-2 flex-1 min-w-48 rounded-md focus-within:ring-2 focus-within:ring-[#4FA0A0]/50 px-1 -mx-1">
           <MagnifyingGlassIcon className="w-4 h-4 text-[#8891A8] shrink-0" />
           <input
             type="text"

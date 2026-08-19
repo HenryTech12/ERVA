@@ -27,7 +27,7 @@ export function STREditor({ content, onChange, readOnly = false }) {
         onChange={handleChange}
         readOnly={readOnly}
         rows={24}
-        className="flex-1 w-full bg-transparent p-4 text-sm text-[#E8EAF0] font-mono resize-none focus:outline-none leading-relaxed"
+        className="flex-1 w-full bg-transparent p-4 text-sm text-[#E8EAF0] font-mono resize-none focus:outline-none focus:bg-[#1B2540]/40 leading-relaxed"
         style={{ minHeight: '480px' }}
         placeholder={readOnly ? '' : 'STR content will appear here after generation…'}
       />

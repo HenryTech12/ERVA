@@ -44,6 +44,13 @@
     -webkit-font-smoothing: antialiased;
   }
   * { border-color: #26314D; }
+  /* Baseline visible focus ring for anything that doesn't define its own —
+     keyboard-only, never shown on mouse/touch click (:focus-visible). */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  textarea:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid #4FA0A0;
+    outline-offset: 2px;
+  }
   ::-webkit-scrollbar { width: 4px; height: 4px; }
   ::-webkit-scrollbar-track { background: #0B1220; }
   ::-webkit-scrollbar-thumb { background: #26314D; border-radius: 2px; }
@@ -78,6 +85,23 @@
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+/* Respect the OS-level motion preference — spinners still need to spin
+   (they're a loading indicator, not decoration), everything purely
+   decorative (pulse/ping/bounce/scroll-fade/shimmer) collapses to an
+   instant state change instead of animating. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse, .animate-ping, .animate-bounce,
+  .lg-halo-1, .lg-halo-2, .lg-halo-3, .lg-halo-4, .lg-halo-5,
+  .lg-cta-pulse, .brand-shimmer {
+    animation: none !important;
+  }
+  .lg-fade {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 @layer utilities {

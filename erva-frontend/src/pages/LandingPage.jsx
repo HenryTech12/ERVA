@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { HeroGraphLive } from '@/components/graph/HeroGraphLive'
 
 /* ─── Inline SVG icons (no extra dependency) ──────────────────────────────── */
 function IconUser({ className, style }) {
@@ -68,79 +69,6 @@ function useFadeUp() {
   }, [])
 }
 
-/* ─── Hero Network Graph SVG ───────────────────────────────────────────────── */
-function HeroGraph() {
-  return (
-    <svg
-      viewBox="0 0 640 400"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-full"
-      role="img"
-      aria-label="Network graph visualising financial entities connected by transactions. Five central high-risk nodes highlighted in red represent a POS cash-out ring, surrounded by medium-risk feeder nodes in amber and low-risk entry nodes in green."
-    >
-      <defs>
-        <filter id="hg-glow" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="3.5" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-
-      {/* ── Edges: ring → hub ── */}
-      <line x1="175" y1="120" x2="317" y2="198" stroke="#E8A33D" strokeWidth="1.5" strokeOpacity="0.45" />
-      <line x1="465" y1="120" x2="323" y2="198" stroke="#E8A33D" strokeWidth="1.5" strokeOpacity="0.45" />
-      <line x1="150" y1="292" x2="315" y2="208" stroke="#E8A33D" strokeWidth="1.5" strokeOpacity="0.45" />
-      <line x1="490" y1="292" x2="325" y2="208" stroke="#E8A33D" strokeWidth="1.5" strokeOpacity="0.45" />
-
-      {/* ── Edges: feeder → ring ── */}
-      <line x1="82"  y1="185" x2="172" y2="122" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="82"  y1="185" x2="152" y2="290" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="558" y1="185" x2="463" y2="122" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="558" y1="185" x2="488" y2="290" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="232" y1="362" x2="152" y2="295" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="408" y1="362" x2="488" y2="295" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
-
-      {/* ── Edges: entry → feeder ── */}
-      <line x1="62"  y1="72"  x2="80"  y2="182" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.4" />
-      <line x1="578" y1="72"  x2="556" y2="182" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.4" />
-      <line x1="320" y1="48"  x2="175" y2="118" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.4" />
-      <line x1="320" y1="48"  x2="465" y2="118" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.4" />
-
-      {/* ── Dashed cross-ring ── */}
-      <line x1="175" y1="120" x2="465" y2="120" stroke="#8891A8" strokeWidth="0.8" strokeOpacity="0.22" strokeDasharray="4,5" />
-      <line x1="150" y1="292" x2="490" y2="292" stroke="#8891A8" strokeWidth="0.8" strokeOpacity="0.22" strokeDasharray="4,5" />
-
-      {/* ── Pulsing halos on HIGH nodes ── */}
-      <circle cx="320" cy="205" r="28" fill="none" stroke="#E8A33D" strokeWidth="1.5" className="lg-halo-1" />
-      <circle cx="175" cy="120" r="19" fill="none" stroke="#E8A33D" strokeWidth="1"   className="lg-halo-2" />
-      <circle cx="465" cy="120" r="19" fill="none" stroke="#E8A33D" strokeWidth="1"   className="lg-halo-3" />
-      <circle cx="150" cy="292" r="19" fill="none" stroke="#E8A33D" strokeWidth="1"   className="lg-halo-4" />
-      <circle cx="490" cy="292" r="19" fill="none" stroke="#E8A33D" strokeWidth="1"   className="lg-halo-5" />
-
-      {/* ── LOW risk nodes (green) ── */}
-      <circle cx="62"  cy="72"  r="8" fill="#4FA0A022" stroke="#4FA0A0" strokeWidth="2" />
-      <circle cx="578" cy="72"  r="8" fill="#4FA0A022" stroke="#4FA0A0" strokeWidth="2" />
-      <circle cx="320" cy="48"  r="8" fill="#4FA0A022" stroke="#4FA0A0" strokeWidth="2" />
-
-      {/* ── MEDIUM risk nodes (amber) ── */}
-      <circle cx="82"  cy="185" r="9" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2" />
-      <circle cx="558" cy="185" r="9" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2" />
-      <circle cx="232" cy="362" r="9" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2" />
-      <circle cx="408" cy="362" r="9" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2" />
-
-      {/* ── HIGH risk ring nodes (red, glowing) ── */}
-      <circle cx="175" cy="120" r="10" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2"   filter="url(#hg-glow)" />
-      <circle cx="465" cy="120" r="10" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2"   filter="url(#hg-glow)" />
-      <circle cx="150" cy="292" r="10" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2"   filter="url(#hg-glow)" />
-      <circle cx="490" cy="292" r="10" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2"   filter="url(#hg-glow)" />
-
-      {/* ── Hub: POS beneficiary (largest, most prominent) ── */}
-      <circle cx="320" cy="205" r="15" fill="#E8A33D33" stroke="#E8A33D" strokeWidth="2.5" filter="url(#hg-glow)" />
-    </svg>
-  )
-}
 
 /* ─── Deployment Architecture Diagram SVG ─────────────────────────────────── */
 function DeploymentDiagram() {
@@ -163,12 +91,12 @@ function DeploymentDiagram() {
 
       {/* Outer boundary */}
       <rect x="18" y="22" width="310" height="242" rx="10" fill="none" stroke="#8891A8" strokeWidth="1.5" strokeDasharray="7,4" />
-      <text x="173" y="16" textAnchor="middle" fontSize="9.5" fill="#8891A8" fontFamily="DM Sans, sans-serif" letterSpacing="1.5">YOUR INFRASTRUCTURE</text>
+      <text x="173" y="16" textAnchor="middle" fontSize="9.5" fill="#8891A8" fontFamily="Inter, sans-serif" letterSpacing="1.5">YOUR INFRASTRUCTURE</text>
 
       {/* ERVA Engine box */}
       <rect x="44" y="46" width="258" height="56" rx="6" fill="#F0FFF8" stroke={ACCENT} strokeWidth="1.5" />
-      <text x="173" y="68" textAnchor="middle" fontSize="12" fill={DARK} fontFamily="Space Grotesk, DM Sans, sans-serif" fontWeight="700">ERVA Engine</text>
-      <text x="173" y="86" textAnchor="middle" fontSize="9" fill="#6B7280" fontFamily="DM Sans, sans-serif">FastAPI  ·  Redis Queue  ·  Detection Workers</text>
+      <text x="173" y="68" textAnchor="middle" fontSize="12" fill={DARK} fontFamily="Space Grotesk, Inter, sans-serif" fontWeight="700">ERVA Engine</text>
+      <text x="173" y="86" textAnchor="middle" fontSize="9" fill="#6B7280" fontFamily="Inter, sans-serif">FastAPI  ·  Redis Queue  ·  Detection Workers</text>
 
       {/* Connector tree */}
       <line x1="173" y1="102" x2="173" y2="130" stroke="#8891A8" strokeWidth="1.5" />
@@ -178,16 +106,16 @@ function DeploymentDiagram() {
 
       {/* Neo4j */}
       <rect x="34"  y="148" width="116" height="52" rx="6" fill="#F9FAFB" stroke="#E5E7EB" strokeWidth="1" />
-      <text x="92"  y="170" textAnchor="middle" fontSize="10" fill="#131B2E" fontFamily="DM Sans, sans-serif" fontWeight="600">Neo4j Graph</text>
-      <text x="92"  y="186" textAnchor="middle" fontSize="8.5" fill="#6B7280" fontFamily="DM Sans, sans-serif">Entity relationships</text>
+      <text x="92"  y="170" textAnchor="middle" fontSize="10" fill="#131B2E" fontFamily="Inter, sans-serif" fontWeight="600">Neo4j Graph</text>
+      <text x="92"  y="186" textAnchor="middle" fontSize="8.5" fill="#6B7280" fontFamily="Inter, sans-serif">Entity relationships</text>
 
       {/* PostgreSQL */}
       <rect x="196" y="148" width="116" height="52" rx="6" fill="#F9FAFB" stroke="#E5E7EB" strokeWidth="1" />
-      <text x="254" y="170" textAnchor="middle" fontSize="10" fill="#131B2E" fontFamily="DM Sans, sans-serif" fontWeight="600">PostgreSQL</text>
-      <text x="254" y="186" textAnchor="middle" fontSize="8.5" fill="#6B7280" fontFamily="DM Sans, sans-serif">Transactions · Alerts</text>
+      <text x="254" y="170" textAnchor="middle" fontSize="10" fill="#131B2E" fontFamily="Inter, sans-serif" fontWeight="600">PostgreSQL</text>
+      <text x="254" y="186" textAnchor="middle" fontSize="8.5" fill="#6B7280" fontFamily="Inter, sans-serif">Transactions · Alerts</text>
 
       {/* Transaction input (from right) */}
-      <text x="375" y="68" textAnchor="middle" fontSize="9" fill="#8891A8" fontFamily="DM Sans, sans-serif">Transactions</text>
+      <text x="375" y="68" textAnchor="middle" fontSize="9" fill="#8891A8" fontFamily="Inter, sans-serif">Transactions</text>
       <line x1="375" y1="73" x2="375" y2="84" stroke="#8891A8" strokeWidth="1.2" />
       <line x1="375" y1="84" x2="305" y2="70" stroke="#8891A8" strokeWidth="1.2" markerEnd="url(#dd-arr-gray)" />
 
@@ -196,9 +124,9 @@ function DeploymentDiagram() {
       <line x1="92" y1="240" x2="170" y2="260" stroke={ACCENT} strokeWidth="1.5" markerEnd="url(#dd-arr-g)" />
 
       <rect x="172" y="248" width="56" height="26" rx="5" fill="#ECFDF5" stroke={ACCENT} strokeWidth="1.5" />
-      <text x="200" y="265" textAnchor="middle" fontSize="10" fill={ACCENT} fontFamily="DM Sans, sans-serif" fontWeight="700">NFIU</text>
+      <text x="200" y="265" textAnchor="middle" fontSize="10" fill={ACCENT} fontFamily="Inter, sans-serif" fontWeight="700">NFIU</text>
 
-      <text x="105" y="258" fontSize="8.5" fill={ACCENT} fontFamily="DM Sans, sans-serif">STR Reports →</text>
+      <text x="105" y="258" fontSize="8.5" fill={ACCENT} fontFamily="Inter, sans-serif">STR Reports →</text>
     </svg>
   )
 }
@@ -229,7 +157,7 @@ function Nav() {
           </svg>
           <span
             className="text-white text-lg font-display tracking-wide"
-            style={{ fontFamily: "'Space Grotesk', 'DM Sans', sans-serif", fontWeight: 700 }}
+            style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700 }}
           >
             ER<span style={{ background: BRAND_GRADIENT, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>VA</span>
           </span>
@@ -285,7 +213,7 @@ export default function LandingPage() {
 
               <h1
                 className="font-display mb-6"
-                style={{ fontFamily: "'Space Grotesk', 'DM Sans', sans-serif", fontWeight: 700, fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', lineHeight: 1.1, color: '#FFFFFF', letterSpacing: '-0.02em' }}
+                style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700, fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', lineHeight: 1.1, color: '#FFFFFF', letterSpacing: '-0.02em' }}
               >
                 Financial crime hides<br />in networks.{' '}
                 <span style={{ background: BRAND_GRADIENT, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>ERVA sees them all.</span>
@@ -333,8 +261,8 @@ export default function LandingPage() {
                   graph-explorer · risk-view · live
                 </span>
               </div>
-              <div style={{ padding: '8px 12px 12px' }}>
-                <HeroGraph />
+              <div style={{ padding: '8px 12px 12px', height: 340 }}>
+                <HeroGraphLive />
               </div>
             </div>
           </div>
@@ -350,7 +278,7 @@ export default function LandingPage() {
           <div className="lg-fade mb-16" style={{ maxWidth: '680px' }}>
             <h2
               className="font-display mb-5"
-              style={{ fontFamily: "'Space Grotesk', 'DM Sans', sans-serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', lineHeight: 1.15, color: DARK, letterSpacing: '-0.02em' }}
+              style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', lineHeight: 1.15, color: DARK, letterSpacing: '-0.02em' }}
             >
               8 accounts. Each one clean. All sending to the same beneficiary. Your current system sees nothing.
             </h2>
@@ -394,7 +322,7 @@ export default function LandingPage() {
                 </div>
                 <h3
                   className="font-semibold mb-3"
-                  style={{ fontSize: '1rem', color: DARK, fontFamily: "'DM Sans', sans-serif" }}
+                  style={{ fontSize: '1rem', color: DARK, fontFamily: "'Inter', sans-serif" }}
                 >
                   {title}
                 </h3>
@@ -423,7 +351,7 @@ export default function LandingPage() {
           <div className="lg-fade text-center mb-16" style={{ maxWidth: '560px', margin: '0 auto 64px' }}>
             <h2
               className="font-display mb-4"
-              style={{ fontFamily: "'Space Grotesk', 'DM Sans', sans-serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', lineHeight: 1.15, color: '#FFFFFF', letterSpacing: '-0.02em' }}
+              style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', lineHeight: 1.15, color: '#FFFFFF', letterSpacing: '-0.02em' }}
             >
               From transaction to intelligence in five steps.
             </h2>
@@ -463,7 +391,7 @@ export default function LandingPage() {
             <div className="lg-fade">
               <h3
                 className="font-display mb-5"
-                style={{ fontFamily: "'Space Grotesk', 'DM Sans', sans-serif", fontWeight: 700, fontSize: '1.4rem', color: '#FFFFFF', letterSpacing: '-0.01em' }}
+                style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700, fontSize: '1.4rem', color: '#FFFFFF', letterSpacing: '-0.01em' }}
               >
                 How the graph model works
               </h3>
@@ -503,7 +431,7 @@ export default function LandingPage() {
           <div className="lg-fade mb-14" style={{ maxWidth: '680px' }}>
             <h2
               className="font-display mb-5"
-              style={{ fontFamily: "'Space Grotesk', 'DM Sans', sans-serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', lineHeight: 1.15, color: DARK, letterSpacing: '-0.02em' }}
+              style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', lineHeight: 1.15, color: DARK, letterSpacing: '-0.02em' }}
             >
               The fraud patterns destroying Nigerian financial institutions aren't in the textbooks. They're in the streets.
             </h2>
@@ -556,7 +484,7 @@ export default function LandingPage() {
                   />
                   <h3
                     className="font-semibold mb-3"
-                    style={{ fontSize: '0.975rem', color: DARK, fontFamily: "'DM Sans', sans-serif" }}
+                    style={{ fontSize: '0.975rem', color: DARK, fontFamily: "'Inter', sans-serif" }}
                   >
                     {title}
                   </h3>
@@ -576,7 +504,7 @@ export default function LandingPage() {
           <div className="lg-fade mb-16" style={{ maxWidth: '580px' }}>
             <h2
               className="font-display mb-4"
-              style={{ fontFamily: "'Space Grotesk', 'DM Sans', sans-serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', lineHeight: 1.15, color: '#FFFFFF', letterSpacing: '-0.02em' }}
+              style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', lineHeight: 1.15, color: '#FFFFFF', letterSpacing: '-0.02em' }}
             >
               What ERVA — Entity Risk &amp; Verification Analytics — gives your compliance team.
             </h2>
@@ -616,7 +544,7 @@ export default function LandingPage() {
                 </div>
                 <h3
                   className="font-semibold mb-3 text-white"
-                  style={{ fontSize: '1rem', fontFamily: "'DM Sans', sans-serif" }}
+                  style={{ fontSize: '1rem', fontFamily: "'Inter', sans-serif" }}
                 >
                   {title}
                 </h3>
@@ -647,7 +575,7 @@ export default function LandingPage() {
             <div className="lg-fade">
               <h2
                 className="font-display mb-6"
-                style={{ fontFamily: "'Space Grotesk', 'DM Sans', sans-serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', lineHeight: 1.15, color: DARK, letterSpacing: '-0.02em' }}
+                style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', lineHeight: 1.15, color: DARK, letterSpacing: '-0.02em' }}
               >
                 Your data never leaves your walls.
               </h2>
@@ -691,7 +619,7 @@ export default function LandingPage() {
           <div className="lg-fade" style={{ maxWidth: '680px', margin: '0 auto' }}>
             <h2
               className="font-display mb-5"
-              style={{ fontFamily: "'Space Grotesk', 'DM Sans', sans-serif", fontWeight: 700, fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', lineHeight: 1.15, color: '#FFFFFF', letterSpacing: '-0.02em' }}
+              style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700, fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', lineHeight: 1.15, color: '#FFFFFF', letterSpacing: '-0.02em' }}
             >
               See the network.<br />Verify the truth.<br />Protect the system.
             </h2>
@@ -731,7 +659,7 @@ export default function LandingPage() {
                   <line x1="8"  y1="24" x2="24" y2="24" stroke={BRAND_TO} strokeWidth="1.5" strokeOpacity="0.3" />
                 </svg>
                 <span
-                  style={{ fontFamily: "'Space Grotesk', 'DM Sans', sans-serif", fontWeight: 700, fontSize: '1.1rem', color: '#FFFFFF' }}
+                  style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700, fontSize: '1.1rem', color: '#FFFFFF' }}
                 >
                   ER<span style={{ background: BRAND_GRADIENT, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>VA</span>
                 </span>
