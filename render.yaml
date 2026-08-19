@@ -1,0 +1,76 @@
+databases:
+  - name: erva-db
+    plan: starter
+
+services:
+  - type: keyvalue
+    name: erva-cache
+    plan: starter
+    maxmemoryPolicy: noeviction
+    ipAllowList: []
+
+  - type: web
+    name: erva-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: POSTGRES_URL
+        fromDatabase:
+          name: erva-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: erva-cache
+          type: keyvalue
+          property: connectionString
+      - key: NEO4J_URI
+        sync: false
+      - key: NEO4J_USER
+        sync: false
+      - key: NEO4J_PASSWORD
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: STRIPE_QUARANTINE_DESTINATION
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: ALLOWED_ORIGIN_REGEX
+        sync: false
+
+  - type: worker
+    name: erva-worker
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    startCommand: python -m app.workers.ingest_worker
+    envVars:
+      - key: POSTGRES_URL
+        fromDatabase:
+          name: erva-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: erva-cache
+          type: keyvalue
+          property: connectionString
+      - key: NEO4J_URI
+        sync: false
+      - key: NEO4J_USER
+        sync: false
+      - key: NEO4J_PASSWORD
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
