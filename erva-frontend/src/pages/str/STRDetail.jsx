@@ -122,11 +122,11 @@ export default function STRDetail() {
       />
 
       {/* Payment processor filing banner */}
-      {str.squadRef && (
+      {str.stripeRef && (
         <div className="mb-4 flex items-center gap-3 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
           <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold shrink-0">P</span>
           <span className="text-sm text-green-400 font-medium">Filed via Payment Processor</span>
-          <span className="text-xs text-[#94A3B8] font-mono truncate">{str.squadRef}</span>
+          <span className="text-xs text-[#94A3B8] font-mono truncate">{str.stripeRef}</span>
         </div>
       )}
 

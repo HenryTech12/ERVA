@@ -44,7 +44,7 @@ export default function IngestMonitor() {
 
   const handleRefresh = async () => {
     setRefreshing(true)
-    await queryClient.invalidateQueries({ queryKey: ['squad'] })
+    await queryClient.invalidateQueries({ queryKey: ['stripe'] })
     setTimeout(() => setRefreshing(false), 600)
   }
 

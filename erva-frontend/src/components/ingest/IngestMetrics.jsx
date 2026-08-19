@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { formatNairaShort } from '@/utils/formatters'
 
-function Tile({ label, value, sub, accent, isSquad }) {
+function Tile({ label, value, sub, accent, isStripe }) {
   const border = {
     teal:   'border-l-[#00D4AA]',
     red:    'border-l-red-500',
@@ -9,7 +9,7 @@ function Tile({ label, value, sub, accent, isSquad }) {
     blue:   'border-l-blue-500',
   }[accent] ?? 'border-l-[#2D3748]'
 
-  if (isSquad) {
+  if (isStripe) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 8 }}
@@ -55,8 +55,8 @@ export function IngestMetrics({ metrics, isLoading }) {
     )
   }
 
-  const { total, squadCount, squadVolume, totalVolume, highRisk, channelBreakdown } = metrics
-  const squadPct = total > 0 ? ((squadCount / total) * 100).toFixed(0) : 0
+  const { total, stripeCount, stripeVolume, totalVolume, highRisk, channelBreakdown } = metrics
+  const stripePct = total > 0 ? ((stripeCount / total) * 100).toFixed(0) : 0
   const topChannel = Object.entries(channelBreakdown).sort((a, b) => b[1] - a[1])[0]
 
   return (
@@ -69,9 +69,9 @@ export function IngestMetrics({ metrics, isLoading }) {
       />
       <Tile
         label="Channel"
-        value={squadCount.toLocaleString()}
-        sub={`${squadPct}% of all · ${formatNairaShort(squadVolume)}`}
-        isSquad
+        value={stripeCount.toLocaleString()}
+        sub={`${stripePct}% of all · ${formatNairaShort(stripeVolume)}`}
+        isStripe
       />
       <Tile
         label="High Risk Flagged"

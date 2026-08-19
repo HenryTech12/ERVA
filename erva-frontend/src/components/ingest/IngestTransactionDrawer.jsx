@@ -86,7 +86,7 @@ export function IngestTransactionDrawer({ transaction, onClose }) {
                   <RiskBadge level={deriveRiskLevel(transaction.riskScore)} />
                   <span className={cn(
                     'inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-medium border',
-                    transaction.isSquad
+                    transaction.isStripe
                       ? 'bg-blue-500/10 text-blue-400 border-blue-500/30'
                       : 'bg-[#1C2333] text-[#94A3B8] border-[#2D3748]'
                   )}>

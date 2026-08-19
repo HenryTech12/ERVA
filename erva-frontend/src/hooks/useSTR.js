@@ -17,7 +17,7 @@ export function normaliseSTR(s) {
     modelVersion: s.model_version ?? s.modelVersion ?? '—',
     reviewerNotes: s.reviewer_notes ?? s.reviewerNotes ?? '',
     payloadHash: s.payload_hash ?? s.payloadHash ?? '',
-    squadRef: s.content_json?.squad_transaction_ref ?? null,
+    stripeRef: s.content_json?.stripe_transaction_ref ?? null,
     createdAt: s.created_at ?? s.createdAt,
     updatedAt: s.updated_at ?? s.updatedAt ?? s.created_at,
   }

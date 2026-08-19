@@ -107,7 +107,7 @@ export function IngestFeed() {
     setTimeout(() => clearInterval(pollTimerRef.current), 30_000)
 
     try {
-      await apiClient.post('/webhooks/squad/simulate')
+      await apiClient.post('/webhooks/stripe/simulate')
       queryClient.invalidateQueries({ queryKey: ['recent-transactions'] })
     } catch {
       // silent — demo mode
@@ -180,8 +180,8 @@ export function IngestFeed() {
           transactions.slice(0, 8).map((txn) => {
             const riskScore = parseFloat(txn.risk_score ?? txn.riskScore ?? 0)
             const borderColor = getRiskColor(riskScore)
-            const isSquadReal = txn.channel === 'squad' || txn.channel === 'squad_payment'
-            const isSquadSim = txn.channel === 'squad_simulate' || txn.channel === 'squad_chain'
+            const isStripeReal = txn.channel === 'stripe' || txn.channel === 'stripe_payment'
+            const isStripeSim = txn.channel === 'stripe_simulate' || txn.channel === 'stripe_chain'
             const senderName = txn.from_entity_name ?? txn.fromEntityName ?? txn.fromEntity ?? txn.from_entity ?? txn.id
             const receiverName = txn.to_entity_name ?? txn.toEntityName ?? txn.toEntity ?? txn.to_entity ?? '—'
             const timestamp = txn.date ?? txn.created_at ?? txn.createdAt
@@ -194,12 +194,12 @@ export function IngestFeed() {
                     <span className="text-[#4B5563]">→</span>
                     <span className="text-sm text-[#F7F9FC] truncate">{truncate(receiverName, 20)}</span>
                   </div>
-                  {isSquadReal && (
+                  {isStripeReal && (
                     <span className="inline-flex items-center px-2 py-1 rounded brand-gradient-bg ml-2 shrink-0">
                       <span className="text-[9px] font-bold text-white tracking-wide uppercase">PSP</span>
                     </span>
                   )}
-                  {isSquadSim && (
+                  {isStripeSim && (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 ml-2 shrink-0">
                       <span className="text-[9px] font-bold text-amber-400 tracking-wider">SIM</span>
                     </span>

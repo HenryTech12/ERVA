@@ -90,15 +90,20 @@ Payment event → Webhook/Upload → Ingest → Neo4j Graph → Pattern Detectio
 
 ## Payment Processor Integration
 
-ERVA ingests live transaction events from a connected payment processor via signed webhook
-(HMAC-verified) and can trigger a payment action once a Suspicious Transaction Report is
-approved and filed — the ingestion and action layers are processor-agnostic by design.
+ERVA ingests live transaction events via [Stripe](https://stripe.com) webhooks, verified with
+Stripe's official `stripe.Webhook.construct_event` flow (not a hand-rolled HMAC check — see
+[`docs/STRIPE_BACKEND_INTEGRATION.md`](docs/STRIPE_BACKEND_INTEGRATION.md)), and can trigger a
+test-mode Transfer once a Suspicious Transaction Report is approved and filed.
 
 | Integration | Endpoint | Purpose |
 |-------------|----------|---------|
-| Webhook Ingestion | `POST /api/v1/webhooks/squad` | Receives payment events (HMAC verified) |
-| Simulate | `POST /api/v1/webhooks/squad/simulate` | Demo — injects a live transaction |
+| Webhook Ingestion | `POST /api/v1/webhooks/stripe` | Receives Stripe payment events, signature-verified |
+| Simulate | `POST /api/v1/webhooks/stripe/simulate` | Demo fallback — injects a fraud chain without a real Stripe event |
 | Quantum Isolation | `POST /api/v1/alerts/{id}/quantum-isolate` | Classical-vs-quantum-inspired ring comparison |
+
+Live demo flow: `stripe listen --forward-to localhost:8000/api/v1/webhooks/stripe`, then
+`stripe trigger payment_intent.succeeded` — a real, correctly-signed Stripe event landing in
+the running backend, not an internally fabricated one.
 
 ## AI & Intelligence Layer
 
@@ -160,10 +165,9 @@ npm run dev
 | `NEO4J_USER` | Neo4j username |
 | `NEO4J_PASSWORD` | Neo4j password |
 | `GROQ_API_KEY` | Groq API key for STR generation |
-| `SQUAD_SECRET_KEY` | Payment processor API key |
-| `SQUAD_WEBHOOK_SECRET` | HMAC secret for webhook verification |
-| `SQUAD_MERCHANT_ID` | Payment processor merchant ID |
-| `SQUAD_QUARANTINE_ACCOUNT` | Account number for fraud quarantine transfers |
+| `STRIPE_SECRET_KEY` | Stripe API key (test mode) |
+| `STRIPE_WEBHOOK_SECRET` | Signing secret for webhook signature verification |
+| `STRIPE_QUARANTINE_DESTINATION` | Stripe Connect account ID for quarantine transfers (test mode) |
 
 ### Seed demo data
 ```bash
@@ -186,8 +190,8 @@ POST /api/v1/alerts/{id}/quantum-isolate      Quantum-inspired vs. classical rin
 GET  /api/v1/graph                            Full relationship graph (nodes + links)
 GET  /api/v1/transactions/recent              Live transaction feed
 POST /api/v1/str/generate                     Generate NFIU-compliant STR draft (Groq)
-POST /api/v1/webhooks/squad                   Payment processor webhook (HMAC verified)
-POST /api/v1/webhooks/squad/simulate          Inject test transaction (demo only)
+POST /api/v1/webhooks/stripe                  Stripe webhook (signature verified)
+POST /api/v1/webhooks/stripe/simulate         Inject test transaction (demo fallback)
 GET  /api/v1/responsible-ai/metrics           Model fairness & performance metrics
 GET  /api/v1/audit                            Immutable compliance audit trail
 ```

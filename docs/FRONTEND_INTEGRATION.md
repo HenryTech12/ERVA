@@ -38,13 +38,13 @@ responsibleAiApi.getMetrics()
 **Updated methods:**
 - `generate()` - Added `reporting_period_start` and `reporting_period_end` parameters
 - `updateDecision()` - Changed from PATCH to POST, added `reviewer_notes`
-- `file()` - New method to file approved STRs with Squad
+- `file()` - New method to file approved STRs with Stripe
 
 **New signature:**
 ```javascript
 strApi.generate(alertId, reportingPeriodStart, reportingPeriodEnd, reviewerNotes)
 strApi.updateDecision(id, decision, reviewerNotes)
-strApi.file(id) // Triggers Squad payment
+strApi.file(id) // Triggers Stripe transfer (test mode)
 ```
 
 ---
@@ -134,13 +134,13 @@ const str = await strApi.generate(
 )
 ```
 
-### 4. STR Filing (Squad Integration)
+### 4. STR Filing (Stripe Integration)
 Add file button for approved STRs:
 ```jsx
 const handleFile = async (strId) => {
   try {
     const result = await strApi.file(strId)
-    // result contains squad_transaction_ref
+    // result contains stripe_transaction_ref
     toast.success('STR filed successfully')
   } catch (error) {
     toast.error('Failed to file STR')
@@ -167,8 +167,8 @@ import { ResponsibleAiMetrics } from '../components/ai/ResponsibleAiMetrics'
 ### New Endpoints
 - `GET /api/v1/jobs/{job_id}` - Job status
 - `GET /api/v1/responsible-ai/metrics` - AI metrics
-- `POST /api/v1/str/{id}/file` - File STR with Squad
-- `POST /api/v1/webhooks/squad` - Squad webhook (backend only)
+- `POST /api/v1/str/{id}/file` - File STR with Stripe
+- `POST /api/v1/webhooks/stripe` - Stripe webhook (backend only)
 
 ### Updated Endpoints
 - `POST /api/v1/str/generate` - Now accepts reporting_period_start/end
@@ -230,7 +230,7 @@ VITE_API_BASE_URL=https://erva-c5ccs.ondigitalocean.app/api/v1
    - Update API call to include dates
 
 3. **Add STR Filing Button**
-   - Show "File with Squad" button for approved STRs
+   - Show "File with Stripe" button for approved STRs
    - Disable if not approved
    - Show success message with transaction reference
 
@@ -272,7 +272,7 @@ VITE_API_BASE_URL=https://erva-c5ccs.ondigitalocean.app/api/v1
 - All API modules use React Query for caching and auto-refetch
 - Job status component auto-polls while processing
 - ResponsibleAiMetrics component is fully styled and ready to use
-- STR filing requires Squad credentials to be configured (pending)
+- STR filing requires Stripe credentials to be configured (pending)
 - All components use existing UI components (Card, Badge, Spinner, etc.)
 - No breaking changes to existing API calls
 - Backend is live and seeded with 500 entities, 2000 transactions, 3 alerts

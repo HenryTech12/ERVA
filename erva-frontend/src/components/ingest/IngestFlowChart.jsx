@@ -6,7 +6,7 @@ import { formatNairaShort, formatDate } from '@/utils/formatters'
 import { Spinner } from '@/components/ui/Spinner'
 
 const CHANNEL_COLORS = {
-  squad:    '#00D4AA',
+  stripe:   '#00D4AA',
   transfer: '#3B82F6',
   pos:      '#F59E0B',
   ussd:     '#8B5CF6',
@@ -131,7 +131,7 @@ export function IngestFlowChart({ transactions, isLoading }) {
           <ResponsiveContainer width="100%" height={200}>
             <AreaChart data={timeData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
               <defs>
-                <linearGradient id="squadGrad" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient id="stripeGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#00D4AA" stopOpacity={0.25} />
                   <stop offset="95%" stopColor="#00D4AA" stopOpacity={0} />
                 </linearGradient>
@@ -156,7 +156,7 @@ export function IngestFlowChart({ transactions, isLoading }) {
                 dataKey="count"
                 stroke="#00D4AA"
                 strokeWidth={2}
-                fill="url(#squadGrad)"
+                fill="url(#stripeGrad)"
                 dot={false}
               />
             </AreaChart>

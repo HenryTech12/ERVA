@@ -3,7 +3,6 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from uuid import UUID
 
-import httpx
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import desc, func, select
 from sqlalchemy.orm import Session
@@ -15,6 +14,7 @@ from app.models.enums import AlertStatus, DecisionStatus
 from app.schemas.str_drafts import EnforcementResult, STRDecisionUpdate, STRDraftResponse, STRFileResponse, STRGenerateRequest, STRListResponse
 from app.services.audit_service import write_audit_event
 from app.services.str_service import STRGenerationError, generate_str_draft, get_str_draft
+from app.services.stripe_service import stripe_service
 
 
 router = APIRouter()
@@ -187,7 +187,12 @@ def file_str(
     str_id: UUID,
     db: Session = Depends(get_db),
 ) -> STRFileResponse:
-    """File the STR: record the Squad reference, freeze linked accounts, create quarantine transfers."""
+    """File the STR: record the Stripe transfer reference, freeze linked accounts,
+    create quarantine transfers.
+
+    The Stripe Transfer call runs against Stripe test mode only — this does not move
+    real money. See the README for what "filed" actually means here.
+    """
     draft = db.scalar(select(STRDraft).where(STRDraft.id == str_id))
     if draft is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="STR draft not found")
@@ -197,31 +202,19 @@ def file_str(
             detail="Only approved STR drafts can be filed",
         )
 
-    squad_ref: str | None = None
-    if settings.squad_secret_key_1:
-        try:
-            payload = {
+    stripe_ref: str | None = None
+    if settings.stripe_secret_key:
+        result = stripe_service.quarantine_funds(
+            {
                 "amount": 100,
-                "currency": "NGN",
-                "email": "compliance@erva.ng",
+                "sender_id": f"str-{str_id}",
                 "transaction_ref": f"STR-FILE-{str_id}",
-                "description": f"ERVA STR filing: {str_id}",
-            }
-            headers = {"Authorization": f"Bearer {settings.squad_secret_key_1}"}
-            with httpx.Client(timeout=15.0) as client:
-                resp = client.post(
-                    f"{settings.squad_api_base_url}/transaction/initiate",
-                    json=payload,
-                    headers=headers,
-                )
-            if resp.status_code < 400:
-                squad_ref = resp.json().get("data", {}).get("transaction_ref") or f"STR-FILE-{str_id}"
-            else:
-                squad_ref = f"STR-FILE-{str_id}-OFFLINE"
-        except Exception:
-            squad_ref = f"STR-FILE-{str_id}-OFFLINE"
+            },
+            db=db,
+        )
+        stripe_ref = result.get("id") if result else f"STR-FILE-{str_id}-OFFLINE"
     else:
-        squad_ref = f"STR-FILE-{str_id}-NO-SQUAD"
+        stripe_ref = f"STR-FILE-{str_id}-NO-STRIPE"
 
     # Run enforcement: freeze entities + quarantine transfers
     enforcement = _execute_enforcement(db, draft)
@@ -231,9 +224,9 @@ def file_str(
     if alert_obj:
         alert_obj.status = AlertStatus.closed
 
-    # Persist Squad ref + enforcement summary in the draft
+    # Persist Stripe ref + enforcement summary in the draft
     meta = dict(draft.content_json or {})
-    meta["squad_transaction_ref"] = squad_ref
+    meta["stripe_transaction_ref"] = stripe_ref
     meta["enforcement"] = {
         "frozen_count": enforcement.frozen_count,
         "frozen_entities": enforcement.frozen_entities,
@@ -248,13 +241,13 @@ def file_str(
         alert_id=draft.alert_id,
         model_version=draft.model_version,
         decision=DecisionStatus.approved,
-        payload_json={"str_id": str(str_id), "squad_transaction_ref": squad_ref},
+        payload_json={"str_id": str(str_id), "stripe_transaction_ref": stripe_ref},
     )
     db.commit()
 
     return STRFileResponse(
         str_id=str_id,
-        squad_transaction_ref=squad_ref,
+        stripe_transaction_ref=stripe_ref,
         status="filed",
         enforcement=enforcement,
     )

@@ -17,7 +17,7 @@ const CHANNEL_COLORS = {
 
 function ChannelBadge({ channel }) {
   const ch = (channel ?? 'other').toLowerCase()
-  if (ch === 'squad' || ch === 'squad_payment') {
+  if (ch === 'stripe' || ch === 'stripe_payment') {
     return (
       <span className="inline-flex items-center px-2 py-1 rounded brand-gradient-bg glow-brand">
         <span className="text-[9px] font-bold text-white tracking-wide uppercase">PSP</span>

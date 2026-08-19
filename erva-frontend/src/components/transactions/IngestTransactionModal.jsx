@@ -8,7 +8,7 @@ import { toast } from '@/store/toastStore'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { Spinner } from '@/components/ui/Spinner'
 
-const CHANNELS = ['pos', 'transfer', 'ussd', 'mobile', 'web', 'squad', 'atm', 'other']
+const CHANNELS = ['pos', 'transfer', 'ussd', 'mobile', 'web', 'stripe', 'atm', 'other']
 
 const EMPTY_FORM = {
   source_entity_id: '',

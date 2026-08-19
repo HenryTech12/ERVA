@@ -15,7 +15,7 @@ function normalise(t) {
     currency: t.currency ?? 'NGN',
     channel: t.channel ?? '—',
     date: t.date ?? t.occurred_at ?? t.created_at,
-    isSquad: (t.channel ?? '').toLowerCase() === 'squad',
+    isStripe: (t.channel ?? '').toLowerCase() === 'stripe',
     riskScore: parseFloat(t.risk_score ?? t.riskScore ?? 0),
     reference: t.reference ?? null,
     metadata: t.metadata_json ?? {},
@@ -24,7 +24,7 @@ function normalise(t) {
 
 export function useIngestTransactions(limit = 100) {
   return useQuery({
-    queryKey: ['squad', 'transactions', limit],
+    queryKey: ['stripe', 'transactions', limit],
     queryFn: async () => {
       const data = await transactionsApi.getRecent(limit)
       return (Array.isArray(data) ? data : []).map(normalise)
@@ -35,10 +35,10 @@ export function useIngestTransactions(limit = 100) {
 }
 
 export function useIngestMetrics(transactions = []) {
-  const squadTxns = transactions.filter((t) => t.isSquad)
+  const stripeTxns = transactions.filter((t) => t.isStripe)
   const total = transactions.length
-  const squadCount = squadTxns.length
-  const squadVolume = squadTxns.reduce((s, t) => s + t.amount, 0)
+  const stripeCount = stripeTxns.length
+  const stripeVolume = stripeTxns.reduce((s, t) => s + t.amount, 0)
   const totalVolume = transactions.reduce((s, t) => s + t.amount, 0)
   const highRisk = transactions.filter((t) => t.riskScore >= 0.7).length
   const channelBreakdown = transactions.reduce((acc, t) => {
@@ -46,22 +46,22 @@ export function useIngestMetrics(transactions = []) {
     acc[ch] = (acc[ch] ?? 0) + 1
     return acc
   }, {})
-  return { total, squadCount, squadVolume, totalVolume, highRisk, channelBreakdown }
+  return { total, stripeCount, stripeVolume, totalVolume, highRisk, channelBreakdown }
 }
 
 export function useIngestFilings() {
   return useQuery({
-    queryKey: ['squad', 'filings'],
+    queryKey: ['stripe', 'filings'],
     queryFn: async () => {
       const data = await strApi.getAll()
       const items = data.strs ?? data.items ?? []
       return items
-        .filter((s) => s.content_json?.squad_transaction_ref)
+        .filter((s) => s.content_json?.stripe_transaction_ref)
         .map((s) => ({
           id: s.id,
           alertId: s.alert_id,
           decision: s.decision,
-          squadRef: s.content_json.squad_transaction_ref,
+          stripeRef: s.content_json.stripe_transaction_ref,
           createdAt: s.created_at,
           modelName: s.model_name,
         }))
@@ -72,9 +72,9 @@ export function useIngestFilings() {
 
 export function useIngestWebhookEvents(limit = 200) {
   return useQuery({
-    queryKey: ['squad', 'webhooks', limit],
+    queryKey: ['stripe', 'webhooks', limit],
     queryFn: async () => {
-      const data = await auditApi.getAll(limit, 'squad_webhook_enqueued')
+      const data = await auditApi.getAll(limit, 'stripe_webhook_enqueued')
       const items = data.items ?? data.entries ?? data
       return Array.isArray(items) ? items.map(normaliseAuditEntry) : []
     },

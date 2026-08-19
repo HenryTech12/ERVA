@@ -68,7 +68,7 @@ export function TransactionList({ transactions, isLoading, showEntityLinks = fal
                 </td>
                 <td className="px-4 py-3 text-[#F7F9FC] font-mono text-xs whitespace-nowrap">{formatNairaShort(tx.amount)}</td>
                 <td className="px-4 py-3 text-xs">
-                  {tx.channel === 'squad' ? (
+                  {tx.channel === 'stripe' ? (
                     <ProcessorBadge />
                   ) : (
                     <span className="text-[#94A3B8]">{tx.channel}</span>

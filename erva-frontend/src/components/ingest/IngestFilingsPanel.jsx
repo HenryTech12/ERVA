@@ -38,7 +38,7 @@ export function IngestFilingsPanel({ filings, isLoading }) {
                   <span className="text-[10px] text-[#4B5563] font-mono">{formatDateTime(f.createdAt)}</span>
                 </div>
                 <p className="text-xs text-[#94A3B8] font-mono truncate">
-                  Processor Ref: <span className="text-[#00D4AA]">{f.squadRef}</span>
+                  Processor Ref: <span className="text-[#00D4AA]">{f.stripeRef}</span>
                 </p>
                 <p className="text-[10px] text-[#4B5563] font-mono truncate mt-0.5">
                   Alert: {f.alertId}

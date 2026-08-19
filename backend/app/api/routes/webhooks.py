@@ -1,12 +1,12 @@
 import asyncio
-import hmac
-import hashlib
 import json
 import logging
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation
 from uuid import uuid4
 from typing import Dict, Any
+
+import stripe
 from fastapi import APIRouter, Request, Header, HTTPException, Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -22,14 +22,8 @@ from app.core.deps import get_session_factory
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
-MERCHANT_KEYS = [
-    {"key": settings.squad_secret_key_1, "name": "Alpha Remit Ltd"},
-    {"key": settings.squad_secret_key_2, "name": "Quick Cash Services"},
-    {"key": settings.squad_secret_key_3, "name": "Shell Co Alpha Ltd"},
-    {"key": settings.squad_secret_key_4, "name": "Musa Lawal"},
-]
-
-# Ordered chain for synthetic layering hops — each real payment advances one step
+# Ordered chain for synthetic layering hops — each real payment advances one step.
+# Purely internal demo labeling, not tied to any payment-provider credential.
 MERCHANT_CHAIN_ORDER = [
     "Alpha Remit Ltd",
     "Quick Cash Services",
@@ -47,56 +41,48 @@ CHAIN_ENTITY_IDS = {
 }
 
 
-async def verify_multi_merchant_signature(request: Request, x_squad_encrypted_body: str = Header(None)):
-    """Validates HMAC-SHA512 by trying all registered merchant secret keys."""
-    if not x_squad_encrypted_body:
-        raise HTTPException(status_code=401, detail="Missing x-squad-encrypted-body header")
+async def verify_stripe_signature(request: Request, stripe_signature: str = Header(None)):
+    """Verifies the webhook using Stripe's official construct_event flow — this does
+    the raw-body handling, timestamp-tolerance replay protection, and constant-time
+    comparison for us; we never hand-roll the HMAC check."""
+    if not stripe_signature:
+        raise HTTPException(status_code=401, detail="Missing Stripe-Signature header")
 
     body = await request.body()
-    verified_merchant_name = None
 
-    for merchant in MERCHANT_KEYS:
-        if not merchant["key"]:
-            continue
-        secret = merchant["key"].encode("utf-8")
-        computed_sig = hmac.new(secret, body, hashlib.sha512).hexdigest().upper()
-
-        if hmac.compare_digest(computed_sig, x_squad_encrypted_body.upper()):
-            verified_merchant_name = merchant["name"]
-            break
-
-    if not verified_merchant_name:
-        logger.warning("Squad signature mismatch for all registered merchants")
-        raise HTTPException(status_code=401, detail="Invalid Squad Signature")
-
-    return body, verified_merchant_name
-
-
-@router.post("/squad", status_code=200)
-async def squad_webhook(verification_data: tuple = Depends(verify_multi_merchant_signature)):
-    """Receives webhooks for all 4 merchant accounts at one URL."""
-    body, merchant_name = verification_data
     try:
-        payload_dict = json.loads(body)
+        event = stripe.Webhook.construct_event(
+            payload=body,
+            sig_header=stripe_signature,
+            secret=settings.stripe_webhook_secret,
+        )
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid payload")
+    except stripe.SignatureVerificationError:
+        logger.warning("Stripe signature verification failed")
+        raise HTTPException(status_code=400, detail="Invalid Stripe signature")
 
-        event_type = payload_dict.get("Event") or payload_dict.get("event")
-        if event_type != "charge_successful":
-            logger.info(f"Ignoring non-charge Squad event: {event_type}")
-            return {"status": "ignored", "event": event_type}
+    return event
 
-        payload_dict["_verified_merchant"] = merchant_name
-        asyncio.create_task(process_squad_webhook(payload_dict))
-        return {"status": "success", "message": f"Webhook accepted for {merchant_name}"}
-    except Exception as e:
-        logger.error(f"Error queuing Squad webhook: {e}", exc_info=True)
-        return {"status": "error", "message": "Payload processing failed — logged internally"}
+
+@router.post("/stripe", status_code=200)
+async def stripe_webhook(event: stripe.Event = Depends(verify_stripe_signature)):
+    """Receives Stripe webhook events for the connected account."""
+    if event.type != "payment_intent.succeeded":
+        logger.info(f"Ignoring non-payment Stripe event: {event.type}")
+        return {"status": "ignored", "event": event.type}
+
+    # Stripe SDK objects aren't plain dicts (attribute access only) — convert once
+    # here so the rest of the pipeline can use consistent dict-style access.
+    asyncio.create_task(process_stripe_webhook(event.data.object.to_dict()))
+    return {"status": "success", "message": "Webhook accepted", "event_id": event.id}
 
 
 @router.post("/demo/reset", status_code=200)
 async def demo_reset():
     """Reset to a clean demo state with one alert of each pattern type visible.
 
-    Removes all Squad/chain/simulate data, wipes alerts, then injects:
+    Removes all Stripe/chain/simulate data, wipes alerts, then injects:
     - 1 POS cash-out ring  (RESET-POS-* entities, fresh timestamps)
     Shell director web fires from seeded business entities.
     Layered transfer chain is triggered live via the Simulate button.
@@ -125,7 +111,7 @@ async def demo_reset():
 
         # Delete all demo transactions and entities
         db.execute(text(
-            "DELETE FROM transactions WHERE channel IN ('squad', 'squad_chain', 'squad_simulate', 'demo_reset', 'enforcement')"
+            "DELETE FROM transactions WHERE channel IN ('stripe', 'stripe_chain', 'stripe_simulate', 'demo_reset', 'enforcement')"
         ))
         db.execute(text(
             "DELETE FROM entities WHERE metadata_json::jsonb ? 'external_id'"
@@ -192,10 +178,11 @@ async def demo_reset():
     return {"status": "ok", "cleared": results}
 
 
-@router.post("/squad/chain-step", status_code=200)
-async def squad_chain_step(request: Request):
-    """Called by the frontend after each Squad onSuccess — advances the fraud chain by one hop.
-    No HMAC required; this is an internal call from ERVA's own frontend."""
+@router.post("/stripe/chain-step", status_code=200)
+async def stripe_chain_step(request: Request):
+    """Called by the frontend after each simulated Stripe payment — advances the fraud
+    chain by one hop. No signature required; this is an internal call from ERVA's own
+    frontend, not from Stripe."""
     try:
         body = await request.json()
     except Exception:
@@ -208,9 +195,11 @@ async def squad_chain_step(request: Request):
     return {"status": "queued", "merchant": merchant_name}
 
 
-@router.post("/squad/simulate", status_code=200)
-async def squad_webhook_simulate():
-    """Demo: inject a 3-hop layered transfer chain for judge presentations — no Squad HMAC required."""
+@router.post("/stripe/simulate", status_code=200)
+async def stripe_webhook_simulate():
+    """Demo: inject a 3-hop layered transfer chain for judge presentations — no Stripe
+    signature required. Kept as a reliability fallback alongside the real
+    `stripe trigger payment_intent.succeeded` flow used during the live recording."""
     chain = [
         {
             "sender_id": "SIM-ALPHA-REMIT", "sender_name": "Alpha Remit Ltd",
@@ -237,37 +226,38 @@ async def squad_webhook_simulate():
     return {"status": "success", "message": "Fraud ring simulation queued", "steps": len(chain)}
 
 
-async def process_squad_webhook(payload: Dict[str, Any]):
-    """Records the real customer→merchant payment then writes one synthetic chain hop for detection."""
+async def process_stripe_webhook(payment_intent: Dict[str, Any]):
+    """Records the real Stripe payment then writes one synthetic chain hop for detection."""
     db_factory = get_session_factory()
-    merchant_name = payload.get("_verified_merchant", "Unknown Merchant")
+    metadata = payment_intent.get("metadata") or {}
+    merchant_name = metadata.get("merchant_name", "Stripe Merchant Account")
 
     with db_factory() as db:
         try:
-            data = payload.get("Body") or payload.get("data") or payload
-
-            sender_id = str(data.get("customer_identifier") or data.get("sender_id") or "").strip()
-            receiver_id = str(data.get("merchant_id") or merchant_name).strip()
+            sender_id = str(metadata.get("sender_id") or payment_intent.get("customer") or "").strip()
+            receiver_id = str(metadata.get("receiver_id") or merchant_name).strip()
 
             if not sender_id or not receiver_id:
-                logger.warning(f"Squad webhook missing sender/receiver — keys present: {list(data.keys())}")
+                logger.warning(f"Stripe webhook missing sender/receiver — payment_intent {payment_intent.get('id')}")
                 return
 
-            sender_entity = _get_or_create_entity(db, sender_id, data.get("sender_name") or sender_id)
+            sender_entity = _get_or_create_entity(db, sender_id, metadata.get("sender_name") or sender_id)
             receiver_entity = _get_or_create_entity(db, receiver_id, merchant_name)
 
-            # Write arrival audit event — powers the Webhooks tab in Squad Monitor
+            amount = _parse_amount(payment_intent)
+
+            # Write arrival audit event — powers the Webhooks tab in Ingest Monitor
             write_audit_event(
                 db=db,
-                action="squad_webhook_enqueued",
+                action="stripe_webhook_enqueued",
                 entity_ids=[str(sender_entity.id), str(receiver_entity.id)],
                 alert_id=None,
                 model_version="webhook_v1",
                 decision=DecisionStatus.pending,
                 payload_json={
                     "merchant": merchant_name,
-                    "ref": data.get("transaction_ref", ""),
-                    "amount": str(_parse_amount(data)),
+                    "ref": payment_intent.get("id", ""),
+                    "amount": str(amount),
                 },
             )
             db.flush()
@@ -275,11 +265,11 @@ async def process_squad_webhook(payload: Dict[str, Any]):
             ingest_item = TransactionIngestItem(
                 source_entity_id=sender_entity.id,
                 destination_entity_id=receiver_entity.id,
-                amount=_parse_amount(data),
-                currency="NGN",
-                occurred_at=_parse_timestamp(data),
-                reference=data.get("transaction_ref") or f"SQUAD-{uuid4().hex[:10].upper()}",
-                channel="squad",
+                amount=amount,
+                currency=(payment_intent.get("currency") or "ngn").upper(),
+                occurred_at=_parse_timestamp(payment_intent),
+                reference=payment_intent.get("id") or f"STRIPE-{uuid4().hex[:10].upper()}",
+                channel="stripe",
                 metadata_json={"tenant": merchant_name},
             )
             create_ingest_job(db=db, payload=ingest_item)
@@ -287,7 +277,8 @@ async def process_squad_webhook(payload: Dict[str, Any]):
 
             # Kick off the synthetic chain hop as a separate background task so it
             # gets its own DB session (create_ingest_job already committed above)
-            asyncio.create_task(_write_chain_hop(merchant_name, _parse_amount(data)))
+            if merchant_name in MERCHANT_CHAIN_ORDER:
+                asyncio.create_task(_write_chain_hop(merchant_name, amount))
 
         except Exception as e:
             logger.error(f"Background processing failure: {e}", exc_info=True)
@@ -296,7 +287,7 @@ async def process_squad_webhook(payload: Dict[str, Any]):
 
 async def _write_chain_hop(merchant_name: str, amount: Decimal):
     """Write one synthetic layering hop and immediately run detection.
-    Shared by both the Squad webhook path and the /chain-step frontend path."""
+    Shared by both the real Stripe webhook path and the /chain-step frontend path."""
     try:
         chain_idx = MERCHANT_CHAIN_ORDER.index(merchant_name)
     except ValueError:
@@ -319,7 +310,7 @@ async def _write_chain_hop(merchant_name: str, amount: Decimal):
                 currency="NGN",
                 occurred_at=datetime.now(timezone.utc),
                 reference=f"CHAIN-{chain_idx + 1}-{uuid4().hex[:8].upper()}",
-                channel="squad_chain",
+                channel="stripe_chain",
                 metadata_json={"chain_step": chain_idx + 1, "merchant": merchant_name},
             )
             db.add(chain_tx)
@@ -348,7 +339,7 @@ async def _process_simulate_ring(chain: list):
                     currency="NGN",
                     occurred_at=now,
                     reference=f"SIM-RING-{i + 1}-{uuid4().hex[:8].upper()}",
-                    channel="squad_simulate",
+                    channel="stripe_simulate",
                     metadata_json={"simulation": True, "step": i + 1},
                 )
                 db.add(tx)
@@ -379,19 +370,19 @@ def _get_or_create_entity(db: Session, external_id: str, display_name: str | Non
     return entity
 
 
-def _parse_amount(data: dict) -> Decimal:
-    raw = data.get("transaction_amount") or data.get("amount") or 0
+def _parse_amount(payment_intent: Dict[str, Any]) -> Decimal:
+    raw = payment_intent.get("amount") or payment_intent.get("amount_received") or 0
     try:
-        return Decimal(str(raw)) / 100  # kobo → naira
+        return Decimal(str(raw)) / 100  # cents -> naira
     except InvalidOperation:
         return Decimal("0")
 
 
-def _parse_timestamp(data: dict) -> datetime:
-    raw = data.get("createdAt") or data.get("created_at") or data.get("timestamp")
+def _parse_timestamp(payment_intent: Dict[str, Any]) -> datetime:
+    raw = payment_intent.get("created")
     if raw:
         try:
-            return datetime.fromisoformat(str(raw).replace("Z", "+00:00"))
-        except ValueError:
+            return datetime.fromtimestamp(int(raw), tz=timezone.utc)
+        except (ValueError, TypeError):
             pass
     return datetime.now(timezone.utc)

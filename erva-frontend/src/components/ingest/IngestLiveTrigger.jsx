@@ -10,14 +10,17 @@ import { webhooksApi } from '@/api/webhooks'
 import { cn } from '@/utils/cn'
 
 // ─── constants ────────────────────────────────────────────────────────────────
-const SQUAD_SCRIPT_URL = 'https://checkout.squadco.com/widget/squad.min.js'
+// This button calls the internal chain-step endpoint directly — the real,
+// signature-verified Stripe webhook is triggered separately via the Stripe CLI
+// during a live demo; this is the reliability fallback for that.
+const HOP_DELAY_MS = 900
 const POLL_MS = 2000
 
 const PAYMENTS = [
-  { id: 1, name: 'Alpha Remit Ltd',     short: 'Alpha Remit',    amount: 200_000, amountKobo: 20_000_000, email: 'alpha@remit.ng',  publicKey: import.meta.env.VITE_SQUAD_PUBLIC_KEY_1 },
-  { id: 2, name: 'Quick Cash Services', short: 'Quick Cash',     amount: 400_000, amountKobo: 40_000_000, email: 'quick@cash.ng',   publicKey: import.meta.env.VITE_SQUAD_PUBLIC_KEY_2 },
-  { id: 3, name: 'Shell Co Alpha Ltd',  short: 'Shell Co Alpha', amount: 600_000, amountKobo: 60_000_000, email: 'shell@alpha.ng',  publicKey: import.meta.env.VITE_SQUAD_PUBLIC_KEY_3 },
-  { id: 4, name: 'Musa Lawal',          short: 'Musa Lawal',     amount: 800_000, amountKobo: 80_000_000, email: 'musa@lawal.ng',   publicKey: import.meta.env.VITE_SQUAD_PUBLIC_KEY_4 },
+  { id: 1, name: 'Alpha Remit Ltd',     short: 'Alpha Remit',    amount: 200_000 },
+  { id: 2, name: 'Quick Cash Services', short: 'Quick Cash',     amount: 400_000 },
+  { id: 3, name: 'Shell Co Alpha Ltd',  short: 'Shell Co Alpha', amount: 600_000 },
+  { id: 4, name: 'Musa Lawal',          short: 'Musa Lawal',     amount: 800_000 },
 ]
 
 function fmt(n) {
@@ -273,7 +276,6 @@ export function IngestLiveTrigger() {
   const navigate    = useNavigate()
   const queryClient = useQueryClient()
 
-  const [scriptReady,  setScriptReady]  = useState(false)
   const [running,      setRunning]      = useState(false)
   const [statuses,     setStatuses]     = useState({})   // id → 'active' | 'paid'
   const [activeId,     setActiveId]     = useState(null)
@@ -286,20 +288,6 @@ export function IngestLiveTrigger() {
   const pollRef       = useRef(null)
   const abortRef      = useRef(false)
   const seenIdsRef    = useRef(new Set())
-  // Holds the resolve fn for the current "waiting for onSuccess" promise
-  const resolvePayRef = useRef(null)
-
-  // ── load Squad script ────────────────────────────────────────────────────────
-  useEffect(() => {
-    if (document.querySelector(`script[src="${SQUAD_SCRIPT_URL}"]`)) {
-      setScriptReady(true); return
-    }
-    const s = document.createElement('script')
-    s.src = SQUAD_SCRIPT_URL; s.async = true
-    s.onload  = () => setScriptReady(true)
-    s.onerror = () => setScriptReady(false)
-    document.head.appendChild(s)
-  }, [])
 
   const stopPolling = useCallback(() => {
     if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null }
@@ -376,55 +364,18 @@ export function IngestLiveTrigger() {
     })
   }, [stopPolling, handleFraudDetected])
 
-  // ── open one Squad modal, return Promise that resolves on onSuccess ───────────
-  const openModal = useCallback((payment) => {
+  // ── fire one chain hop directly, paced for a legible demo ──────────────────────
+  const triggerHop = useCallback((payment) => {
     return new Promise((resolve, reject) => {
-      const SquadPay = window.squad
-      if (!SquadPay) {
-        // Fallback: auto-resolve after 1s (demo without SDK)
-        setTimeout(() => resolve(`ERVA-FALLBACK-${payment.id}-${Date.now()}`), 1000)
-        return
-      }
-
-      // Read the key from the payment object — each has its own env var
-      const publicKey = payment.publicKey
-      if (!publicKey) {
-        reject(new Error(`VITE_SQUAD_PUBLIC_KEY_${payment.id} is not set`))
-        return
-      }
-
-      const txRef = `ERVA-RING-${payment.id}-${Date.now()}`
-
-      try {
-        const instance = new SquadPay({
-          onClose: () => reject(new Error('cancelled')),
-          onLoad:  () => {},
-          onSuccess: (response) => {
-            const ref = response?.transaction_ref ?? response?.transactionRef ?? txRef
-            resolve(ref)
-          },
-          key:             publicKey,
-          email:           payment.email,
-          amount:          payment.amountKobo,
-          currency_code:   'NGN',
-          transaction_ref: txRef,
-          customer_name:   payment.name,
-          metadata: {
-            erva_source: 'fraud_ring_demo',
-            payment_id:  payment.id,
-          },
-        })
-        instance.setup()
-        instance.open()
-      } catch (err) {
-        reject(err)
-      }
+      webhooksApi.chainStep({ merchant_name: payment.name, amount_naira: payment.amount })
+        .then(() => setTimeout(resolve, HOP_DELAY_MS))
+        .catch(reject)
     })
   }, [])
 
   // ── main sequential chain ────────────────────────────────────────────────────
   const handleTrigger = useCallback(async () => {
-    if (!scriptReady || running || fraudAlert) return
+    if (running || fraudAlert) return
 
     setRunning(true)
     abortRef.current = false
@@ -445,10 +396,7 @@ export function IngestLiveTrigger() {
       setStatuses((prev) => ({ ...prev, [payment.id]: 'active' }))
 
       try {
-        // Wait for the judge to complete this Squad payment
-        await openModal(payment)
-        // Tell backend to advance the fraud chain by one hop — don't wait for Squad webhooks
-        webhooksApi.chainStep({ merchant_name: payment.name, amount_naira: payment.amount }).catch(() => {})
+        await triggerHop(payment)
       } catch {
         // Cancelled or error — stop the whole chain
         setRunning(false)
@@ -495,7 +443,7 @@ export function IngestLiveTrigger() {
     }
 
     setRunning(false)
-  }, [scriptReady, running, fraudAlert, openModal, refreshGraph, queryClient, pollUntilAlert, stopPolling, handleFraudDetected])
+  }, [running, fraudAlert, triggerHop, refreshGraph, queryClient, pollUntilAlert, stopPolling, handleFraudDetected])
 
   // initial graph load + cleanup
   useEffect(() => { refreshGraph() }, [refreshGraph])
@@ -526,7 +474,7 @@ export function IngestLiveTrigger() {
           )}
           <button
             onClick={handleTrigger}
-            disabled={running || fraudDetected || allDone || !scriptReady}
+            disabled={running || fraudDetected || allDone}
             className={cn(
               'relative flex items-center gap-3 px-7 py-3.5 rounded-xl font-bold text-sm',
               'border transition-all duration-200 focus:outline-none',
@@ -563,12 +511,12 @@ export function IngestLiveTrigger() {
               <span className="text-[10px] font-normal text-[#94A3B8] tracking-wider">
                 {running
                   ? `Payment ${PAYMENTS.findIndex((p) => p.id === activeId) + 1} of 4`
-                  : '4 sequential payment-processor transactions · live fraud detection'}
+                  : '4 sequential transactions via Stripe · live fraud detection'}
               </span>
             </span>
 
             {/* Live dot */}
-            {!running && !fraudDetected && !allDone && scriptReady && (
+            {!running && !fraudDetected && !allDone && (
               <span className="ml-2 flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
                 <span className="text-[10px] text-red-400 font-mono">LIVE</span>

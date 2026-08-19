@@ -46,12 +46,12 @@ export function STRPreview({ str }) {
           </div>
         )}
 
-        {str.squadRef && (
+        {str.stripeRef && (
           <div className="flex items-center gap-2 p-2 bg-blue-500/10 border border-blue-500/20 rounded-md">
             <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-500 text-white text-[9px] font-bold shrink-0">S</span>
             <div className="min-w-0">
               <p className="text-[10px] text-blue-400 font-medium">Filed via Payment Processor</p>
-              <p className="text-[10px] text-[#4B5563] font-mono truncate">{str.squadRef}</p>
+              <p className="text-[10px] text-[#4B5563] font-mono truncate">{str.stripeRef}</p>
             </div>
           </div>
         )}
