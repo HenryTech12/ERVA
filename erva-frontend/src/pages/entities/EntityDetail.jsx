@@ -20,7 +20,7 @@ export default function EntityDetail() {
   const { data: transactions, isLoading: txLoading } = useTransactionsByEntity(id)
 
   if (isLoading) return <div className="flex justify-center py-16"><Spinner size="lg" /></div>
-  if (!entity) return <div className="text-center py-16 text-[#4B5563]">Entity not found</div>
+  if (!entity) return <div className="text-center py-16 text-[#8891A8]">Entity not found</div>
 
   const linkedAlerts = alerts?.filter((a) =>
     a.entityIds?.includes(id) || a.entityIds?.includes(entity.id)
@@ -69,7 +69,7 @@ export default function EntityDetail() {
           <span className="text-[10px] font-bold text-red-400 bg-red-500/20 rounded px-2 py-1">FROZEN</span>
           <div>
             <p className="text-sm font-semibold text-red-400">Account Frozen by ERVA Compliance</p>
-            <p className="text-xs text-[#94A3B8]">
+            <p className="text-xs text-[#8891A8]">
               Frozen {entity.metadata_json?.frozen_at ? new Date(entity.metadata_json.frozen_at).toLocaleString() : ''} · STR {entity.metadata_json?.frozen_str_id?.slice(0, 8)}…
             </p>
           </div>
@@ -82,12 +82,12 @@ export default function EntityDetail() {
       <div className="grid lg:grid-cols-2 gap-4">
         <EntityProfile entity={entity} />
 
-        <div className="bg-[#111827] border border-[#2D3748] rounded-lg overflow-hidden flex flex-col">
-          <div className="px-4 py-2.5 border-b border-[#2D3748] shrink-0 flex items-center justify-between">
-            <p className="text-xs text-[#4B5563] uppercase tracking-wider font-medium">
+        <div className="bg-[#131B2E] border border-[#26314D] rounded-lg overflow-hidden flex flex-col">
+          <div className="px-4 py-2.5 border-b border-[#26314D] shrink-0 flex items-center justify-between">
+            <p className="text-xs text-[#8891A8] uppercase tracking-wider font-medium">
               1-Hop Network
             </p>
-            <span className="text-[10px] font-mono text-[#4B5563]">
+            <span className="text-[10px] font-mono text-[#8891A8]">
               {hopNodes.length - 1} neighbour{hopNodes.length !== 2 ? 's' : ''}
             </span>
           </div>
@@ -101,7 +101,7 @@ export default function EntityDetail() {
             />
           ) : (
             <div className="flex items-center justify-center h-40">
-              <p className="text-xs text-[#4B5563]">No connected entities found</p>
+              <p className="text-xs text-[#8891A8]">No connected entities found</p>
             </div>
           )}
         </div>
@@ -109,26 +109,26 @@ export default function EntityDetail() {
 
       {/* Counterparties — only when data exists */}
       {hasNeighbours && (
-        <div className="bg-[#111827] border border-[#2D3748] rounded-lg overflow-hidden">
-          <div className="px-4 py-2.5 border-b border-[#2D3748]">
-            <p className="text-xs text-[#4B5563] uppercase tracking-wider font-medium">Transaction Counterparties</p>
+        <div className="bg-[#131B2E] border border-[#26314D] rounded-lg overflow-hidden">
+          <div className="px-4 py-2.5 border-b border-[#26314D]">
+            <p className="text-xs text-[#8891A8] uppercase tracking-wider font-medium">Transaction Counterparties</p>
           </div>
-          <div className="divide-y divide-[#2D3748]">
+          <div className="divide-y divide-[#26314D]">
             {neighbors.slice(0, 8).map((n) => {
               const nid = n.entity_id ?? n.entityId
               return (
                 <button
                   key={nid}
                   onClick={() => navigate(`/entities/${nid}`)}
-                  className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-[#1C2333] transition-colors text-left"
+                  className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-[#1B2540] transition-colors text-left"
                 >
                   <div className="min-w-0 mr-4">
-                    <p className="text-sm text-[#F7F9FC] truncate">{n.full_name ?? n.canonicalName ?? nid}</p>
-                    <p className="text-xs text-[#4B5563] font-mono truncate">{nid}</p>
+                    <p className="text-sm text-[#E8EAF0] truncate">{n.full_name ?? n.canonicalName ?? nid}</p>
+                    <p className="text-xs text-[#8891A8] font-mono truncate">{nid}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-xs font-mono text-[#00D4AA]">{formatNairaShort(n.total_amount ?? n.totalAmount ?? 0)}</p>
-                    <p className="text-[10px] text-[#4B5563]">{n.transaction_count ?? n.transactionCount ?? 0} txns · {n.relationship}</p>
+                    <p className="text-xs font-mono text-[#4FA0A0]">{formatNairaShort(n.total_amount ?? n.totalAmount ?? 0)}</p>
+                    <p className="text-[10px] text-[#8891A8]">{n.transaction_count ?? n.transactionCount ?? 0} txns · {n.relationship}</p>
                   </div>
                 </button>
               )
@@ -139,10 +139,10 @@ export default function EntityDetail() {
 
       {/* Transactions — only when data exists or loading */}
       {(txLoading || hasTransactions) && (
-        <div className="bg-[#111827] border border-[#2D3748] rounded-lg overflow-hidden">
-          <div className="px-4 py-2.5 border-b border-[#2D3748] flex items-center justify-between">
-            <p className="text-xs text-[#4B5563] uppercase tracking-wider font-medium">Transactions</p>
-            {hasTransactions && <span className="text-xs text-[#4B5563]">{transactions.length} records</span>}
+        <div className="bg-[#131B2E] border border-[#26314D] rounded-lg overflow-hidden">
+          <div className="px-4 py-2.5 border-b border-[#26314D] flex items-center justify-between">
+            <p className="text-xs text-[#8891A8] uppercase tracking-wider font-medium">Transactions</p>
+            {hasTransactions && <span className="text-xs text-[#8891A8]">{transactions.length} records</span>}
           </div>
           <div className="p-2">
             <TransactionList transactions={transactions} isLoading={txLoading} showEntityLinks />
@@ -153,7 +153,7 @@ export default function EntityDetail() {
       {/* Linked alerts — only when they exist */}
       {hasAlerts && (
         <div>
-          <p className="text-xs text-[#4B5563] uppercase tracking-wider mb-3">Linked Alerts</p>
+          <p className="text-xs text-[#8891A8] uppercase tracking-wider mb-3">Linked Alerts</p>
           <div className="space-y-2">
             {linkedAlerts.map((a) => <AlertCard key={a.id} alert={a} />)}
           </div>

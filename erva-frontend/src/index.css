@@ -1,45 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
+/* Investigation-console design tokens — every component should pull from
+   these rather than hardcoded hex. See docs/DESIGN_SYSTEM.md. */
 @theme {
-  --color-bg-base: #0A0E1A;
-  --color-bg-surface: #111827;
-  --color-bg-elevated: #1C2333;
-  --color-bg-border: #2D3748;
-  --color-accent: #00D4AA;
-  --color-accent-dim: #00D4AA22;
-  --color-text-primary: #F7F9FC;
-  --color-text-secondary: #94A3B8;
-  --color-text-muted: #4B5563;
-  --color-risk-high: #EF4444;
-  --color-risk-medium: #F59E0B;
-  --color-risk-low: #22C55E;
+  --color-ink:            #0B1220;
+  --color-surface:        #131B2E;
+  --color-surface-raised: #1B2540;
+  --color-text-primary:   #E8EAF0;
+  --color-text-muted:     #8891A8;
+  --color-signal-risk:    #E8A33D;
+  --color-signal-trust:   #4FA0A0;
+  --color-signal-quantum: #7C6FF0;
+  --color-hairline:       #26314D;
+
+  /* Legacy aliases kept during the redesign migration — same tokens,
+     old names, so unmigrated components keep working. */
+  --color-bg-base: var(--color-ink);
+  --color-bg-surface: var(--color-surface);
+  --color-bg-elevated: var(--color-surface-raised);
+  --color-bg-border: var(--color-hairline);
+  --color-accent: var(--color-signal-trust);
+  --color-accent-dim: #4FA0A022;
+  --color-text-secondary: var(--color-text-muted);
+  --color-risk-high: var(--color-signal-risk);
+  --color-risk-medium: var(--color-signal-risk);
+  --color-risk-low: var(--color-signal-trust);
   --color-risk-none: #3B82F6;
-  /* Brand gradient colors */
-  --color-brand-from: #FF4C1D;
-  --color-brand-to: #9B0063;
-  --font-family-sans: 'DM Sans', sans-serif;
-  --font-family-mono: 'JetBrains Mono', monospace;
+  /* Brand gradient — now a signal-trust duotone, not the old orange/pink */
+  --color-brand-from: #4FA0A0;
+  --color-brand-to: #1F4747;
+
+  --font-family-sans: 'Inter', sans-serif;
+  --font-family-mono: 'IBM Plex Mono', monospace;
+  --font-family-display: 'Space Grotesk', 'Inter', sans-serif;
 }
 
 @layer base {
   body {
-    background-color: #0A0E1A;
-    color: #F7F9FC;
-    font-family: 'DM Sans', sans-serif;
+    background-color: #0B1220;
+    color: #E8EAF0;
+    font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  * { border-color: #2D3748; }
+  * { border-color: #26314D; }
   ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: #0A0E1A; }
-  ::-webkit-scrollbar-thumb { background: #2D3748; border-radius: 2px; }
-  ::-webkit-scrollbar-thumb:hover { background: #4B5563; }
+  ::-webkit-scrollbar-track { background: #0B1220; }
+  ::-webkit-scrollbar-thumb { background: #26314D; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: #8891A8; }
 }
 
 /* Landing page animations */
 @keyframes lg-cta-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 214, 143, 0.35); }
-  55%       { box-shadow: 0 0 0 16px rgba(0, 214, 143, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 160, 160, 0.35); }
+  55%       { box-shadow: 0 0 0 16px rgba(79, 160, 160, 0); }
 }
 @keyframes lg-node-halo {
   0%, 100% { opacity: 0.45; }
@@ -58,7 +72,7 @@
 .lg-halo-3                   { animation: lg-node-halo 2.2s ease-in-out 0.8s infinite; }
 .lg-halo-4                   { animation: lg-node-halo 2.2s ease-in-out 1.2s infinite; }
 .lg-halo-5                   { animation: lg-node-halo 2.2s ease-in-out 1.6s infinite; }
-.font-display                { font-family: 'Space Grotesk', 'DM Sans', sans-serif; }
+.font-display                { font-family: 'Space Grotesk', 'Inter', sans-serif; }
 
 @keyframes brand-shimmer {
   0%   { background-position: 0% 50%; }
@@ -68,19 +82,19 @@
 
 @layer utilities {
   .text-gradient-accent {
-    background: linear-gradient(135deg, #00D4AA, #00A8FF);
+    background: linear-gradient(135deg, #4FA0A0, #00A8FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   .text-brand-gradient {
-    background: linear-gradient(135deg, #FF4C1D, #C4006A, #9B0063);
+    background: linear-gradient(135deg, #4FA0A0, #7C6FF0, #1F4747);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   .brand-gradient-bg {
-    background: linear-gradient(135deg, #FF4C1D, #9B0063);
+    background: linear-gradient(135deg, #4FA0A0, #1F4747);
   }
   .brand-gradient-border {
     position: relative;
@@ -91,17 +105,18 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, #FF4C1D, #9B0063);
+    background: linear-gradient(135deg, #4FA0A0, #1F4747);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
   }
-  .glow-accent  { box-shadow: 0 0 20px rgba(0, 212, 170, 0.15); }
-  .glow-brand   { box-shadow: 0 0 24px rgba(255, 76, 29, 0.18); }
-  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .glow-accent  { box-shadow: 0 0 20px rgba(79, 160, 160, 0.15); }
+  .glow-brand   { box-shadow: 0 0 24px rgba(79, 160, 160, 0.18); }
+  .glow-quantum { box-shadow: 0 0 24px rgba(124, 111, 240, 0.25); }
+  .font-mono { font-family: 'IBM Plex Mono', monospace; }
   .brand-shimmer {
-    background: linear-gradient(270deg, #FF4C1D, #C4006A, #9B0063, #FF4C1D);
+    background: linear-gradient(270deg, #4FA0A0, #7C6FF0, #1F4747, #4FA0A0);
     background-size: 300% 300%;
     animation: brand-shimmer 4s ease infinite;
   }

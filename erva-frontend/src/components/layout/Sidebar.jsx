@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import {
-  Squares2X2Icon, ChartBarIcon, BellAlertIcon, UserGroupIcon,
+  ChartBarIcon, BellAlertIcon, UserGroupIcon,
   DocumentTextIcon, ClipboardDocumentListIcon, Cog6ToothIcon, XMarkIcon,
   ArrowsRightLeftIcon, SignalIcon,
 } from '@heroicons/react/24/outline'
@@ -9,8 +9,7 @@ import { useUIStore } from '@/store/uiStore'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const navItems = [
-  { to: '/dashboard',     icon: Squares2X2Icon,           label: 'Dashboard' },
-  { to: '/graph',         icon: ChartBarIcon,              label: 'Graph Explorer' },
+  { to: '/dashboard',     icon: ChartBarIcon,              label: 'Console' },
   { to: '/alerts',        icon: BellAlertIcon,             label: 'Alerts' },
   { to: '/entities',      icon: UserGroupIcon,             label: 'Entities' },
   { to: '/transactions',  icon: ArrowsRightLeftIcon,       label: 'Transactions' },
@@ -21,18 +20,18 @@ const navItems = [
 
 function SidebarContent({ onClose }) {
   return (
-    <aside className="w-56 h-full bg-[#0D1117] border-r border-[#1E2535] flex flex-col relative overflow-hidden">
+    <aside className="w-56 h-full bg-[#0B1220] border-r border-[#26314D] flex flex-col relative overflow-hidden">
       {/* Brand gradient top strip */}
       <div className="h-0.5 w-full brand-gradient-bg shrink-0" />
 
       {/* Logo area */}
-      <div className="px-4 pt-4 pb-3 border-b border-[#1E2535] shrink-0">
+      <div className="px-4 pt-4 pb-3 border-b border-[#26314D] shrink-0">
         <NavLink to="/" onClick={onClose} className="flex items-center gap-2 group mb-3">
           <div className="flex items-baseline gap-1">
             <span className="text-xl font-bold tracking-tight text-white">ER</span>
             <span className="text-xl font-bold tracking-tight text-brand-gradient">VA</span>
           </div>
-          <span className="text-[9px] text-[#4B5563] font-mono bg-[#1C2333] px-1.5 py-0.5 rounded">v1.0</span>
+          <span className="text-[9px] text-[#8891A8] font-mono bg-[#1B2540] px-1.5 py-0.5 rounded">v1.0</span>
         </NavLink>
 
         {/* Hackathon badge */}
@@ -52,16 +51,16 @@ function SidebarContent({ onClose }) {
             className={({ isActive }) => cn(
               'flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all duration-150',
               isActive
-                ? 'bg-gradient-to-r from-[#FF4C1D]/15 to-[#9B0063]/10 text-[#FF6B3D] border border-[#FF4C1D]/20'
-                : 'text-[#94A3B8] hover:bg-[#161B27] hover:text-[#F7F9FC] border border-transparent'
+                ? 'bg-gradient-to-r from-[#4FA0A0]/15 to-[#1F4747]/10 text-[#4FA0A0] border border-[#4FA0A0]/20'
+                : 'text-[#8891A8] hover:bg-[#131B2E] hover:text-[#E8EAF0] border border-transparent'
             )}
           >
             {({ isActive }) => (
               <>
-                <Icon className={cn('w-4 h-4 shrink-0', isActive ? 'text-[#FF6B3D]' : '')} />
+                <Icon className={cn('w-4 h-4 shrink-0', isActive ? 'text-[#4FA0A0]' : '')} />
                 <span className="font-medium">{label}</span>
                 {isActive && (
-                  <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#FF4C1D] shrink-0" />
+                  <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#4FA0A0] shrink-0" />
                 )}
               </>
             )}
@@ -70,15 +69,15 @@ function SidebarContent({ onClose }) {
       </nav>
 
       {/* Footer */}
-      <div className="p-2 border-t border-[#1E2535] space-y-1">
+      <div className="p-2 border-t border-[#26314D] space-y-1">
         <NavLink
           to="/settings"
           onClick={onClose}
           className={({ isActive }) => cn(
             'flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all border',
             isActive
-              ? 'bg-gradient-to-r from-[#FF4C1D]/15 to-[#9B0063]/10 text-[#FF6B3D] border-[#FF4C1D]/20'
-              : 'text-[#4B5563] hover:text-[#F7F9FC] hover:bg-[#161B27] border-transparent'
+              ? 'bg-gradient-to-r from-[#4FA0A0]/15 to-[#1F4747]/10 text-[#4FA0A0] border-[#4FA0A0]/20'
+              : 'text-[#8891A8] hover:text-[#E8EAF0] hover:bg-[#131B2E] border-transparent'
           )}
         >
           <Cog6ToothIcon className="w-4 h-4" />

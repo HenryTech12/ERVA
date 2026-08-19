@@ -5,12 +5,11 @@ import { RequireAuth } from '@/components/layout/RequireAuth'
 import LandingPage from '@/pages/LandingPage'
 import Login from '@/pages/auth/Login'
 import ForgotPassword from '@/pages/auth/ForgotPassword'
-import Dashboard from '@/pages/dashboard/Dashboard'
+import Console from '@/pages/console/Console'
 import AlertsIndex from '@/pages/alerts/AlertsIndex'
 import AlertDetail from '@/pages/alerts/AlertDetail'
 import EntitiesIndex from '@/pages/entities/EntitiesIndex'
 import EntityDetail from '@/pages/entities/EntityDetail'
-import GraphExplorer from '@/pages/graph/GraphExplorer'
 import STRIndex from '@/pages/str/STRIndex'
 import STRDetail from '@/pages/str/STRDetail'
 import TransactionsIndex from '@/pages/transactions/TransactionsIndex'
@@ -31,8 +30,8 @@ export const router = createBrowserRouter([
   {
     element: <RequireAuth><AppLayout /></RequireAuth>,
     children: [
-      { index: true, path: '/dashboard', element: <Dashboard /> },
-      { path: '/graph', element: <GraphExplorer /> },
+      { index: true, path: '/dashboard', element: <Console /> },
+      { path: '/graph', element: <Console /> },
       { path: '/alerts', element: <AlertsIndex /> },
       { path: '/alerts/:id', element: <AlertDetail /> },
       { path: '/entities', element: <EntitiesIndex /> },

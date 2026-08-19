@@ -35,16 +35,16 @@ export default function Login() {
         <h1 className="text-3xl font-bold">
           <span className="text-white">ER</span><span className="text-brand-gradient">VA</span>
         </h1>
-        <p className="text-sm text-[#94A3B8] mt-1">Entity Risk & Verification Analytics</p>
-        <p className="text-[10px] text-[#4B5563] font-mono mt-0.5">Smart Systems · The Intelligent Economy</p>
+        <p className="text-sm text-[#8891A8] mt-1">Entity Risk & Verification Analytics</p>
+        <p className="text-[10px] text-[#8891A8] font-mono mt-0.5">Smart Systems · The Intelligent Economy</p>
       </div>
 
-      <div className="bg-[#0D1117] border border-[#1E2535] rounded-xl overflow-hidden">
+      <div className="bg-[#0B1220] border border-[#26314D] rounded-xl overflow-hidden">
         {/* Gradient top border */}
         <div className="h-0.5 w-full brand-gradient-bg" />
 
         <div className="p-8">
-          <h2 className="text-base font-semibold text-[#F7F9FC] mb-6">Sign in to your account</h2>
+          <h2 className="text-base font-semibold text-[#E8EAF0] mb-6">Sign in to your account</h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
@@ -65,7 +65,7 @@ export default function Login() {
             {error && <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-md px-3 py-2">{error}</p>}
 
             <div className="flex items-center justify-end">
-              <Link to="/forgot-password" className="text-xs text-[#94A3B8] hover:text-[#FF6B3D] transition-colors">
+              <Link to="/forgot-password" className="text-xs text-[#8891A8] hover:text-[#4FA0A0] transition-colors">
                 Forgot password?
               </Link>
             </div>
@@ -83,14 +83,14 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="mt-4 p-3 bg-[#0A0E1A] rounded-md border border-[#1E2535]">
-            <p className="text-[10px] text-[#4B5563] font-mono text-center">Demo: any email + any password</p>
+          <div className="mt-4 p-3 bg-[#0B1220] rounded-md border border-[#26314D]">
+            <p className="text-[10px] text-[#8891A8] font-mono text-center">Demo: any email + any password</p>
           </div>
         </div>
       </div>
 
       <div className="flex items-center justify-center gap-2 mt-6">
-        <p className="text-[10px] text-[#4B5563] font-mono">© 2026 ERVA · NFIU-compliant</p>
+        <p className="text-[10px] text-[#8891A8] font-mono">© 2026 ERVA · NFIU-compliant</p>
       </div>
     </div>
   )

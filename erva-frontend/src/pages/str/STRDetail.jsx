@@ -45,7 +45,7 @@ export default function STRDetail() {
     <div className="flex flex-col items-center py-16 gap-3">
       <ExclamationCircleIcon className="w-10 h-10 text-red-400" />
       <p className="text-sm text-red-400">STR not found or failed to load</p>
-      <button onClick={() => navigate('/str')} className="text-xs text-[#00D4AA] hover:underline">
+      <button onClick={() => navigate('/str')} className="text-xs text-[#4FA0A0] hover:underline">
         ← Back to STR Reports
       </button>
     </div>
@@ -126,7 +126,7 @@ export default function STRDetail() {
         <div className="mb-4 flex items-center gap-3 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
           <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold shrink-0">P</span>
           <span className="text-sm text-green-400 font-medium">Filed via Payment Processor</span>
-          <span className="text-xs text-[#94A3B8] font-mono truncate">{str.stripeRef}</span>
+          <span className="text-xs text-[#8891A8] font-mono truncate">{str.stripeRef}</span>
         </div>
       )}
 
@@ -136,23 +136,23 @@ export default function STRDetail() {
           <div className="flex items-center gap-3 px-4 py-3 border-b border-red-500/20">
             <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-600 text-white text-xs font-bold shrink-0">!</span>
             <span className="text-sm font-semibold text-red-400">Enforcement Executed</span>
-            <span className="ml-auto text-xs text-[#94A3B8]">{enforcement.frozen_count} account{enforcement.frozen_count !== 1 ? 's' : ''} frozen · Funds transferred to compliance quarantine</span>
+            <span className="ml-auto text-xs text-[#8891A8]">{enforcement.frozen_count} account{enforcement.frozen_count !== 1 ? 's' : ''} frozen · Funds transferred to compliance quarantine</span>
           </div>
           <div className="px-4 py-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
             {enforcement.frozen_entities?.map((e) => (
-              <div key={e.entity_id} className="flex items-center gap-2 bg-[#1C2333] rounded-md px-3 py-2">
+              <div key={e.entity_id} className="flex items-center gap-2 bg-[#1B2540] rounded-md px-3 py-2">
                 <span className="text-[10px] font-bold text-red-400 bg-red-500/20 rounded px-1.5 py-0.5 shrink-0">FROZEN</span>
                 <div className="min-w-0">
-                  <p className="text-xs text-[#F7F9FC] truncate">{e.name}</p>
-                  <p className="text-[10px] text-[#4B5563] font-mono truncate">{e.entity_id}</p>
+                  <p className="text-xs text-[#E8EAF0] truncate">{e.name}</p>
+                  <p className="text-[10px] text-[#8891A8] font-mono truncate">{e.entity_id}</p>
                 </div>
               </div>
             ))}
           </div>
           {enforcement.quarantine_entity_id && (
-            <div className="px-4 py-2 bg-[#0D1117] border-t border-red-500/10 flex items-center gap-2">
-              <span className="text-[10px] text-[#4B5563]">Quarantine account:</span>
-              <span className="text-[10px] text-[#94A3B8] font-mono">{enforcement.quarantine_entity_id}</span>
+            <div className="px-4 py-2 bg-[#0B1220] border-t border-red-500/10 flex items-center gap-2">
+              <span className="text-[10px] text-[#8891A8]">Quarantine account:</span>
+              <span className="text-[10px] text-[#8891A8] font-mono">{enforcement.quarantine_entity_id}</span>
             </div>
           )}
         </div>
@@ -189,7 +189,7 @@ export default function STRDetail() {
             <Download size={14} />
             Download PDF
           </Button>
-          <button onClick={() => navigate('/str')} className="ml-auto text-xs text-[#94A3B8] hover:text-[#F7F9FC]">
+          <button onClick={() => navigate('/str')} className="ml-auto text-xs text-[#8891A8] hover:text-[#E8EAF0]">
             Back to STRs →
           </button>
         </div>
@@ -200,7 +200,7 @@ export default function STRDetail() {
             <Download size={14} />
             Download PDF
           </Button>
-          <button onClick={() => navigate('/str')} className="ml-auto text-xs text-[#94A3B8] hover:text-[#F7F9FC]">
+          <button onClick={() => navigate('/str')} className="ml-auto text-xs text-[#8891A8] hover:text-[#E8EAF0]">
             Back to STRs →
           </button>
         </div>
@@ -208,17 +208,17 @@ export default function STRDetail() {
 
       {/* Approve modal */}
       <Modal open={approveModal} onClose={() => !decisionLoading && setApproveModal(false)} title="Approve STR">
-        <p className="text-sm text-[#94A3B8] mb-3">
-          You are approving and filing <strong className="text-[#F7F9FC]">{str.id}</strong>. This will:
+        <p className="text-sm text-[#8891A8] mb-3">
+          You are approving and filing <strong className="text-[#E8EAF0]">{str.id}</strong>. This will:
         </p>
-        <ul className="text-sm text-[#94A3B8] space-y-1 mb-4 list-none">
+        <ul className="text-sm text-[#8891A8] space-y-1 mb-4 list-none">
           <li className="flex items-center gap-2"><span className="text-red-400">•</span> Freeze all flagged accounts immediately</li>
           <li className="flex items-center gap-2"><span className="text-amber-400">•</span> Transfer funds to the ERVA compliance quarantine account</li>
-          <li className="flex items-center gap-2"><span className="text-[#00D4AA]">•</span> Submit this STR to the NFIU audit trail</li>
+          <li className="flex items-center gap-2"><span className="text-[#4FA0A0]">•</span> Submit this STR to the NFIU audit trail</li>
         </ul>
         {str.payloadHash && (
-          <div className="bg-[#1C2333] border border-[#2D3748] rounded-md p-3 mb-4">
-            <p className="text-[10px] text-[#4B5563] font-mono break-all">Hash: {str.payloadHash}</p>
+          <div className="bg-[#1B2540] border border-[#26314D] rounded-md p-3 mb-4">
+            <p className="text-[10px] text-[#8891A8] font-mono break-all">Hash: {str.payloadHash}</p>
           </div>
         )}
         <div className="flex gap-2 justify-end">
@@ -231,13 +231,13 @@ export default function STRDetail() {
 
       {/* Reject modal */}
       <Modal open={rejectModal} onClose={() => !decisionLoading && setRejectModal(false)} title="Reject STR">
-        <p className="text-sm text-[#94A3B8] mb-3">Provide a reason for rejecting this STR draft.</p>
+        <p className="text-sm text-[#8891A8] mb-3">Provide a reason for rejecting this STR draft.</p>
         <textarea
           rows={3}
           value={rejectReason}
           onChange={(e) => setRejectReason(e.target.value)}
           placeholder="Rejection reason (required)…"
-          className="w-full bg-[#1C2333] border border-[#2D3748] rounded-md p-3 text-sm text-[#F7F9FC] placeholder:text-[#4B5563] focus:outline-none focus:border-[#00D4AA]/50 resize-none mb-4"
+          className="w-full bg-[#1B2540] border border-[#26314D] rounded-md p-3 text-sm text-[#E8EAF0] placeholder:text-[#8891A8] focus:outline-none focus:border-[#4FA0A0]/50 resize-none mb-4"
         />
         <div className="flex gap-2 justify-end">
           <Button variant="ghost" onClick={() => setRejectModal(false)} disabled={decisionLoading}>Cancel</Button>

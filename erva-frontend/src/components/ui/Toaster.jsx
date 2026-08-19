@@ -27,11 +27,11 @@ export function Toaster() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className={`pointer-events-auto flex items-center gap-3 bg-[#1C2333] border ${borders[t.type]} rounded-lg px-4 py-3 shadow-xl min-w-64 max-w-sm`}
+            className={`pointer-events-auto flex items-center gap-3 bg-[#1B2540] border ${borders[t.type]} rounded-lg px-4 py-3 shadow-xl min-w-64 max-w-sm`}
           >
             {icons[t.type]}
-            <span className="text-sm text-[#F7F9FC] flex-1">{t.message}</span>
-            <button onClick={() => remove(t.id)} className="text-[#4B5563] hover:text-[#F7F9FC] transition-colors">
+            <span className="text-sm text-[#E8EAF0] flex-1">{t.message}</span>
+            <button onClick={() => remove(t.id)} className="text-[#8891A8] hover:text-[#E8EAF0] transition-colors">
               <XMarkIcon className="w-3.5 h-3.5" />
             </button>
           </motion.div>

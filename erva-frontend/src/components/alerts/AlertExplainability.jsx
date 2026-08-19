@@ -61,40 +61,40 @@ export function AlertExplainability({ alert }) {
   const reasonText = alert.reason ?? ''
 
   return (
-    <div className="bg-[#111827] border border-[#2D3748] rounded-lg p-5 mb-4">
+    <div className="bg-[#131B2E] border border-[#26314D] rounded-lg p-5 mb-4">
       <div className="flex items-center justify-between mb-4">
-        <p className="text-xs text-[#4B5563] uppercase tracking-wider font-medium">ERVA AI Reasoning</p>
+        <p className="text-xs text-[#8891A8] uppercase tracking-wider font-medium">ERVA AI Reasoning</p>
         {pattern && <SeverityPill severity={pattern.severity} />}
       </div>
 
       {/* Risk score breakdown */}
       <div className="grid grid-cols-3 gap-3 mb-4">
-        <div className="bg-[#1C2333] rounded-lg p-3 text-center">
+        <div className="bg-[#1B2540] rounded-lg p-3 text-center">
           <p className="text-2xl font-bold font-mono text-red-400">{riskPct}%</p>
-          <p className="text-[10px] text-[#4B5563] mt-1 uppercase tracking-wider">Network Risk Score</p>
+          <p className="text-[10px] text-[#8891A8] mt-1 uppercase tracking-wider">Network Risk Score</p>
         </div>
-        <div className="bg-[#1C2333] rounded-lg p-3 text-center">
-          <p className="text-2xl font-bold font-mono text-[#F7F9FC]">{entityCount}</p>
-          <p className="text-[10px] text-[#4B5563] mt-1 uppercase tracking-wider">Entities in Ring</p>
+        <div className="bg-[#1B2540] rounded-lg p-3 text-center">
+          <p className="text-2xl font-bold font-mono text-[#E8EAF0]">{entityCount}</p>
+          <p className="text-[10px] text-[#8891A8] mt-1 uppercase tracking-wider">Entities in Ring</p>
         </div>
-        <div className={`bg-[#1C2333] rounded-lg p-3 text-center ${anomalyFlag ? 'border border-amber-500/30' : ''}`}>
-          <p className={`text-2xl font-bold font-mono ${anomalyFlag ? 'text-amber-400' : 'text-[#94A3B8]'}`}>
+        <div className={`bg-[#1B2540] rounded-lg p-3 text-center ${anomalyFlag ? 'border border-amber-500/30' : ''}`}>
+          <p className={`text-2xl font-bold font-mono ${anomalyFlag ? 'text-amber-400' : 'text-[#8891A8]'}`}>
             {anomalyFlag ? 'YES' : anomalyScore > 0 ? anomalyScore.toFixed(2) : '—'}
           </p>
-          <p className="text-[10px] text-[#4B5563] mt-1 uppercase tracking-wider">Anomaly Flag</p>
+          <p className="text-[10px] text-[#8891A8] mt-1 uppercase tracking-wider">Anomaly Flag</p>
         </div>
       </div>
 
       {/* Pattern explanation */}
       {pattern && (
         <div className="mb-4">
-          <p className="text-xs text-[#4B5563] uppercase tracking-wider mb-2">Why ERVA Flagged This</p>
-          <p className="text-sm text-[#94A3B8] mb-3">{pattern.summary}</p>
+          <p className="text-xs text-[#8891A8] uppercase tracking-wider mb-2">Why ERVA Flagged This</p>
+          <p className="text-sm text-[#8891A8] mb-3">{pattern.summary}</p>
           <div className="space-y-1.5">
             {pattern.signals.map((signal, i) => (
               <div key={i} className="flex items-start gap-2">
-                <span className="text-[#00D4AA] text-xs mt-0.5 shrink-0">✓</span>
-                <span className="text-xs text-[#94A3B8]">{signal}</span>
+                <span className="text-[#4FA0A0] text-xs mt-0.5 shrink-0">✓</span>
+                <span className="text-xs text-[#8891A8]">{signal}</span>
               </div>
             ))}
           </div>
@@ -103,26 +103,26 @@ export function AlertExplainability({ alert }) {
 
       {/* Detection reasoning from backend */}
       {reasonText && (
-        <div className="mb-4 bg-[#1C2333] rounded-lg p-3 border-l-2 border-[#00D4AA]">
-          <p className="text-[10px] text-[#4B5563] uppercase tracking-wider mb-1.5">Detection Output</p>
-          <p className="text-xs text-[#94A3B8] font-mono leading-relaxed">{reasonText}</p>
+        <div className="mb-4 bg-[#1B2540] rounded-lg p-3 border-l-2 border-[#4FA0A0]">
+          <p className="text-[10px] text-[#8891A8] uppercase tracking-wider mb-1.5">Detection Output</p>
+          <p className="text-xs text-[#8891A8] font-mono leading-relaxed">{reasonText}</p>
         </div>
       )}
 
       {/* Model info */}
-      <div className="flex flex-wrap gap-4 pt-3 border-t border-[#2D3748]">
+      <div className="flex flex-wrap gap-4 pt-3 border-t border-[#26314D]">
         <div>
-          <p className="text-[10px] text-[#4B5563] uppercase tracking-wider">Detection Model</p>
-          <p className="text-xs text-[#F7F9FC] font-mono mt-0.5">GNN Heuristic + Isolation Forest</p>
+          <p className="text-[10px] text-[#8891A8] uppercase tracking-wider">Detection Model</p>
+          <p className="text-xs text-[#E8EAF0] font-mono mt-0.5">GNN Heuristic + Isolation Forest</p>
         </div>
         <div>
-          <p className="text-[10px] text-[#4B5563] uppercase tracking-wider">Model Version</p>
-          <p className="text-xs text-[#F7F9FC] font-mono mt-0.5">heuristic_v1</p>
+          <p className="text-[10px] text-[#8891A8] uppercase tracking-wider">Model Version</p>
+          <p className="text-xs text-[#E8EAF0] font-mono mt-0.5">heuristic_v1</p>
         </div>
         {pattern && (
           <div>
-            <p className="text-[10px] text-[#4B5563] uppercase tracking-wider">Regulatory Reference</p>
-            <p className="text-xs text-[#00D4AA] font-mono mt-0.5">{pattern.regulatoryRef}</p>
+            <p className="text-[10px] text-[#8891A8] uppercase tracking-wider">Regulatory Reference</p>
+            <p className="text-xs text-[#4FA0A0] font-mono mt-0.5">{pattern.regulatoryRef}</p>
           </div>
         )}
       </div>

@@ -8,11 +8,11 @@ export function AlertFilters({ filters, onChange, alerts = [] }) {
   }, [alerts])
 
   return (
-    <div className="flex flex-wrap gap-3 p-4 bg-[#111827] border border-[#2D3748] rounded-lg mb-4">
+    <div className="flex flex-wrap gap-3 p-4 bg-[#131B2E] border border-[#26314D] rounded-lg mb-4">
       <select
         value={filters.status}
         onChange={(e) => onChange({ ...filters, status: e.target.value })}
-        className="bg-[#1C2333] border border-[#2D3748] rounded-md px-3 py-1.5 text-sm text-[#F7F9FC] focus:outline-none focus:border-[#00D4AA]/50"
+        className="bg-[#1B2540] border border-[#26314D] rounded-md px-3 py-1.5 text-sm text-[#E8EAF0] focus:outline-none focus:border-[#4FA0A0]/50"
       >
         <option value="">All Statuses</option>
         <option value="OPEN">Open</option>
@@ -24,7 +24,7 @@ export function AlertFilters({ filters, onChange, alerts = [] }) {
       <select
         value={filters.riskLevel}
         onChange={(e) => onChange({ ...filters, riskLevel: e.target.value })}
-        className="bg-[#1C2333] border border-[#2D3748] rounded-md px-3 py-1.5 text-sm text-[#F7F9FC] focus:outline-none focus:border-[#00D4AA]/50"
+        className="bg-[#1B2540] border border-[#26314D] rounded-md px-3 py-1.5 text-sm text-[#E8EAF0] focus:outline-none focus:border-[#4FA0A0]/50"
       >
         <option value="">All Risk Levels</option>
         <option value="HIGH">High</option>
@@ -35,7 +35,7 @@ export function AlertFilters({ filters, onChange, alerts = [] }) {
       <select
         value={filters.patternType}
         onChange={(e) => onChange({ ...filters, patternType: e.target.value })}
-        className="bg-[#1C2333] border border-[#2D3748] rounded-md px-3 py-1.5 text-sm text-[#F7F9FC] focus:outline-none focus:border-[#00D4AA]/50"
+        className="bg-[#1B2540] border border-[#26314D] rounded-md px-3 py-1.5 text-sm text-[#E8EAF0] focus:outline-none focus:border-[#4FA0A0]/50"
       >
         <option value="">All Patterns</option>
         {patternTypes.map((pt) => (

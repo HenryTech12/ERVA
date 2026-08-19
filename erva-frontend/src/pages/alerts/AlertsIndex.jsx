@@ -20,7 +20,7 @@ const columns = [
     accessorKey: 'id',
     header: 'Alert ID',
     cell: ({ getValue }) => (
-      <span className="font-mono text-xs text-[#94A3B8] truncate block max-w-[160px]" title={getValue()}>
+      <span className="font-mono text-xs text-[#8891A8] truncate block max-w-[160px]" title={getValue()}>
         {getValue()}
       </span>
     ),
@@ -29,7 +29,7 @@ const columns = [
     accessorKey: 'patternType',
     header: 'Pattern',
     cell: ({ getValue }) => (
-      <span className="text-sm text-[#F7F9FC]">{PATTERN_LABELS[getValue()] ?? getValue()}</span>
+      <span className="text-sm text-[#E8EAF0]">{PATTERN_LABELS[getValue()] ?? getValue()}</span>
     ),
   },
   {
@@ -42,16 +42,16 @@ const columns = [
     header: 'Score',
     cell: ({ getValue }) => (
       <div className="flex items-center gap-2">
-        <div className="w-12 bg-[#1C2333] rounded-full h-1">
+        <div className="w-12 bg-[#1B2540] rounded-full h-1">
           <div
             className="h-1 rounded-full"
             style={{
               width: `${Math.min(getValue() * 100, 100)}%`,
-              backgroundColor: getValue() >= 0.7 ? '#ef4444' : getValue() >= 0.4 ? '#f59e0b' : '#22c55e',
+              backgroundColor: getValue() >= 0.7 ? '#e8a33d' : getValue() >= 0.4 ? '#e8a33d' : '#4fa0a0',
             }}
           />
         </div>
-        <span className="font-mono text-xs text-[#00D4AA]">{(getValue() * 100).toFixed(0)}%</span>
+        <span className="font-mono text-xs text-[#4FA0A0]">{(getValue() * 100).toFixed(0)}%</span>
       </div>
     ),
   },
@@ -59,7 +59,7 @@ const columns = [
     accessorKey: 'anomalyFlag',
     header: 'Anomaly',
     cell: ({ getValue }) => (
-      <span className={`font-mono text-xs ${getValue() ? 'text-red-400' : 'text-[#4B5563]'}`}>
+      <span className={`font-mono text-xs ${getValue() ? 'text-red-400' : 'text-[#8891A8]'}`}>
         {getValue() ? '⚠ YES' : 'NO'}
       </span>
     ),
@@ -68,7 +68,7 @@ const columns = [
     accessorKey: 'detectedAt',
     header: 'Detected',
     cell: ({ getValue }) => (
-      <span className="font-mono text-xs text-[#94A3B8]">{formatDateTime(getValue())}</span>
+      <span className="font-mono text-xs text-[#8891A8]">{formatDateTime(getValue())}</span>
     ),
   },
   {

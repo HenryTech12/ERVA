@@ -31,9 +31,9 @@ export default function TransactionsIndex() {
         }
       />
 
-      <div className="bg-[#111827] border border-[#2D3748] rounded-lg overflow-hidden">
-        <div className="px-4 py-3 border-b border-[#2D3748] flex items-center gap-2">
-          <p className="text-xs text-[#4B5563] uppercase tracking-wider font-medium">Recent Transactions</p>
+      <div className="bg-[#131B2E] border border-[#26314D] rounded-lg overflow-hidden">
+        <div className="px-4 py-3 border-b border-[#26314D] flex items-center gap-2">
+          <p className="text-xs text-[#8891A8] uppercase tracking-wider font-medium">Recent Transactions</p>
           <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
         </div>
         {isError ? (

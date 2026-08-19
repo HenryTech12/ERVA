@@ -46,7 +46,7 @@ function MiniGraph() {
       { source: 'D', target: 'A' }, { source: 'A', target: 'E' }, { source: 'B', target: 'F' },
       { source: 'F', target: 'G' }, { source: 'G', target: 'H' }, { source: 'H', target: 'B' },
     ]
-    const colors = { HIGH: '#EF4444', MEDIUM: '#F59E0B', LOW: '#22C55E' }
+    const colors = { HIGH: '#E8A33D', MEDIUM: '#E8A33D', LOW: '#4FA0A0' }
 
     const svg = d3.select(el).attr('width', w).attr('height', h)
     const defs = svg.append('defs')
@@ -62,7 +62,7 @@ function MiniGraph() {
       .force('center', d3.forceCenter(w / 2, h / 2))
 
     const link = svg.append('g').selectAll('line').data(links).join('line')
-      .attr('stroke', '#2D3748').attr('stroke-width', 1.5).attr('stroke-opacity', 0.5)
+      .attr('stroke', '#26314D').attr('stroke-width', 1.5).attr('stroke-opacity', 0.5)
 
     const node = svg.append('g').selectAll('circle').data(nodes).join('circle')
       .attr('r', 10)
@@ -87,16 +87,16 @@ export default function Landing() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-[#0A0E1A] text-[#F7F9FC]">
+    <div className="min-h-screen bg-[#0B1220] text-[#E8EAF0]">
       {/* Nav */}
-      <nav className="sticky top-0 z-50 bg-[#0A0E1A]/90 backdrop-blur border-b border-[#2D3748]">
+      <nav className="sticky top-0 z-50 bg-[#0B1220]/90 backdrop-blur border-b border-[#26314D]">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span className="text-lg font-bold">GR<span className="text-[#00D4AA]">ACE</span></span>
+          <span className="text-lg font-bold">GR<span className="text-[#4FA0A0]">ACE</span></span>
           <div className="flex items-center gap-3">
-            <button onClick={() => navigate('/login')} className="px-4 py-2 text-sm text-[#94A3B8] hover:text-[#F7F9FC] transition-colors">
+            <button onClick={() => navigate('/login')} className="px-4 py-2 text-sm text-[#8891A8] hover:text-[#E8EAF0] transition-colors">
               Login
             </button>
-            <button onClick={() => navigate('/login')} className="px-4 py-2 text-sm bg-[#00D4AA] text-[#0A0E1A] font-semibold rounded-md hover:bg-[#00D4AA]/90 transition-colors">
+            <button onClick={() => navigate('/login')} className="px-4 py-2 text-sm bg-[#4FA0A0] text-[#0B1220] font-semibold rounded-md hover:bg-[#4FA0A0]/90 transition-colors">
               Request Demo
             </button>
           </div>
@@ -107,31 +107,31 @@ export default function Landing() {
       <section className="max-w-6xl mx-auto px-6 pt-20 pb-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#00D4AA]/10 border border-[#00D4AA]/30 rounded-full text-xs text-[#00D4AA] font-mono mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4FA0A0]/10 border border-[#4FA0A0]/30 rounded-full text-xs text-[#4FA0A0] font-mono mb-6">
               QuantumHacks 2026
             </div>
             <h1 className="text-4xl font-bold leading-tight mb-4">
               Detect the network,<br />
               <span className="text-gradient-accent">not just the node.</span>
             </h1>
-            <p className="text-[#94A3B8] text-base leading-relaxed mb-8">
+            <p className="text-[#8891A8] text-base leading-relaxed mb-8">
               ERVA is an enterprise trust verification platform that maps financial relationships, detects laundering patterns, and auto-generates NFIU-compliant STRs — powered by graph intelligence and LLM.
             </p>
             <div className="flex gap-3">
-              <button onClick={() => navigate('/login')} className="px-6 py-3 bg-[#00D4AA] text-[#0A0E1A] font-semibold rounded-lg hover:bg-[#00D4AA]/90 transition-colors">
+              <button onClick={() => navigate('/login')} className="px-6 py-3 bg-[#4FA0A0] text-[#0B1220] font-semibold rounded-lg hover:bg-[#4FA0A0]/90 transition-colors">
                 Get Early Access
               </button>
-              <button onClick={() => navigate('/login')} className="px-6 py-3 bg-[#1C2333] border border-[#2D3748] text-[#F7F9FC] font-medium rounded-lg hover:bg-[#2D3748] transition-colors">
+              <button onClick={() => navigate('/login')} className="px-6 py-3 bg-[#1B2540] border border-[#26314D] text-[#E8EAF0] font-medium rounded-lg hover:bg-[#26314D] transition-colors">
                 See Demo →
               </button>
             </div>
           </div>
-          <div className="bg-[#111827] border border-[#2D3748] rounded-xl overflow-hidden">
-            <div className="px-4 py-2 border-b border-[#2D3748] flex items-center gap-2">
+          <div className="bg-[#131B2E] border border-[#26314D] rounded-xl overflow-hidden">
+            <div className="px-4 py-2 border-b border-[#26314D] flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-red-500" />
               <div className="w-2 h-2 rounded-full bg-amber-500" />
               <div className="w-2 h-2 rounded-full bg-green-500" />
-              <span className="ml-2 text-xs text-[#4B5563] font-mono">graph-explorer · live</span>
+              <span className="ml-2 text-xs text-[#8891A8] font-mono">graph-explorer · live</span>
             </div>
             <MiniGraph />
           </div>
@@ -139,12 +139,12 @@ export default function Landing() {
       </section>
 
       {/* Stats */}
-      <section className="border-y border-[#2D3748] bg-[#111827]/50">
+      <section className="border-y border-[#26314D] bg-[#131B2E]/50">
         <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
           {stats.map((s) => (
             <div key={s.value} className="text-center">
-              <p className="text-4xl font-bold font-mono text-[#00D4AA] mb-2">{s.value}</p>
-              <p className="text-sm text-[#94A3B8]">{s.label}</p>
+              <p className="text-4xl font-bold font-mono text-[#4FA0A0] mb-2">{s.value}</p>
+              <p className="text-sm text-[#8891A8]">{s.label}</p>
             </div>
           ))}
         </div>
@@ -157,14 +157,14 @@ export default function Landing() {
           {steps.map((s, i) => (
             <div key={s.n} className="flex-1 relative">
               <div className="flex flex-col items-center text-center p-4">
-                <div className="w-10 h-10 rounded-full bg-[#00D4AA]/10 border border-[#00D4AA]/30 flex items-center justify-center mb-3">
-                  <span className="text-xs font-mono text-[#00D4AA]">{s.n}</span>
+                <div className="w-10 h-10 rounded-full bg-[#4FA0A0]/10 border border-[#4FA0A0]/30 flex items-center justify-center mb-3">
+                  <span className="text-xs font-mono text-[#4FA0A0]">{s.n}</span>
                 </div>
-                <h3 className="text-sm font-semibold text-[#F7F9FC] mb-1">{s.title}</h3>
-                <p className="text-xs text-[#94A3B8]">{s.desc}</p>
+                <h3 className="text-sm font-semibold text-[#E8EAF0] mb-1">{s.title}</h3>
+                <p className="text-xs text-[#8891A8]">{s.desc}</p>
               </div>
               {i < steps.length - 1 && (
-                <div className="hidden md:block absolute top-5 right-0 w-full h-px bg-[#2D3748] translate-x-1/2 -z-10" />
+                <div className="hidden md:block absolute top-5 right-0 w-full h-px bg-[#26314D] translate-x-1/2 -z-10" />
               )}
             </div>
           ))}
@@ -172,15 +172,15 @@ export default function Landing() {
       </section>
 
       {/* Features */}
-      <section className="bg-[#111827]/50 border-y border-[#2D3748]">
+      <section className="bg-[#131B2E]/50 border-y border-[#26314D]">
         <div className="max-w-6xl mx-auto px-6 py-16">
           <h2 className="text-2xl font-bold text-center mb-10">Platform Capabilities</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((f) => (
-              <div key={f.title} className="bg-[#111827] border border-[#2D3748] rounded-lg p-5 hover:border-[#00D4AA]/30 transition-colors">
-                <div className="w-2 h-2 rounded-full bg-[#00D4AA] mb-3" />
-                <h3 className="text-sm font-semibold text-[#F7F9FC] mb-2">{f.title}</h3>
-                <p className="text-xs text-[#94A3B8] leading-relaxed">{f.desc}</p>
+              <div key={f.title} className="bg-[#131B2E] border border-[#26314D] rounded-lg p-5 hover:border-[#4FA0A0]/30 transition-colors">
+                <div className="w-2 h-2 rounded-full bg-[#4FA0A0] mb-3" />
+                <h3 className="text-sm font-semibold text-[#E8EAF0] mb-2">{f.title}</h3>
+                <p className="text-xs text-[#8891A8] leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -189,30 +189,30 @@ export default function Landing() {
 
       {/* Social Proof */}
       <section className="max-w-6xl mx-auto px-6 py-16 text-center">
-        <div className="inline-flex items-center gap-3 px-4 py-2 bg-[#1C2333] border border-[#2D3748] rounded-full mb-6">
-          <span className="text-xs font-mono text-[#00D4AA]">QuantumHacks 2026</span>
+        <div className="inline-flex items-center gap-3 px-4 py-2 bg-[#1B2540] border border-[#26314D] rounded-full mb-6">
+          <span className="text-xs font-mono text-[#4FA0A0]">QuantumHacks 2026</span>
         </div>
-        <blockquote className="text-lg text-[#94A3B8] max-w-2xl mx-auto italic">
+        <blockquote className="text-lg text-[#8891A8] max-w-2xl mx-auto italic">
           "ERVA represents the next generation of RegTech — where graph intelligence meets compliance automation."
         </blockquote>
       </section>
 
       {/* CTA */}
-      <section className="bg-gradient-to-r from-[#00D4AA]/10 to-[#00A8FF]/10 border-y border-[#00D4AA]/20">
+      <section className="bg-gradient-to-r from-[#4FA0A0]/10 to-[#00A8FF]/10 border-y border-[#4FA0A0]/20">
         <div className="max-w-6xl mx-auto px-6 py-16 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to detect the network?</h2>
-          <p className="text-[#94A3B8] mb-8">Join Nigerian banks and fintechs using ERVA for trust verification.</p>
-          <button onClick={() => navigate('/login')} className="px-8 py-4 bg-[#00D4AA] text-[#0A0E1A] font-bold rounded-lg text-lg hover:bg-[#00D4AA]/90 transition-colors">
+          <p className="text-[#8891A8] mb-8">Join Nigerian banks and fintechs using ERVA for trust verification.</p>
+          <button onClick={() => navigate('/login')} className="px-8 py-4 bg-[#4FA0A0] text-[#0B1220] font-bold rounded-lg text-lg hover:bg-[#4FA0A0]/90 transition-colors">
             Start Free Trial
           </button>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#2D3748] py-8">
+      <footer className="border-t border-[#26314D] py-8">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="text-sm font-bold">GR<span className="text-[#00D4AA]">ACE</span></span>
-          <p className="text-xs text-[#4B5563] font-mono">© 2026 ERVA · NFIU-compliant · SOC2 Ready · QuantumHacks 2026</p>
+          <span className="text-sm font-bold">GR<span className="text-[#4FA0A0]">ACE</span></span>
+          <p className="text-xs text-[#8891A8] font-mono">© 2026 ERVA · NFIU-compliant · SOC2 Ready · QuantumHacks 2026</p>
         </div>
       </footer>
     </div>

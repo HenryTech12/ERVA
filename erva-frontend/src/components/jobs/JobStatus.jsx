@@ -4,7 +4,7 @@ import { CheckCircleIcon, XCircleIcon, ClockIcon } from '@heroicons/react/24/out
 
 const STATUS_CONFIG = {
   queued:     { icon: ClockIcon,        color: 'text-amber-400',  label: 'Queued' },
-  processing: { icon: Spinner,          color: 'text-[#00D4AA]',  label: 'Processing' },
+  processing: { icon: Spinner,          color: 'text-[#4FA0A0]',  label: 'Processing' },
   completed:  { icon: CheckCircleIcon,  color: 'text-green-400',  label: 'Completed' },
   failed:     { icon: XCircleIcon,      color: 'text-red-400',    label: 'Failed' },
 }
@@ -14,7 +14,7 @@ export function JobStatus({ jobId }) {
 
   if (isLoading || !job) {
     return (
-      <div className="flex items-center gap-2 text-sm text-[#94A3B8]">
+      <div className="flex items-center gap-2 text-sm text-[#8891A8]">
         <Spinner className="w-4 h-4" />
         <span>Loading job…</span>
       </div>
@@ -30,20 +30,20 @@ export function JobStatus({ jobId }) {
       <div className="flex items-center gap-2">
         <Icon className={`w-4 h-4 ${cfg.color}`} />
         <span className={`text-sm font-medium ${cfg.color}`}>{cfg.label}</span>
-        {pct !== null && <span className="ml-auto text-xs font-mono text-[#94A3B8]">{pct}%</span>}
+        {pct !== null && <span className="ml-auto text-xs font-mono text-[#8891A8]">{pct}%</span>}
       </div>
 
       {pct !== null && (
-        <div className="w-full bg-[#1C2333] rounded-full h-1.5">
+        <div className="w-full bg-[#1B2540] rounded-full h-1.5">
           <div
-            className="bg-[#00D4AA] h-1.5 rounded-full transition-all"
+            className="bg-[#4FA0A0] h-1.5 rounded-full transition-all"
             style={{ width: `${pct}%` }}
           />
         </div>
       )}
 
       {job.total_records > 0 && (
-        <p className="text-xs text-[#4B5563]">
+        <p className="text-xs text-[#8891A8]">
           {job.processed_records} / {job.total_records} records
         </p>
       )}

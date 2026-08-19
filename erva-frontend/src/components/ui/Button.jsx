@@ -2,11 +2,11 @@ import { cn } from '@/utils/cn'
 import { forwardRef } from 'react'
 
 const variants = {
-  primary:   'bg-[#00D4AA] text-[#0A0E1A] font-semibold hover:bg-[#00D4AA]/90',
-  secondary: 'bg-[#1C2333] border border-[#2D3748] text-[#F7F9FC] hover:bg-[#111827]',
-  outline:   'bg-transparent border border-[#2D3748] text-[#F7F9FC] hover:bg-[#1C2333]',
+  primary:   'bg-[#4FA0A0] text-[#0B1220] font-semibold hover:bg-[#4FA0A0]/90',
+  secondary: 'bg-[#1B2540] border border-[#26314D] text-[#E8EAF0] hover:bg-[#131B2E]',
+  outline:   'bg-transparent border border-[#26314D] text-[#E8EAF0] hover:bg-[#1B2540]',
   danger:    'bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20',
-  ghost:     'text-[#94A3B8] hover:text-[#F7F9FC] hover:bg-[#1C2333]',
+  ghost:     'text-[#8891A8] hover:text-[#E8EAF0] hover:bg-[#1B2540]',
 }
 
 const sizes = {

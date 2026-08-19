@@ -43,19 +43,19 @@ function ProgressTracker({ statuses, activeId }) {
               <div className={cn(
                 'relative w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-500',
                 isDone
-                  ? 'border-[#00D4AA] bg-[#00D4AA]/20'
+                  ? 'border-[#4FA0A0] bg-[#4FA0A0]/20'
                   : isActive
                     ? 'border-[#F97316] bg-[#F97316]/10'
-                    : 'border-[#2D3748] bg-[#0D1117]',
+                    : 'border-[#26314D] bg-[#0B1220]',
               )}>
                 {isDone && (
-                  <span className="text-[#00D4AA] text-xs font-bold">✓</span>
+                  <span className="text-[#4FA0A0] text-xs font-bold">✓</span>
                 )}
                 {isActive && !isDone && (
                   <span className="w-2.5 h-2.5 rounded-full bg-[#F97316] animate-pulse" />
                 )}
                 {!isDone && !isActive && (
-                  <span className="w-2 h-2 rounded-full bg-[#2D3748]" />
+                  <span className="w-2 h-2 rounded-full bg-[#26314D]" />
                 )}
                 {/* pulse ring on active */}
                 {isActive && !isDone && (
@@ -65,17 +65,17 @@ function ProgressTracker({ statuses, activeId }) {
               <div className="text-center">
                 <p className={cn(
                   'text-[10px] font-medium leading-tight max-w-[72px] text-center transition-colors duration-300',
-                  isDone   ? 'text-[#00D4AA]' :
+                  isDone   ? 'text-[#4FA0A0]' :
                   isActive ? 'text-[#F97316]' :
-                             'text-[#4B5563]',
+                             'text-[#8891A8]',
                 )}>
                   {p.short}
                 </p>
                 <p className={cn(
                   'text-[9px] font-mono transition-colors duration-300',
-                  isDone   ? 'text-[#00D4AA]/70' :
+                  isDone   ? 'text-[#4FA0A0]/70' :
                   isActive ? 'text-[#F97316]/70' :
-                             'text-[#2D3748]',
+                             'text-[#26314D]',
                 )}>
                   {fmt(p.amount)}
                 </p>
@@ -88,13 +88,13 @@ function ProgressTracker({ statuses, activeId }) {
                 'flex items-center mx-2 mb-6 transition-colors duration-500',
                 statuses[PAYMENTS[i + 1]?.id] === 'paid' || activeId === PAYMENTS[i + 1]?.id
                   ? 'text-[#BE185D]'
-                  : 'text-[#2D3748]',
+                  : 'text-[#26314D]',
               )}>
                 <div className={cn(
                   'h-px w-8 transition-colors duration-500',
                   statuses[PAYMENTS[i + 1]?.id] === 'paid' || activeId === PAYMENTS[i + 1]?.id
                     ? 'bg-[#BE185D]'
-                    : 'bg-[#2D3748]',
+                    : 'bg-[#26314D]',
                 )} />
                 <span className="text-[10px] -ml-0.5">›</span>
               </div>
@@ -178,7 +178,7 @@ function MiniGraph({ nodes, links, newNodeId }) {
     node.append('text')
       .text((d) => (d.label ?? d.id ?? '').slice(0, 16))
       .attr('x', 14).attr('y', 4)
-      .attr('fill', '#94A3B8').attr('font-size', '9px')
+      .attr('fill', '#8891A8').attr('font-size', '9px')
       .style('pointer-events', 'none')
 
     sim.on('tick', () => {
@@ -192,13 +192,13 @@ function MiniGraph({ nodes, links, newNodeId }) {
   }, [nodes, links, newNodeId])
 
   return (
-    <div className="w-full rounded-xl border border-[#1E2535] bg-[#0A0E1A] overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#1E2535]">
+    <div className="w-full rounded-xl border border-[#26314D] bg-[#0B1220] overflow-hidden">
+      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#26314D]">
         <span className="w-1.5 h-1.5 rounded-full bg-[#F97316] animate-pulse" />
-        <span className="text-[10px] font-mono text-[#4B5563] uppercase tracking-widest">
+        <span className="text-[10px] font-mono text-[#8891A8] uppercase tracking-widest">
           Live Fraud Network
         </span>
-        <span className="ml-auto text-[10px] font-mono text-[#4B5563]">
+        <span className="ml-auto text-[10px] font-mono text-[#8891A8]">
           {nodes?.length ?? 0} nodes · {links?.length ?? 0} edges
         </span>
       </div>
@@ -206,7 +206,7 @@ function MiniGraph({ nodes, links, newNodeId }) {
         <svg ref={svgRef} className="w-full" style={{ height: 240 }} />
       ) : (
         <div className="flex items-center justify-center h-[240px]">
-          <p className="text-[11px] font-mono text-[#2D3748] uppercase tracking-widest">
+          <p className="text-[11px] font-mono text-[#26314D] uppercase tracking-widest">
             Awaiting first payment…
           </p>
         </div>
@@ -461,7 +461,7 @@ export function IngestLiveTrigger() {
       )}
 
       {/* ── Label ── */}
-      <p className="text-[11px] font-mono text-[#4B5563] uppercase tracking-widest text-center mb-5">
+      <p className="text-[11px] font-mono text-[#8891A8] uppercase tracking-widest text-center mb-5">
         Watch ERVA detect fraud in real time — each payment builds the network
       </p>
 
@@ -480,8 +480,8 @@ export function IngestLiveTrigger() {
               'border transition-all duration-200 focus:outline-none',
               'focus:ring-2 focus:ring-red-500/50',
               running || fraudDetected || allDone
-                ? 'bg-[#0D1117] border-[#2D3748] text-[#4B5563] cursor-not-allowed opacity-60'
-                : 'bg-[#0D1117] border-red-600/60 text-[#F7F9FC] hover:border-red-500 hover:bg-red-950/30',
+                ? 'bg-[#0B1220] border-[#26314D] text-[#8891A8] cursor-not-allowed opacity-60'
+                : 'bg-[#0B1220] border-red-600/60 text-[#E8EAF0] hover:border-red-500 hover:bg-red-950/30',
             )}
           >
             {/* Icon */}
@@ -508,7 +508,7 @@ export function IngestLiveTrigger() {
                     ? 'Sequence Complete'
                     : 'Trigger Fraud Ring'}
               </span>
-              <span className="text-[10px] font-normal text-[#94A3B8] tracking-wider">
+              <span className="text-[10px] font-normal text-[#8891A8] tracking-wider">
                 {running
                   ? `Payment ${PAYMENTS.findIndex((p) => p.id === activeId) + 1} of 4`
                   : '4 sequential transactions via Stripe · live fraud detection'}

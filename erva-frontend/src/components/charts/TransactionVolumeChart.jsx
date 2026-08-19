@@ -4,15 +4,15 @@ import { useSTRs } from '@/hooks/useSTR'
 import { Spinner } from '@/components/ui/Spinner'
 
 const STATUS_COLORS = {
-  open: '#ef4444',
-  generated: '#f59e0b',
-  approved: '#22c55e',
+  open: '#e8a33d',
+  generated: '#e8a33d',
+  approved: '#4fa0a0',
 }
 
 const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-[#1C2333] border border-[#2D3748] rounded-lg p-3 text-xs">
+    <div className="bg-[#1B2540] border border-[#26314D] rounded-lg p-3 text-xs">
       <p style={{ color: payload[0].payload.fill }}>{payload[0].name}: {payload[0].value}</p>
     </div>
   )
@@ -28,7 +28,7 @@ export function TransactionVolumeChart() {
     return <div className="flex justify-center items-center h-[200px]"><Spinner /></div>
   }
   if (!alerts?.length) {
-    return <div className="flex justify-center items-center h-[200px] text-[#4B5563] text-sm">No alerts detected yet</div>
+    return <div className="flex justify-center items-center h-[200px] text-[#8891A8] text-sm">No alerts detected yet</div>
   }
 
   const openCount = (alerts ?? []).filter((a) => a.status === 'OPEN').length
@@ -67,19 +67,19 @@ export function TransactionVolumeChart() {
           </PieChart>
         </ResponsiveContainer>
         <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center">
-          <span className="text-3xl font-semibold font-mono text-[#F7F9FC] leading-none">{total}</span>
-          <span className="text-[11px] text-[#4B5563] mt-1 tracking-wide uppercase">Alerts</span>
+          <span className="text-3xl font-semibold font-mono text-[#E8EAF0] leading-none">{total}</span>
+          <span className="text-[11px] text-[#8891A8] mt-1 tracking-wide uppercase">Alerts</span>
         </div>
       </div>
       <div className="space-y-2">
         {data.map((item) => (
-          <div key={item.key} className="rounded-md border border-[#2D3748] bg-[#1C2333]/45 px-3 py-2.5">
+          <div key={item.key} className="rounded-md border border-[#26314D] bg-[#1B2540]/45 px-3 py-2.5">
             <div className="flex items-center justify-between gap-2 text-xs">
-              <span className="inline-flex items-center gap-2 text-[#94A3B8]">
+              <span className="inline-flex items-center gap-2 text-[#8891A8]">
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: item.fill }} />
                 {item.name}
               </span>
-              <span className="font-mono text-[#F7F9FC]">{item.value}</span>
+              <span className="font-mono text-[#E8EAF0]">{item.value}</span>
             </div>
           </div>
         ))}

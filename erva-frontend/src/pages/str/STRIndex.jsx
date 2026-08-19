@@ -13,7 +13,7 @@ const columns = [
     accessorKey: 'id',
     header: 'STR ID',
     cell: ({ getValue }) => (
-      <span className="font-mono text-xs text-[#94A3B8] truncate block max-w-[160px]" title={getValue()}>
+      <span className="font-mono text-xs text-[#8891A8] truncate block max-w-[160px]" title={getValue()}>
         {getValue()}
       </span>
     ),
@@ -22,7 +22,7 @@ const columns = [
     accessorKey: 'alertId',
     header: 'Alert Ref',
     cell: ({ getValue }) => (
-      <span className="font-mono text-xs text-[#00D4AA] truncate block max-w-[160px]" title={getValue()}>
+      <span className="font-mono text-xs text-[#4FA0A0] truncate block max-w-[160px]" title={getValue()}>
         {getValue()}
       </span>
     ),
@@ -36,21 +36,21 @@ const columns = [
     accessorKey: 'modelVersion',
     header: 'AI Model',
     cell: ({ getValue }) => (
-      <span className="font-mono text-xs text-[#94A3B8]">{getValue() ?? '—'}</span>
+      <span className="font-mono text-xs text-[#8891A8]">{getValue() ?? '—'}</span>
     ),
   },
   {
     accessorKey: 'createdAt',
     header: 'Generated',
     cell: ({ getValue }) => (
-      <span className="font-mono text-xs text-[#94A3B8]">{formatDateTime(getValue())}</span>
+      <span className="font-mono text-xs text-[#8891A8]">{formatDateTime(getValue())}</span>
     ),
   },
   {
     accessorKey: 'updatedAt',
     header: 'Last Updated',
     cell: ({ getValue }) => (
-      <span className="font-mono text-xs text-[#94A3B8]">{formatDateTime(getValue())}</span>
+      <span className="font-mono text-xs text-[#8891A8]">{formatDateTime(getValue())}</span>
     ),
   },
 ]
@@ -75,18 +75,18 @@ export default function STRIndex() {
         subtitle={isLoading ? 'Loading…' : `${filtered.length} report${filtered.length !== 1 ? 's' : ''}`}
       />
 
-      <div className="flex flex-wrap gap-3 p-4 bg-[#111827] border border-[#2D3748] rounded-lg mb-4">
+      <div className="flex flex-wrap gap-3 p-4 bg-[#131B2E] border border-[#26314D] rounded-lg mb-4">
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="bg-[#1C2333] border border-[#2D3748] rounded-md px-3 py-1.5 text-sm text-[#F7F9FC] focus:outline-none focus:border-[#00D4AA]/50"
+          className="bg-[#1B2540] border border-[#26314D] rounded-md px-3 py-1.5 text-sm text-[#E8EAF0] focus:outline-none focus:border-[#4FA0A0]/50"
         >
           <option value="">All Statuses</option>
           {STATUS_OPTIONS.map((s) => (
             <option key={s} value={s}>{s}</option>
           ))}
         </select>
-        <span className="ml-auto text-xs text-[#4B5563] self-center">
+        <span className="ml-auto text-xs text-[#8891A8] self-center">
           {filtered.length} of {strs?.length ?? 0} total
         </span>
       </div>

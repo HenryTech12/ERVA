@@ -4,8 +4,8 @@ import { formatDateTime } from '@/utils/formatters'
 function Field({ label, value, mono = true }) {
   return (
     <div>
-      <p className="text-[10px] text-[#4B5563] uppercase tracking-wider mb-0.5">{label}</p>
-      <p className={`text-sm text-[#F7F9FC] break-all ${mono ? 'font-mono' : ''}`}>
+      <p className="text-[10px] text-[#8891A8] uppercase tracking-wider mb-0.5">{label}</p>
+      <p className={`text-sm text-[#E8EAF0] break-all ${mono ? 'font-mono' : ''}`}>
         {value || '—'}
       </p>
     </div>
@@ -14,9 +14,9 @@ function Field({ label, value, mono = true }) {
 
 export function STRPreview({ str }) {
   return (
-    <div className="bg-[#111827] border border-[#2D3748] rounded-lg p-4">
+    <div className="bg-[#131B2E] border border-[#26314D] rounded-lg p-4">
       <div className="flex items-center justify-between mb-4">
-        <span className="text-xs text-[#4B5563] uppercase tracking-wider">Report Info</span>
+        <span className="text-xs text-[#8891A8] uppercase tracking-wider">Report Info</span>
         <StatusBadge status={str.status} />
       </div>
 
@@ -34,15 +34,15 @@ export function STRPreview({ str }) {
 
         {str.reviewerNotes && (
           <div>
-            <p className="text-[10px] text-[#4B5563] uppercase tracking-wider mb-0.5">Reviewer Notes</p>
-            <p className="text-xs text-[#94A3B8] leading-relaxed">{str.reviewerNotes}</p>
+            <p className="text-[10px] text-[#8891A8] uppercase tracking-wider mb-0.5">Reviewer Notes</p>
+            <p className="text-xs text-[#8891A8] leading-relaxed">{str.reviewerNotes}</p>
           </div>
         )}
 
         {str.payloadHash && (
           <div>
-            <p className="text-[10px] text-[#4B5563] uppercase tracking-wider mb-0.5">Payload Hash</p>
-            <p className="text-[10px] text-[#4B5563] font-mono break-all">{str.payloadHash}</p>
+            <p className="text-[10px] text-[#8891A8] uppercase tracking-wider mb-0.5">Payload Hash</p>
+            <p className="text-[10px] text-[#8891A8] font-mono break-all">{str.payloadHash}</p>
           </div>
         )}
 
@@ -51,7 +51,7 @@ export function STRPreview({ str }) {
             <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-500 text-white text-[9px] font-bold shrink-0">S</span>
             <div className="min-w-0">
               <p className="text-[10px] text-blue-400 font-medium">Filed via Payment Processor</p>
-              <p className="text-[10px] text-[#4B5563] font-mono truncate">{str.stripeRef}</p>
+              <p className="text-[10px] text-[#8891A8] font-mono truncate">{str.stripeRef}</p>
             </div>
           </div>
         )}

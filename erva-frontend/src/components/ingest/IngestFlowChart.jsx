@@ -6,9 +6,9 @@ import { formatNairaShort, formatDate } from '@/utils/formatters'
 import { Spinner } from '@/components/ui/Spinner'
 
 const CHANNEL_COLORS = {
-  stripe:   '#00D4AA',
+  stripe:   '#4FA0A0',
   transfer: '#3B82F6',
-  pos:      '#F59E0B',
+  pos:      '#E8A33D',
   ussd:     '#8B5CF6',
   mobile:   '#EC4899',
   web:      '#06B6D4',
@@ -48,8 +48,8 @@ const VolumeTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null
   const d = payload[0].payload
   return (
-    <div className="bg-[#1C2333] border border-[#2D3748] rounded-lg p-3 text-xs">
-      <p className="text-[#94A3B8] mb-1">{d.channel}</p>
+    <div className="bg-[#1B2540] border border-[#26314D] rounded-lg p-3 text-xs">
+      <p className="text-[#8891A8] mb-1">{d.channel}</p>
       <p style={{ color: d.fill }}>{formatNairaShort(d.volume)}</p>
     </div>
   )
@@ -58,10 +58,10 @@ const VolumeTooltip = ({ active, payload }) => {
 const TimeTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-[#1C2333] border border-[#2D3748] rounded-lg p-3 text-xs">
-      <p className="text-[#94A3B8] mb-1">{label}</p>
-      <p className="text-[#00D4AA]">{payload[0].value} txns</p>
-      <p className="text-[#94A3B8]">{formatNairaShort(payload[1]?.value ?? 0)}</p>
+    <div className="bg-[#1B2540] border border-[#26314D] rounded-lg p-3 text-xs">
+      <p className="text-[#8891A8] mb-1">{label}</p>
+      <p className="text-[#4FA0A0]">{payload[0].value} txns</p>
+      <p className="text-[#8891A8]">{formatNairaShort(payload[1]?.value ?? 0)}</p>
     </div>
   )
 }
@@ -71,7 +71,7 @@ export function IngestFlowChart({ transactions, isLoading }) {
     return (
       <div className="grid lg:grid-cols-2 gap-4">
         {[0, 1].map((i) => (
-          <div key={i} className="bg-[#111827] border border-[#2D3748] rounded-lg p-5 h-[260px] flex items-center justify-center">
+          <div key={i} className="bg-[#131B2E] border border-[#26314D] rounded-lg p-5 h-[260px] flex items-center justify-center">
             <Spinner />
           </div>
         ))}
@@ -85,18 +85,18 @@ export function IngestFlowChart({ transactions, isLoading }) {
   return (
     <div className="grid lg:grid-cols-2 gap-4">
       {/* Volume by channel */}
-      <div className="bg-[#111827] border border-[#2D3748] rounded-lg p-5">
-        <p className="text-xs text-[#4B5563] uppercase tracking-wider font-medium mb-4">
+      <div className="bg-[#131B2E] border border-[#26314D] rounded-lg p-5">
+        <p className="text-xs text-[#8891A8] uppercase tracking-wider font-medium mb-4">
           Volume by Channel
         </p>
         {channelData.length === 0 ? (
-          <div className="flex items-center justify-center h-[200px] text-[#4B5563] text-sm">No data</div>
+          <div className="flex items-center justify-center h-[200px] text-[#8891A8] text-sm">No data</div>
         ) : (
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={channelData} layout="vertical" margin={{ top: 0, right: 40, left: 0, bottom: 0 }} barCategoryGap="30%">
               <XAxis
                 type="number"
-                tick={{ fill: '#4B5563', fontSize: 10 }}
+                tick={{ fill: '#8891A8', fontSize: 10 }}
                 tickFormatter={(v) => formatNairaShort(v)}
                 axisLine={false}
                 tickLine={false}
@@ -104,7 +104,7 @@ export function IngestFlowChart({ transactions, isLoading }) {
               <YAxis
                 type="category"
                 dataKey="channel"
-                tick={{ fill: '#94A3B8', fontSize: 10 }}
+                tick={{ fill: '#8891A8', fontSize: 10 }}
                 axisLine={false}
                 tickLine={false}
                 width={64}
@@ -121,31 +121,31 @@ export function IngestFlowChart({ transactions, isLoading }) {
       </div>
 
       {/* Transaction count over time */}
-      <div className="bg-[#111827] border border-[#2D3748] rounded-lg p-5">
-        <p className="text-xs text-[#4B5563] uppercase tracking-wider font-medium mb-4">
+      <div className="bg-[#131B2E] border border-[#26314D] rounded-lg p-5">
+        <p className="text-xs text-[#8891A8] uppercase tracking-wider font-medium mb-4">
           Transaction Activity · Last 14 Days
         </p>
         {timeData.length === 0 ? (
-          <div className="flex items-center justify-center h-[200px] text-[#4B5563] text-sm">No data</div>
+          <div className="flex items-center justify-center h-[200px] text-[#8891A8] text-sm">No data</div>
         ) : (
           <ResponsiveContainer width="100%" height={200}>
             <AreaChart data={timeData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="stripeGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#00D4AA" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#00D4AA" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#4FA0A0" stopOpacity={0.25} />
+                  <stop offset="95%" stopColor="#4FA0A0" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1C2333" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#1B2540" />
               <XAxis
                 dataKey="date"
-                tick={{ fill: '#4B5563', fontSize: 9 }}
+                tick={{ fill: '#8891A8', fontSize: 9 }}
                 tickFormatter={(v) => v.slice(5)}
                 axisLine={false}
                 tickLine={false}
               />
               <YAxis
-                tick={{ fill: '#4B5563', fontSize: 10 }}
+                tick={{ fill: '#8891A8', fontSize: 10 }}
                 axisLine={false}
                 tickLine={false}
                 width={28}
@@ -154,7 +154,7 @@ export function IngestFlowChart({ transactions, isLoading }) {
               <Area
                 type="monotone"
                 dataKey="count"
-                stroke="#00D4AA"
+                stroke="#4FA0A0"
                 strokeWidth={2}
                 fill="url(#stripeGrad)"
                 dot={false}

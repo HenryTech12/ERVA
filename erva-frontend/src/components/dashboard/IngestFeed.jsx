@@ -142,7 +142,7 @@ export function IngestFeed() {
   }
 
   return (
-    <div className="bg-[#111827] border border-[#2D3748] rounded-lg overflow-hidden">
+    <div className="bg-[#131B2E] border border-[#26314D] rounded-lg overflow-hidden">
       {toast && (
         <div className="px-4 py-2 text-xs font-medium flex items-center gap-2 bg-red-500/10 border-b border-red-500/30 text-red-400">
           <span>🚨</span>
@@ -150,8 +150,8 @@ export function IngestFeed() {
         </div>
       )}
 
-      <div className="px-4 py-3 border-b border-[#2D3748] flex items-center gap-3">
-        <p className="text-xs text-[#4B5563] uppercase tracking-wider font-medium">Live Ingest Feed</p>
+      <div className="px-4 py-3 border-b border-[#26314D] flex items-center gap-3">
+        <p className="text-xs text-[#8891A8] uppercase tracking-wider font-medium">Live Ingest Feed</p>
         <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
         <div className="ml-auto">
           <button
@@ -164,7 +164,7 @@ export function IngestFeed() {
         </div>
       </div>
 
-      <div className="divide-y divide-[#2D3748] max-h-[400px] overflow-y-auto">
+      <div className="divide-y divide-[#26314D] max-h-[400px] overflow-y-auto">
         {isLoading ? (
           <div className="flex justify-center py-8"><Spinner /></div>
         ) : isError ? (
@@ -173,8 +173,8 @@ export function IngestFeed() {
           </div>
         ) : transactions.length === 0 ? (
           <div className="px-4 py-8 text-center">
-            <p className="text-sm text-[#94A3B8] mb-2">Waiting for payment-processor transactions.</p>
-            <p className="text-xs text-[#4B5563]">Webhook is listening. Click Simulate to test.</p>
+            <p className="text-sm text-[#8891A8] mb-2">Waiting for payment-processor transactions.</p>
+            <p className="text-xs text-[#8891A8]">Webhook is listening. Click Simulate to test.</p>
           </div>
         ) : (
           transactions.slice(0, 8).map((txn) => {
@@ -187,12 +187,12 @@ export function IngestFeed() {
             const timestamp = txn.date ?? txn.created_at ?? txn.createdAt
 
             return (
-              <div key={txn.id} className={`px-4 py-3 border-l-4 ${borderColor} hover:bg-[#1C2333] transition-colors`}>
+              <div key={txn.id} className={`px-4 py-3 border-l-4 ${borderColor} hover:bg-[#1B2540] transition-colors`}>
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-2 flex-1 min-w-0">
-                    <span className="text-sm text-[#F7F9FC] font-medium truncate">{truncate(senderName, 20)}</span>
-                    <span className="text-[#4B5563]">→</span>
-                    <span className="text-sm text-[#F7F9FC] truncate">{truncate(receiverName, 20)}</span>
+                    <span className="text-sm text-[#E8EAF0] font-medium truncate">{truncate(senderName, 20)}</span>
+                    <span className="text-[#8891A8]">→</span>
+                    <span className="text-sm text-[#E8EAF0] truncate">{truncate(receiverName, 20)}</span>
                   </div>
                   {isStripeReal && (
                     <span className="inline-flex items-center px-2 py-1 rounded brand-gradient-bg ml-2 shrink-0">
@@ -206,8 +206,8 @@ export function IngestFeed() {
                   )}
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono text-[#00D4AA]">{formatNaira(txn.amount ?? 0)}</span>
-                  <span className="text-xs text-[#4B5563]">{getRelativeTime(timestamp)}</span>
+                  <span className="text-xs font-mono text-[#4FA0A0]">{formatNaira(txn.amount ?? 0)}</span>
+                  <span className="text-xs text-[#8891A8]">{getRelativeTime(timestamp)}</span>
                 </div>
               </div>
             )

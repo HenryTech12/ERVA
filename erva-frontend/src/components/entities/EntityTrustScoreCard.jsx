@@ -15,7 +15,7 @@ export function EntityTrustScoreCard({ entityId }) {
 
   if (isLoading) {
     return (
-      <div className="bg-[#111827] border border-[#2D3748] rounded-lg p-6 flex justify-center">
+      <div className="bg-[#131B2E] border border-[#26314D] rounded-lg p-6 flex justify-center">
         <Spinner />
       </div>
     )
@@ -45,7 +45,7 @@ export function EntityTrustScoreCard({ entityId }) {
   }
 
   return (
-    <div className={`bg-[#111827] border-2 ${trust.borderClass} rounded-lg p-6 mb-4`}>
+    <div className={`bg-[#131B2E] border-2 ${trust.borderClass} rounded-lg p-6 mb-4`}>
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-4">
           <div className={`${trust.bgClass} ${trust.borderClass} border-2 rounded-lg px-4 py-3 flex items-center gap-2`}>
@@ -54,24 +54,24 @@ export function EntityTrustScoreCard({ entityId }) {
           </div>
           <div>
             <p className={`text-4xl font-bold font-mono ${trust.textClass}`}>{(riskScore * 100).toFixed(1)}%</p>
-            <p className="text-xs text-[#4B5563] mt-1">Trust Score</p>
+            <p className="text-xs text-[#8891A8] mt-1">Trust Score</p>
           </div>
         </div>
       </div>
 
       <div className="mb-4">
-        <p className="text-xs text-[#4B5563] uppercase tracking-wider mb-2">Evidence Summary</p>
+        <p className="text-xs text-[#8891A8] uppercase tracking-wider mb-2">Evidence Summary</p>
         <ul className="space-y-1.5">
           {evidencePoints.slice(0, 3).map((point, i) => (
-            <li key={i} className="text-sm text-[#94A3B8] flex items-start gap-2">
-              <span className="text-[#00D4AA] mt-0.5">•</span>
+            <li key={i} className="text-sm text-[#8891A8] flex items-start gap-2">
+              <span className="text-[#4FA0A0] mt-0.5">•</span>
               <span>{point}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="flex items-center gap-3 text-xs text-[#4B5563]">
+      <div className="flex items-center gap-3 text-xs text-[#8891A8]">
         <span>Last updated: {new Date(lastUpdated).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
         <span>·</span>
         <span>{linkedAlerts.length} open {linkedAlerts.length === 1 ? 'alert' : 'alerts'}</span>

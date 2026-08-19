@@ -18,64 +18,64 @@ export function TransactionList({ transactions, isLoading, showEntityLinks = fal
 
   if (!transactions?.length) {
     return (
-      <div className="py-8 text-center text-[#4B5563] text-sm">No transactions found</div>
+      <div className="py-8 text-center text-[#8891A8] text-sm">No transactions found</div>
     )
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-[#2D3748]">
+    <div className="overflow-x-auto rounded-lg border border-[#26314D]">
       <table className="w-full text-sm">
-        <thead className="bg-[#1C2333]">
+        <thead className="bg-[#1B2540]">
           <tr>
             {['Date', 'From', 'To', 'Amount', 'Channel', 'Flag'].map((h) => (
-              <th key={h} className="px-4 py-3 text-left text-[10px] uppercase tracking-wider text-[#4B5563] font-medium">{h}</th>
+              <th key={h} className="px-4 py-3 text-left text-[10px] uppercase tracking-wider text-[#8891A8] font-medium">{h}</th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#2D3748]">
+        <tbody className="divide-y divide-[#26314D]">
           {transactions.map((tx) => {
             const fromLabel = tx.fromEntityName ?? tx.fromEntity
             const toLabel = tx.toEntityName ?? tx.toEntity
 
             return (
-              <tr key={tx.id} className="bg-[#111827] hover:bg-[#1C2333] transition-colors">
-                <td className="px-4 py-3 text-[#94A3B8] font-mono text-xs whitespace-nowrap">{formatDateTime(tx.date)}</td>
+              <tr key={tx.id} className="bg-[#131B2E] hover:bg-[#1B2540] transition-colors">
+                <td className="px-4 py-3 text-[#8891A8] font-mono text-xs whitespace-nowrap">{formatDateTime(tx.date)}</td>
                 <td className="px-4 py-3 font-mono text-xs max-w-[140px] truncate">
                   {showEntityLinks && tx.fromEntity ? (
                     <button
                       onClick={() => navigate(`/entities/${tx.fromEntity}`)}
-                      className="text-[#00D4AA] hover:underline truncate block max-w-full"
+                      className="text-[#4FA0A0] hover:underline truncate block max-w-full"
                       title={fromLabel}
                     >
                       {fromLabel}
                     </button>
                   ) : (
-                    <span className="text-[#94A3B8]" title={fromLabel}>{fromLabel}</span>
+                    <span className="text-[#8891A8]" title={fromLabel}>{fromLabel}</span>
                   )}
                 </td>
                 <td className="px-4 py-3 font-mono text-xs max-w-[140px] truncate">
                   {showEntityLinks && tx.toEntity ? (
                     <button
                       onClick={() => navigate(`/entities/${tx.toEntity}`)}
-                      className="text-[#00D4AA] hover:underline truncate block max-w-full"
+                      className="text-[#4FA0A0] hover:underline truncate block max-w-full"
                       title={toLabel}
                     >
                       {toLabel}
                     </button>
                   ) : (
-                    <span className="text-[#94A3B8]" title={toLabel}>{toLabel}</span>
+                    <span className="text-[#8891A8]" title={toLabel}>{toLabel}</span>
                   )}
                 </td>
-                <td className="px-4 py-3 text-[#F7F9FC] font-mono text-xs whitespace-nowrap">{formatNairaShort(tx.amount)}</td>
+                <td className="px-4 py-3 text-[#E8EAF0] font-mono text-xs whitespace-nowrap">{formatNairaShort(tx.amount)}</td>
                 <td className="px-4 py-3 text-xs">
                   {tx.channel === 'stripe' ? (
                     <ProcessorBadge />
                   ) : (
-                    <span className="text-[#94A3B8]">{tx.channel}</span>
+                    <span className="text-[#8891A8]">{tx.channel}</span>
                   )}
                 </td>
                 <td className="px-4 py-3 text-xs">
-                  <span className={`font-mono font-medium ${FLAG_COLORS[tx.flag] ?? 'text-[#94A3B8]'}`}>
+                  <span className={`font-mono font-medium ${FLAG_COLORS[tx.flag] ?? 'text-[#8891A8]'}`}>
                     {tx.flag ?? '—'}
                   </span>
                 </td>

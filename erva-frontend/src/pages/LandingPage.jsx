@@ -44,10 +44,10 @@ function IconShield({ className, style }) {
   )
 }
 
-const DARK = '#0A1628'
-const ACCENT = '#00D68F'
-const BRAND_FROM = '#FF4C1D'
-const BRAND_TO = '#9B0063'
+const DARK = '#0B1220'
+const ACCENT = '#4FA0A0'
+const BRAND_FROM = '#4FA0A0'
+const BRAND_TO = '#1F4747'
 const BRAND_GRADIENT = `linear-gradient(135deg, ${BRAND_FROM}, ${BRAND_TO})`
 
 /* ─── Scroll-fade observer ─────────────────────────────────────────────────── */
@@ -89,55 +89,55 @@ function HeroGraph() {
       </defs>
 
       {/* ── Edges: ring → hub ── */}
-      <line x1="175" y1="120" x2="317" y2="198" stroke="#EF4444" strokeWidth="1.5" strokeOpacity="0.45" />
-      <line x1="465" y1="120" x2="323" y2="198" stroke="#EF4444" strokeWidth="1.5" strokeOpacity="0.45" />
-      <line x1="150" y1="292" x2="315" y2="208" stroke="#EF4444" strokeWidth="1.5" strokeOpacity="0.45" />
-      <line x1="490" y1="292" x2="325" y2="208" stroke="#EF4444" strokeWidth="1.5" strokeOpacity="0.45" />
+      <line x1="175" y1="120" x2="317" y2="198" stroke="#E8A33D" strokeWidth="1.5" strokeOpacity="0.45" />
+      <line x1="465" y1="120" x2="323" y2="198" stroke="#E8A33D" strokeWidth="1.5" strokeOpacity="0.45" />
+      <line x1="150" y1="292" x2="315" y2="208" stroke="#E8A33D" strokeWidth="1.5" strokeOpacity="0.45" />
+      <line x1="490" y1="292" x2="325" y2="208" stroke="#E8A33D" strokeWidth="1.5" strokeOpacity="0.45" />
 
       {/* ── Edges: feeder → ring ── */}
-      <line x1="82"  y1="185" x2="172" y2="122" stroke="#94A3B8" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="82"  y1="185" x2="152" y2="290" stroke="#94A3B8" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="558" y1="185" x2="463" y2="122" stroke="#94A3B8" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="558" y1="185" x2="488" y2="290" stroke="#94A3B8" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="232" y1="362" x2="152" y2="295" stroke="#94A3B8" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="408" y1="362" x2="488" y2="295" stroke="#94A3B8" strokeWidth="1" strokeOpacity="0.3" />
+      <line x1="82"  y1="185" x2="172" y2="122" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
+      <line x1="82"  y1="185" x2="152" y2="290" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
+      <line x1="558" y1="185" x2="463" y2="122" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
+      <line x1="558" y1="185" x2="488" y2="290" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
+      <line x1="232" y1="362" x2="152" y2="295" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
+      <line x1="408" y1="362" x2="488" y2="295" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.3" />
 
       {/* ── Edges: entry → feeder ── */}
-      <line x1="62"  y1="72"  x2="80"  y2="182" stroke="#4B5563" strokeWidth="1" strokeOpacity="0.4" />
-      <line x1="578" y1="72"  x2="556" y2="182" stroke="#4B5563" strokeWidth="1" strokeOpacity="0.4" />
-      <line x1="320" y1="48"  x2="175" y2="118" stroke="#4B5563" strokeWidth="1" strokeOpacity="0.4" />
-      <line x1="320" y1="48"  x2="465" y2="118" stroke="#4B5563" strokeWidth="1" strokeOpacity="0.4" />
+      <line x1="62"  y1="72"  x2="80"  y2="182" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.4" />
+      <line x1="578" y1="72"  x2="556" y2="182" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.4" />
+      <line x1="320" y1="48"  x2="175" y2="118" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.4" />
+      <line x1="320" y1="48"  x2="465" y2="118" stroke="#8891A8" strokeWidth="1" strokeOpacity="0.4" />
 
       {/* ── Dashed cross-ring ── */}
-      <line x1="175" y1="120" x2="465" y2="120" stroke="#4B5563" strokeWidth="0.8" strokeOpacity="0.22" strokeDasharray="4,5" />
-      <line x1="150" y1="292" x2="490" y2="292" stroke="#4B5563" strokeWidth="0.8" strokeOpacity="0.22" strokeDasharray="4,5" />
+      <line x1="175" y1="120" x2="465" y2="120" stroke="#8891A8" strokeWidth="0.8" strokeOpacity="0.22" strokeDasharray="4,5" />
+      <line x1="150" y1="292" x2="490" y2="292" stroke="#8891A8" strokeWidth="0.8" strokeOpacity="0.22" strokeDasharray="4,5" />
 
       {/* ── Pulsing halos on HIGH nodes ── */}
-      <circle cx="320" cy="205" r="28" fill="none" stroke="#EF4444" strokeWidth="1.5" className="lg-halo-1" />
-      <circle cx="175" cy="120" r="19" fill="none" stroke="#EF4444" strokeWidth="1"   className="lg-halo-2" />
-      <circle cx="465" cy="120" r="19" fill="none" stroke="#EF4444" strokeWidth="1"   className="lg-halo-3" />
-      <circle cx="150" cy="292" r="19" fill="none" stroke="#EF4444" strokeWidth="1"   className="lg-halo-4" />
-      <circle cx="490" cy="292" r="19" fill="none" stroke="#EF4444" strokeWidth="1"   className="lg-halo-5" />
+      <circle cx="320" cy="205" r="28" fill="none" stroke="#E8A33D" strokeWidth="1.5" className="lg-halo-1" />
+      <circle cx="175" cy="120" r="19" fill="none" stroke="#E8A33D" strokeWidth="1"   className="lg-halo-2" />
+      <circle cx="465" cy="120" r="19" fill="none" stroke="#E8A33D" strokeWidth="1"   className="lg-halo-3" />
+      <circle cx="150" cy="292" r="19" fill="none" stroke="#E8A33D" strokeWidth="1"   className="lg-halo-4" />
+      <circle cx="490" cy="292" r="19" fill="none" stroke="#E8A33D" strokeWidth="1"   className="lg-halo-5" />
 
       {/* ── LOW risk nodes (green) ── */}
-      <circle cx="62"  cy="72"  r="8" fill="#22C55E22" stroke="#22C55E" strokeWidth="2" />
-      <circle cx="578" cy="72"  r="8" fill="#22C55E22" stroke="#22C55E" strokeWidth="2" />
-      <circle cx="320" cy="48"  r="8" fill="#22C55E22" stroke="#22C55E" strokeWidth="2" />
+      <circle cx="62"  cy="72"  r="8" fill="#4FA0A022" stroke="#4FA0A0" strokeWidth="2" />
+      <circle cx="578" cy="72"  r="8" fill="#4FA0A022" stroke="#4FA0A0" strokeWidth="2" />
+      <circle cx="320" cy="48"  r="8" fill="#4FA0A022" stroke="#4FA0A0" strokeWidth="2" />
 
       {/* ── MEDIUM risk nodes (amber) ── */}
-      <circle cx="82"  cy="185" r="9" fill="#F59E0B22" stroke="#F59E0B" strokeWidth="2" />
-      <circle cx="558" cy="185" r="9" fill="#F59E0B22" stroke="#F59E0B" strokeWidth="2" />
-      <circle cx="232" cy="362" r="9" fill="#F59E0B22" stroke="#F59E0B" strokeWidth="2" />
-      <circle cx="408" cy="362" r="9" fill="#F59E0B22" stroke="#F59E0B" strokeWidth="2" />
+      <circle cx="82"  cy="185" r="9" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2" />
+      <circle cx="558" cy="185" r="9" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2" />
+      <circle cx="232" cy="362" r="9" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2" />
+      <circle cx="408" cy="362" r="9" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2" />
 
       {/* ── HIGH risk ring nodes (red, glowing) ── */}
-      <circle cx="175" cy="120" r="10" fill="#EF444422" stroke="#EF4444" strokeWidth="2"   filter="url(#hg-glow)" />
-      <circle cx="465" cy="120" r="10" fill="#EF444422" stroke="#EF4444" strokeWidth="2"   filter="url(#hg-glow)" />
-      <circle cx="150" cy="292" r="10" fill="#EF444422" stroke="#EF4444" strokeWidth="2"   filter="url(#hg-glow)" />
-      <circle cx="490" cy="292" r="10" fill="#EF444422" stroke="#EF4444" strokeWidth="2"   filter="url(#hg-glow)" />
+      <circle cx="175" cy="120" r="10" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2"   filter="url(#hg-glow)" />
+      <circle cx="465" cy="120" r="10" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2"   filter="url(#hg-glow)" />
+      <circle cx="150" cy="292" r="10" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2"   filter="url(#hg-glow)" />
+      <circle cx="490" cy="292" r="10" fill="#E8A33D22" stroke="#E8A33D" strokeWidth="2"   filter="url(#hg-glow)" />
 
       {/* ── Hub: POS beneficiary (largest, most prominent) ── */}
-      <circle cx="320" cy="205" r="15" fill="#EF444433" stroke="#EF4444" strokeWidth="2.5" filter="url(#hg-glow)" />
+      <circle cx="320" cy="205" r="15" fill="#E8A33D33" stroke="#E8A33D" strokeWidth="2.5" filter="url(#hg-glow)" />
     </svg>
   )
 }
@@ -157,13 +157,13 @@ function DeploymentDiagram() {
           <path d="M0,1 L6,3.5 L0,6 Z" fill={ACCENT} />
         </marker>
         <marker id="dd-arr-gray" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
-          <path d="M0,1 L6,3.5 L0,6 Z" fill="#9CA3AF" />
+          <path d="M0,1 L6,3.5 L0,6 Z" fill="#8891A8" />
         </marker>
       </defs>
 
       {/* Outer boundary */}
-      <rect x="18" y="22" width="310" height="242" rx="10" fill="none" stroke="#D1D5DB" strokeWidth="1.5" strokeDasharray="7,4" />
-      <text x="173" y="16" textAnchor="middle" fontSize="9.5" fill="#9CA3AF" fontFamily="DM Sans, sans-serif" letterSpacing="1.5">YOUR INFRASTRUCTURE</text>
+      <rect x="18" y="22" width="310" height="242" rx="10" fill="none" stroke="#8891A8" strokeWidth="1.5" strokeDasharray="7,4" />
+      <text x="173" y="16" textAnchor="middle" fontSize="9.5" fill="#8891A8" fontFamily="DM Sans, sans-serif" letterSpacing="1.5">YOUR INFRASTRUCTURE</text>
 
       {/* ERVA Engine box */}
       <rect x="44" y="46" width="258" height="56" rx="6" fill="#F0FFF8" stroke={ACCENT} strokeWidth="1.5" />
@@ -171,25 +171,25 @@ function DeploymentDiagram() {
       <text x="173" y="86" textAnchor="middle" fontSize="9" fill="#6B7280" fontFamily="DM Sans, sans-serif">FastAPI  ·  Redis Queue  ·  Detection Workers</text>
 
       {/* Connector tree */}
-      <line x1="173" y1="102" x2="173" y2="130" stroke="#D1D5DB" strokeWidth="1.5" />
-      <line x1="92"  y1="130" x2="254" y2="130" stroke="#D1D5DB" strokeWidth="1.5" />
-      <line x1="92"  y1="130" x2="92"  y2="148" stroke="#D1D5DB" strokeWidth="1.5" />
-      <line x1="254" y1="130" x2="254" y2="148" stroke="#D1D5DB" strokeWidth="1.5" />
+      <line x1="173" y1="102" x2="173" y2="130" stroke="#8891A8" strokeWidth="1.5" />
+      <line x1="92"  y1="130" x2="254" y2="130" stroke="#8891A8" strokeWidth="1.5" />
+      <line x1="92"  y1="130" x2="92"  y2="148" stroke="#8891A8" strokeWidth="1.5" />
+      <line x1="254" y1="130" x2="254" y2="148" stroke="#8891A8" strokeWidth="1.5" />
 
       {/* Neo4j */}
       <rect x="34"  y="148" width="116" height="52" rx="6" fill="#F9FAFB" stroke="#E5E7EB" strokeWidth="1" />
-      <text x="92"  y="170" textAnchor="middle" fontSize="10" fill="#111827" fontFamily="DM Sans, sans-serif" fontWeight="600">Neo4j Graph</text>
+      <text x="92"  y="170" textAnchor="middle" fontSize="10" fill="#131B2E" fontFamily="DM Sans, sans-serif" fontWeight="600">Neo4j Graph</text>
       <text x="92"  y="186" textAnchor="middle" fontSize="8.5" fill="#6B7280" fontFamily="DM Sans, sans-serif">Entity relationships</text>
 
       {/* PostgreSQL */}
       <rect x="196" y="148" width="116" height="52" rx="6" fill="#F9FAFB" stroke="#E5E7EB" strokeWidth="1" />
-      <text x="254" y="170" textAnchor="middle" fontSize="10" fill="#111827" fontFamily="DM Sans, sans-serif" fontWeight="600">PostgreSQL</text>
+      <text x="254" y="170" textAnchor="middle" fontSize="10" fill="#131B2E" fontFamily="DM Sans, sans-serif" fontWeight="600">PostgreSQL</text>
       <text x="254" y="186" textAnchor="middle" fontSize="8.5" fill="#6B7280" fontFamily="DM Sans, sans-serif">Transactions · Alerts</text>
 
       {/* Transaction input (from right) */}
-      <text x="375" y="68" textAnchor="middle" fontSize="9" fill="#9CA3AF" fontFamily="DM Sans, sans-serif">Transactions</text>
-      <line x1="375" y1="73" x2="375" y2="84" stroke="#9CA3AF" strokeWidth="1.2" />
-      <line x1="375" y1="84" x2="305" y2="70" stroke="#9CA3AF" strokeWidth="1.2" markerEnd="url(#dd-arr-gray)" />
+      <text x="375" y="68" textAnchor="middle" fontSize="9" fill="#8891A8" fontFamily="DM Sans, sans-serif">Transactions</text>
+      <line x1="375" y1="73" x2="375" y2="84" stroke="#8891A8" strokeWidth="1.2" />
+      <line x1="375" y1="84" x2="305" y2="70" stroke="#8891A8" strokeWidth="1.2" markerEnd="url(#dd-arr-gray)" />
 
       {/* STR output → NFIU */}
       <line x1="92" y1="200" x2="92" y2="240" stroke={ACCENT} strokeWidth="1.5" />
@@ -237,12 +237,12 @@ function Nav() {
 
         {/* Links + CTA */}
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-          <button onClick={() => scrollTo('how-it-works')} className="text-sm text-[#94A3B8] hover:text-white transition-colors bg-transparent border-0 cursor-pointer">How It Works</button>
-          <button onClick={() => scrollTo('why-nigeria')}  className="text-sm text-[#94A3B8] hover:text-white transition-colors bg-transparent border-0 cursor-pointer">Why Nigeria</button>
-          <a href="mailto:damilareodebiyi3@gmail.com"       className="text-sm text-[#94A3B8] hover:text-white transition-colors no-underline">Contact</a>
+          <button onClick={() => scrollTo('how-it-works')} className="text-sm text-[#8891A8] hover:text-white transition-colors bg-transparent border-0 cursor-pointer">How It Works</button>
+          <button onClick={() => scrollTo('why-nigeria')}  className="text-sm text-[#8891A8] hover:text-white transition-colors bg-transparent border-0 cursor-pointer">Why Nigeria</button>
+          <a href="mailto:damilareodebiyi3@gmail.com"       className="text-sm text-[#8891A8] hover:text-white transition-colors no-underline">Contact</a>
           {/* Hackathon badge */}
           <div className="hidden sm:flex items-center gap-2 border border-white/10 rounded-full px-3 py-1">
-            <span style={{ fontSize: '10px', color: '#64748B', fontFamily: 'monospace' }}>QuantumHacks 2026</span>
+            <span style={{ fontSize: '10px', color: '#8891A8', fontFamily: 'monospace' }}>QuantumHacks 2026</span>
           </div>
           <a
             href="/dashboard"
@@ -262,7 +262,7 @@ export default function LandingPage() {
   useFadeUp()
 
   return (
-    <div style={{ background: DARK, color: '#F7F9FC' }}>
+    <div style={{ background: DARK, color: '#E8EAF0' }}>
       <Nav />
 
       {/* ════════════════════════════════════════════════════════════════════
@@ -293,14 +293,14 @@ export default function LandingPage() {
 
               <p
                 className="mb-4"
-                style={{ fontSize: '1.15rem', fontWeight: 500, color: '#CBD5E1', lineHeight: 1.55 }}
+                style={{ fontSize: '1.15rem', fontWeight: 500, color: '#E8EAF0', lineHeight: 1.55 }}
               >
                 Network-based trust verification built for how money actually moves in Nigeria.
               </p>
 
               <p
                 className="mb-10"
-                style={{ fontSize: '1rem', color: '#94A3B8', lineHeight: 1.7, maxWidth: '480px' }}
+                style={{ fontSize: '1rem', color: '#8891A8', lineHeight: 1.7, maxWidth: '480px' }}
               >
                 ERVA — Entity Risk &amp; Verification Analytics — watches every transaction from any payment processor in real time. It builds a live relationship graph, detects fraud patterns threshold-based tools miss, re-isolates flagged rings with a quantum-inspired optimizer, and auto-drafts NFIU-compliant STRs when patterns are confirmed.
               </p>
@@ -317,11 +317,11 @@ export default function LandingPage() {
             {/* Right: SVG graph */}
             <div
               className="rounded-xl overflow-hidden"
-              style={{ background: '#060E1E', border: '1px solid #1E3358', aspectRatio: '16/10' }}
+              style={{ background: '#060E1E', border: '1px solid #26314D', aspectRatio: '16/10' }}
             >
               <div
                 className="flex items-center gap-2 px-4 py-2.5 border-b"
-                style={{ borderColor: '#1E3358' }}
+                style={{ borderColor: '#26314D' }}
               >
                 <span className="w-2 h-2 rounded-full bg-red-500/70" />
                 <span className="w-2 h-2 rounded-full bg-amber-500/70" />
@@ -354,7 +354,7 @@ export default function LandingPage() {
             >
               8 accounts. Each one clean. All sending to the same beneficiary. Your current system sees nothing.
             </h2>
-            <p style={{ fontSize: '1.05rem', color: '#4B5563', lineHeight: 1.7 }}>
+            <p style={{ fontSize: '1.05rem', color: '#8891A8', lineHeight: 1.7 }}>
               Traditional AML tools check entities one by one. Financial crime is coordinated. The gap between individual checks and network reality is where billions disappear.
             </p>
           </div>
@@ -398,7 +398,7 @@ export default function LandingPage() {
                 >
                   {title}
                 </h3>
-                <p style={{ fontSize: '0.9rem', color: '#64748B', lineHeight: 1.7 }}>{body}</p>
+                <p style={{ fontSize: '0.9rem', color: '#8891A8', lineHeight: 1.7 }}>{body}</p>
               </div>
             ))}
           </div>
@@ -430,7 +430,7 @@ export default function LandingPage() {
           </div>
 
           {/* Pipeline */}
-          <div className="lg-fade grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px rounded-xl overflow-hidden mb-16" style={{ border: '1px solid #1E3358', background: '#1E3358' }}>
+          <div className="lg-fade grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px rounded-xl overflow-hidden mb-16" style={{ border: '1px solid #26314D', background: '#26314D' }}>
             {[
               { n: '01', title: 'Ingest',  desc: 'Every transaction processed through a connected payment processor fires a real-time webhook into ERVA. The moment money moves, ERVA knows.' },
               { n: '02', title: 'Resolve Entities', desc: 'Deduplication across BVN, NIN, account numbers, and name similarity. One person, one node — regardless of how many accounts they hold.' },
@@ -453,7 +453,7 @@ export default function LandingPage() {
                 <h3 className="font-semibold text-white mb-2" style={{ fontSize: '0.95rem' }}>
                   {title}
                 </h3>
-                <p style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.6 }}>{desc}</p>
+                <p style={{ fontSize: '0.82rem', color: '#8891A8', lineHeight: 1.6 }}>{desc}</p>
               </div>
             ))}
           </div>
@@ -467,13 +467,13 @@ export default function LandingPage() {
               >
                 How the graph model works
               </h3>
-              <p className="mb-4" style={{ fontSize: '0.95rem', color: '#94A3B8', lineHeight: 1.75 }}>
-                Every person, business, and account is a <strong style={{ color: '#CBD5E1' }}>node</strong>. Every transaction is an <strong style={{ color: '#CBD5E1' }}>edge</strong>. ERVA maps the full relationship network and evaluates topology — not individual records. When a subgraph crosses the alert threshold, the STR is drafted automatically and queued for analyst review.
+              <p className="mb-4" style={{ fontSize: '0.95rem', color: '#8891A8', lineHeight: 1.75 }}>
+                Every person, business, and account is a <strong style={{ color: '#E8EAF0' }}>node</strong>. Every transaction is an <strong style={{ color: '#E8EAF0' }}>edge</strong>. ERVA maps the full relationship network and evaluates topology — not individual records. When a subgraph crosses the alert threshold, the STR is drafted automatically and queued for analyst review.
               </p>
-              <p className="mb-4" style={{ fontSize: '0.95rem', color: '#94A3B8', lineHeight: 1.75 }}>
+              <p className="mb-4" style={{ fontSize: '0.95rem', color: '#8891A8', lineHeight: 1.75 }}>
                 The detection engine evaluates subgraph topology — not individual records — to surface patterns like cash-out rings, layered transfer chains, and shell director webs. A risk score is computed per entity and propagates to connected nodes the moment a suspicious pattern is confirmed.
               </p>
-              <p style={{ fontSize: '0.95rem', color: '#94A3B8', lineHeight: 1.75 }}>
+              <p style={{ fontSize: '0.95rem', color: '#8891A8', lineHeight: 1.75 }}>
                 When a flagged subgraph crosses the alert threshold, ERVA assembles the evidence package and passes it to the STR generation pipeline. Your verification analyst reviews a structured draft — they never write from scratch.
               </p>
             </div>
@@ -481,7 +481,7 @@ export default function LandingPage() {
               {/* Image is 288×175 — displayed in a framed card, no upscaling */}
               <div
                 className="rounded-xl overflow-hidden w-full"
-                style={{ background: '#0D1B2E', border: '1px solid #1E3358', padding: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '220px' }}
+                style={{ background: '#0D1B2E', border: '1px solid #26314D', padding: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '220px' }}
               >
                 <img
                   src="/compliance-officer-screen.jpg"
@@ -507,7 +507,7 @@ export default function LandingPage() {
             >
               The fraud patterns destroying Nigerian financial institutions aren't in the textbooks. They're in the streets.
             </h2>
-            <p style={{ fontSize: '1.05rem', color: '#4B5563', lineHeight: 1.7 }}>
+            <p style={{ fontSize: '1.05rem', color: '#8891A8', lineHeight: 1.7 }}>
               Global AML tools were built for global fraud. ERVA was built for the patterns that move through Nigerian POS networks, mobile money agents, bureau de change corridors, and informal channels. The difference is everything.
             </p>
           </div>
@@ -560,7 +560,7 @@ export default function LandingPage() {
                   >
                     {title}
                   </h3>
-                  <p style={{ fontSize: '0.875rem', color: '#64748B', lineHeight: 1.7 }}>{body}</p>
+                  <p style={{ fontSize: '0.875rem', color: '#8891A8', lineHeight: 1.7 }}>{body}</p>
                 </div>
               ))}
             </div>
@@ -606,7 +606,7 @@ export default function LandingPage() {
               <div
                 key={title}
                 className="lg-fade rounded-xl p-7"
-                style={{ background: '#0D1B2E', border: '1px solid #1E3358', transitionDelay: delay }}
+                style={{ background: '#0D1B2E', border: '1px solid #26314D', transitionDelay: delay }}
               >
                 <div
                   className="w-11 h-11 rounded-lg flex items-center justify-center mb-6"
@@ -620,7 +620,7 @@ export default function LandingPage() {
                 >
                   {title}
                 </h3>
-                <p style={{ fontSize: '0.875rem', color: '#64748B', lineHeight: 1.75 }}>{body}</p>
+                <p style={{ fontSize: '0.875rem', color: '#8891A8', lineHeight: 1.75 }}>{body}</p>
               </div>
             ))}
           </div>
@@ -651,16 +651,16 @@ export default function LandingPage() {
               >
                 Your data never leaves your walls.
               </h2>
-              <p className="mb-5" style={{ fontSize: '1rem', color: '#4B5563', lineHeight: 1.75 }}>
+              <p className="mb-5" style={{ fontSize: '1rem', color: '#8891A8', lineHeight: 1.75 }}>
                 ERVA deploys inside your own infrastructure — your cloud tenant, your private server, or a dedicated instance we manage. Your transaction data never leaves your environment. The only data that moves is what you choose to send to NFIU — and only when your analyst approves it.
               </p>
-              <p className="mb-5" style={{ fontSize: '1rem', color: '#4B5563', lineHeight: 1.75 }}>
+              <p className="mb-5" style={{ fontSize: '1rem', color: '#8891A8', lineHeight: 1.75 }}>
                 We provide the software. You keep the keys.
               </p>
-              <p className="mb-10" style={{ fontSize: '1rem', color: '#4B5563', lineHeight: 1.75 }}>
+              <p className="mb-10" style={{ fontSize: '1rem', color: '#8891A8', lineHeight: 1.75 }}>
                 The Neo4j graph database, PostgreSQL transaction store, and ERVA detection engine run on your compute. STR reports are the only data that leave — and only to NFIU, by your verification analyst's action.
               </p>
-              <p className="mb-10" style={{ fontSize: '1rem', color: '#4B5563', lineHeight: 1.75 }}>
+              <p className="mb-10" style={{ fontSize: '1rem', color: '#8891A8', lineHeight: 1.75 }}>
                 Transactions are received via secure payment-processor webhook. ERVA processes them entirely within your infrastructure — the processor moves the money, your walls control the data.
               </p>
               <div
@@ -695,7 +695,7 @@ export default function LandingPage() {
             >
               See the network.<br />Verify the truth.<br />Protect the system.
             </h2>
-            <p className="mb-10" style={{ fontSize: '1.05rem', color: '#94A3B8', lineHeight: 1.65 }}>
+            <p className="mb-10" style={{ fontSize: '1.05rem', color: '#8891A8', lineHeight: 1.65 }}>
               Built for Nigerian financial institutions that take compliance seriously.
             </p>
             <a
@@ -715,7 +715,7 @@ export default function LandingPage() {
       {/* ════════════════════════════════════════════════════════════════════
           SECTION 9 — FOOTER
       ════════════════════════════════════════════════════════════════════ */}
-      <footer style={{ background: DARK, borderTop: '1px solid #1E3358', paddingTop: '48px', paddingBottom: '48px' }}>
+      <footer style={{ background: DARK, borderTop: '1px solid #26314D', paddingTop: '48px', paddingBottom: '48px' }}>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid sm:grid-cols-3 gap-10 mb-10">
             {/* Logo + tagline */}
@@ -744,16 +744,16 @@ export default function LandingPage() {
             {/* Links */}
             <div className="flex flex-col gap-3">
               <p style={{ fontSize: '0.75rem', color: '#374151', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Navigation</p>
-              <button onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })} className="text-left text-sm bg-transparent border-0 cursor-pointer" style={{ color: '#64748B' }}>How It Works</button>
-              <button onClick={() => document.getElementById('why-nigeria')?.scrollIntoView({ behavior: 'smooth' })}  className="text-left text-sm bg-transparent border-0 cursor-pointer" style={{ color: '#64748B' }}>Why Nigeria</button>
-              <a href="/dashboard" className="text-sm no-underline" style={{ color: '#64748B' }}>Open Dashboard</a>
+              <button onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })} className="text-left text-sm bg-transparent border-0 cursor-pointer" style={{ color: '#8891A8' }}>How It Works</button>
+              <button onClick={() => document.getElementById('why-nigeria')?.scrollIntoView({ behavior: 'smooth' })}  className="text-left text-sm bg-transparent border-0 cursor-pointer" style={{ color: '#8891A8' }}>Why Nigeria</button>
+              <a href="/dashboard" className="text-sm no-underline" style={{ color: '#8891A8' }}>Open Dashboard</a>
             </div>
 
             {/* Recognition */}
             <div>
               <p style={{ fontSize: '0.75rem', color: '#374151', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '12px' }}>Built for</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                <span style={{ fontSize: '0.85rem', color: '#FF6B3D', fontWeight: 600 }}>QuantumHacks 2026</span>
+                <span style={{ fontSize: '0.85rem', color: '#4FA0A0', fontWeight: 600 }}>QuantumHacks 2026</span>
               </div>
               <p style={{ fontSize: '0.82rem', color: '#475569', lineHeight: 1.65 }}>
                 Hosted by ML Empowerment Foundation
@@ -761,7 +761,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div style={{ borderTop: '1px solid #1E3358', paddingTop: '24px' }}>
+          <div style={{ borderTop: '1px solid #26314D', paddingTop: '24px' }}>
             <p style={{ fontSize: '0.8rem', color: '#374151' }}>
               © 2026 ERVA. All rights reserved.
             </p>

@@ -7,7 +7,7 @@ export function deriveRiskLevel(score) {
 
 export function riskColor(score) {
   const level = deriveRiskLevel(score)
-  if (level === 'HIGH') return '#ef4444'
-  if (level === 'MEDIUM') return '#f59e0b'
-  return '#22c55e'
+  if (level === 'HIGH') return '#e8a33d'
+  if (level === 'MEDIUM') return '#e8a33d'
+  return '#4fa0a0'
 }

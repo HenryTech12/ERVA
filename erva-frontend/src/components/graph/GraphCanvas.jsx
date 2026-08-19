@@ -3,9 +3,17 @@ import * as d3 from 'd3'
 import { riskNodeColor } from '@/utils/riskColors'
 import { NodeTooltip } from './NodeTooltip'
 
+function prefersReducedMotion() {
+  return typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+}
+
 // height prop is optional — if provided the container uses that fixed px height,
 // otherwise it stretches to fill its flex parent (use inside a flex-1 container).
-export function GraphCanvas({ nodes, links, onNodeClick, height }) {
+// splitGroups is optional — { groupIds: Set<string>, groupColor, restColor } — when
+// set, nodes in groupIds visibly separate from the rest as the simulation settles
+// (used by the Quantum Isolation panel to animate the partition happening live).
+// Respects prefers-reduced-motion by jumping straight to the final split instead.
+export function GraphCanvas({ nodes, links, onNodeClick, height, splitGroups }) {
   const containerRef = useRef(null)
   const svgRef = useRef(null)
   const simRef = useRef(null)
@@ -21,12 +29,14 @@ export function GraphCanvas({ nodes, links, onNodeClick, height }) {
 
     d3.select(el).selectAll('*').remove()
 
+    const reducedMotion = prefersReducedMotion()
     const nodeData = nodes.map((n) => ({ ...n }))
     const linkData = links.map((l) => ({
       source: typeof l.source === 'object' ? l.source.id : l.source,
       target: typeof l.target === 'object' ? l.target.id : l.target,
       value: l.value,
     }))
+
 
     const svg = d3.select(el).attr('width', width).attr('height', height)
     const g = svg.append('g')
@@ -58,9 +68,15 @@ export function GraphCanvas({ nodes, links, onNodeClick, height }) {
       .force('charge',    d3.forceManyBody().strength(charge))
       .force('center',    d3.forceCenter(width / 2, height / 2))
       .force('collision', d3.forceCollide(collide))
-      .force('x',         d3.forceX(width  / 2).strength(0.04))
+      .force('x',         d3.forceX(width  / 2).strength(splitGroups ? 0.02 : 0.04))
       .force('y',         d3.forceY(height / 2).strength(0.04))
-      .alphaDecay(0.015) // slower cooling → better spread
+      .alphaDecay(reducedMotion ? 0.4 : 0.015) // reduced motion: converge in a couple of ticks, not a visible drift
+
+    if (splitGroups) {
+      // Pull the isolated ring toward one side, everything else toward the
+      // other — this is what makes the partition visibly happen on screen.
+      sim.force('split-x', d3.forceX((d) => splitGroups.groupIds.has(d.id) ? width * 0.28 : width * 0.72).strength(0.35))
+    }
 
     simRef.current = sim
 
@@ -68,7 +84,7 @@ export function GraphCanvas({ nodes, links, onNodeClick, height }) {
       .selectAll('line')
       .data(linkData)
       .join('line')
-      .attr('stroke', '#2D3748')
+      .attr('stroke', '#26314D')
       .attr('stroke-width', (d) => Math.max(0.8, Math.sqrt((d.value ?? 50) / 50)))
       .attr('stroke-opacity', 0.55)
 
@@ -84,19 +100,24 @@ export function GraphCanvas({ nodes, links, onNodeClick, height }) {
           .on('end',   (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null })
       )
 
+    const nodeColor = splitGroups
+      ? (d) => (splitGroups.groupIds.has(d.id) ? splitGroups.groupColor : splitGroups.restColor)
+      : (d) => riskNodeColor[d.risk] ?? '#3B82F6'
+
     node.append('circle')
       .attr('r', 10)
-      .attr('fill', (d) => riskNodeColor[d.risk] ?? '#3B82F6')
+      .attr('fill', nodeColor)
       .attr('fill-opacity', 0.2)
-      .attr('stroke', (d) => riskNodeColor[d.risk] ?? '#3B82F6')
+      .attr('stroke', nodeColor)
       .attr('stroke-width', 2)
-      .style('filter', (d) => d.risk === 'HIGH' ? 'url(#glow)' : 'none')
+      .style('filter', (d) => (splitGroups ? splitGroups.groupIds.has(d.id) : d.risk === 'HIGH') ? 'url(#glow)' : 'none')
+      .style('transition', reducedMotion ? 'none' : 'fill 0.3s, stroke 0.3s')
 
     node.append('text')
       .text((d) => (d.label ?? d.id ?? '').slice(0, 20))
       .attr('x', 14)
       .attr('y', 4)
-      .attr('fill', '#94A3B8')
+      .attr('fill', '#8891A8')
       .attr('font-size', '10px')
       .attr('font-family', 'JetBrains Mono, monospace')
       .style('pointer-events', 'none')
@@ -146,7 +167,7 @@ export function GraphCanvas({ nodes, links, onNodeClick, height }) {
 
     return () => sim.stop()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodes, links])
+  }, [nodes, links, splitGroups])
 
   // Re-render whenever node/link data changes
   useEffect(() => {

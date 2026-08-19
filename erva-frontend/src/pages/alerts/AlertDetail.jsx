@@ -35,7 +35,7 @@ export default function AlertDetail() {
   const { nodes: subNodes, links: subLinks } = useGraphLayout('ALL', { nodes: rawNodes, links: rawLinks })
 
   if (isLoading) return <div className="flex justify-center py-16"><Spinner size="lg" /></div>
-  if (!alert) return <div className="text-center py-16 text-[#4B5563]">Alert not found</div>
+  if (!alert) return <div className="text-center py-16 text-[#8891A8]">Alert not found</div>
 
   const handleGenerateSTR = async () => {
     setStrLoading(true)
@@ -145,17 +145,17 @@ export default function AlertDetail() {
       />
 
       {/* Pattern + Score */}
-      <div className="bg-[#111827] border border-[#2D3748] rounded-lg p-4 mb-4 flex items-center justify-between">
+      <div className="bg-[#131B2E] border border-[#26314D] rounded-lg p-4 mb-4 flex items-center justify-between">
         <div>
-          <p className="text-sm font-semibold text-[#F7F9FC]">
+          <p className="text-sm font-semibold text-[#E8EAF0]">
             {PATTERN_LABELS[alert.patternType] ?? alert.patternType}
           </p>
-          <p className="text-xs text-[#94A3B8] mt-0.5">{alert.reason}</p>
-          <p className="text-xs text-[#4B5563] mt-0.5">{alert.entityIds?.length ?? 0} entities involved</p>
+          <p className="text-xs text-[#8891A8] mt-0.5">{alert.reason}</p>
+          <p className="text-xs text-[#8891A8] mt-0.5">{alert.entityIds?.length ?? 0} entities involved</p>
         </div>
         <div className="text-right">
           <p className="text-2xl font-bold font-mono text-red-400">{(alert.riskScore * 100).toFixed(0)}%</p>
-          <p className="text-xs text-[#4B5563]">Risk Score</p>
+          <p className="text-xs text-[#8891A8]">Risk Score</p>
         </div>
       </div>
 
@@ -164,9 +164,9 @@ export default function AlertDetail() {
 
       {/* Graph + Entity IDs */}
       <div className="grid lg:grid-cols-2 gap-4 mb-4">
-        <div className="bg-[#111827] border border-[#2D3748] rounded-lg overflow-hidden">
-          <div className="px-4 py-2 border-b border-[#2D3748]">
-            <p className="text-xs text-[#4B5563] uppercase tracking-wider">Subgraph Visualization</p>
+        <div className="bg-[#131B2E] border border-[#26314D] rounded-lg overflow-hidden">
+          <div className="px-4 py-2 border-b border-[#26314D]">
+            <p className="text-xs text-[#8891A8] uppercase tracking-wider">Subgraph Visualization</p>
           </div>
           <GraphCanvas
             nodes={subNodes}
@@ -176,19 +176,19 @@ export default function AlertDetail() {
           />
         </div>
 
-        <div className="bg-[#111827] border border-[#2D3748] rounded-lg p-4">
-          <p className="text-xs text-[#4B5563] uppercase tracking-wider mb-3">Involved Entity IDs</p>
+        <div className="bg-[#131B2E] border border-[#26314D] rounded-lg p-4">
+          <p className="text-xs text-[#8891A8] uppercase tracking-wider mb-3">Involved Entity IDs</p>
           <div className="space-y-1.5 overflow-y-auto max-h-72">
             {entityIds.length > 0 ? entityIds.map((eid) => (
               <button
                 key={eid}
                 onClick={() => navigate(`/entities/${eid}`)}
-                className="block w-full text-left text-xs font-mono text-[#00D4AA] hover:text-white bg-[#1C2333] hover:bg-[#2D3748] px-3 py-1.5 rounded transition-colors truncate"
+                className="block w-full text-left text-xs font-mono text-[#4FA0A0] hover:text-white bg-[#1B2540] hover:bg-[#26314D] px-3 py-1.5 rounded transition-colors truncate"
               >
                 {eid}
               </button>
             )) : (
-              <p className="text-xs text-[#4B5563]">No entity IDs available</p>
+              <p className="text-xs text-[#8891A8]">No entity IDs available</p>
             )}
           </div>
         </div>
@@ -203,20 +203,20 @@ export default function AlertDetail() {
       </div>
 
       {/* Evidence fingerprint */}
-      <div className="bg-[#111827] border border-[#2D3748] rounded-lg p-3 mb-4">
-        <p className="text-[10px] text-[#4B5563] uppercase tracking-wider mb-1">Pattern Fingerprint</p>
-        <p className="text-xs text-[#4B5563] font-mono break-all">{fingerprintHash}</p>
+      <div className="bg-[#131B2E] border border-[#26314D] rounded-lg p-3 mb-4">
+        <p className="text-[10px] text-[#8891A8] uppercase tracking-wider mb-1">Pattern Fingerprint</p>
+        <p className="text-xs text-[#8891A8] font-mono break-all">{fingerprintHash}</p>
       </div>
 
       {/* STR Generation */}
-      <div className="bg-[#111827] border border-[#2D3748] rounded-lg p-4 mb-4">
-        <p className="text-xs text-[#4B5563] uppercase tracking-wider mb-3">Generate Suspicious Transaction Report</p>
+      <div className="bg-[#131B2E] border border-[#26314D] rounded-lg p-4 mb-4">
+        <p className="text-xs text-[#8891A8] uppercase tracking-wider mb-3">Generate Suspicious Transaction Report</p>
         <textarea
           value={reviewerNote}
           onChange={(e) => setReviewerNote(e.target.value)}
           placeholder="Optional reviewer notes for the AI (e.g. focus areas, context)..."
           rows={2}
-          className="w-full bg-[#1C2333] border border-[#2D3748] rounded-md p-3 text-sm text-[#F7F9FC] placeholder:text-[#4B5563] focus:outline-none focus:border-[#00D4AA]/50 resize-none mb-3"
+          className="w-full bg-[#1B2540] border border-[#26314D] rounded-md p-3 text-sm text-[#E8EAF0] placeholder:text-[#8891A8] focus:outline-none focus:border-[#4FA0A0]/50 resize-none mb-3"
         />
         <Button variant="primary" onClick={handleGenerateSTR} loading={strLoading}>
           {strLoading ? 'Generating STR…' : 'Generate STR'}
@@ -243,7 +243,7 @@ export default function AlertDetail() {
             onChange={(e) => setNote(e.target.value)}
             placeholder="Enter your investigation notes..."
             rows={4}
-            className="w-full bg-[#1C2333] border border-[#2D3748] rounded-md p-3 text-sm text-[#F7F9FC] placeholder:text-[#4B5563] focus:outline-none focus:border-[#00D4AA]/50 resize-none"
+            className="w-full bg-[#1B2540] border border-[#26314D] rounded-md p-3 text-sm text-[#E8EAF0] placeholder:text-[#8891A8] focus:outline-none focus:border-[#4FA0A0]/50 resize-none"
           />
           <div className="flex gap-2 justify-end">
             <Button variant="ghost" onClick={() => setNoteModal(false)}>Cancel</Button>
@@ -253,7 +253,7 @@ export default function AlertDetail() {
       </Modal>
 
       <Modal open={dismissModal} onClose={() => setDismissModal(false)} title="Dismiss Alert">
-        <p className="text-sm text-[#94A3B8] mb-4">Are you sure you want to dismiss this alert? This action will be logged in the audit trail.</p>
+        <p className="text-sm text-[#8891A8] mb-4">Are you sure you want to dismiss this alert? This action will be logged in the audit trail.</p>
         <div className="flex gap-2 justify-end">
           <Button variant="ghost" onClick={() => setDismissModal(false)}>Cancel</Button>
           <Button variant="danger" onClick={handleDismiss}>Confirm Dismiss</Button>

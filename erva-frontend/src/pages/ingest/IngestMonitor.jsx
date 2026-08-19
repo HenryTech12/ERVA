@@ -59,18 +59,18 @@ export default function IngestMonitor() {
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <h1 className="text-xl font-semibold text-[#F7F9FC]">Ingest Monitor</h1>
+              <h1 className="text-xl font-semibold text-[#E8EAF0]">Ingest Monitor</h1>
               {/* Live indicator */}
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full brand-gradient-bg glow-brand">
                 <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse" />
                 <span className="text-[10px] font-bold text-white uppercase tracking-wide">Live</span>
               </div>
             </div>
-            <p className="text-sm text-[#4B5563]">
+            <p className="text-sm text-[#8891A8]">
               Real-time payment flow · transaction visibility · filing activity
             </p>
             {lastUpdated && (
-              <p className="text-[10px] text-[#4B5563] font-mono mt-0.5 hidden lg:block">{lastUpdated}</p>
+              <p className="text-[10px] text-[#8891A8] font-mono mt-0.5 hidden lg:block">{lastUpdated}</p>
             )}
           </div>
 
@@ -78,7 +78,7 @@ export default function IngestMonitor() {
             <button
               onClick={handleRefresh}
               disabled={refreshing}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md bg-[#161B27] border border-[#1E2535] text-[#94A3B8] hover:text-[#F7F9FC] hover:border-[#FF4C1D]/30 transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md bg-[#131B2E] border border-[#26314D] text-[#8891A8] hover:text-[#E8EAF0] hover:border-[#4FA0A0]/30 transition-colors disabled:opacity-50"
             >
               <ArrowPathIcon className={cn('w-3.5 h-3.5', refreshing && 'animate-spin')} />
               Refresh
@@ -112,7 +112,7 @@ export default function IngestMonitor() {
       </div>
 
       {/* Tab bar */}
-      <div className="flex gap-1 mb-4 bg-[#0D1117] border border-[#1E2535] rounded-lg p-1 w-fit">
+      <div className="flex gap-1 mb-4 bg-[#0B1220] border border-[#26314D] rounded-lg p-1 w-fit">
         {TABS.map((tab) => (
           <button
             key={tab}
@@ -121,7 +121,7 @@ export default function IngestMonitor() {
               'px-4 py-1.5 rounded-md text-xs font-medium transition-all',
               activeTab === tab
                 ? 'brand-gradient-bg text-white shadow-sm'
-                : 'text-[#4B5563] hover:text-[#94A3B8]'
+                : 'text-[#8891A8] hover:text-[#8891A8]'
             )}
           >
             {tab}

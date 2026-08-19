@@ -47,7 +47,7 @@ function validate(form) {
 function JobPoller({ jobId, onDone }) {
   const { data: job } = useJob(jobId)
 
-  if (!job) return <div className="flex items-center gap-2 text-sm text-[#94A3B8]"><Spinner className="w-4 h-4" /> Checking job status…</div>
+  if (!job) return <div className="flex items-center gap-2 text-sm text-[#8891A8]"><Spinner className="w-4 h-4" /> Checking job status…</div>
 
   if (job.status === 'completed') {
     return (
@@ -55,7 +55,7 @@ function JobPoller({ jobId, onDone }) {
         <CheckCircleIcon className="w-5 h-5 text-green-400 shrink-0" />
         <div>
           <p className="text-sm text-green-400 font-medium">Ingest completed</p>
-          <p className="text-xs text-[#94A3B8]">{job.processed_records ?? 1} record(s) processed</p>
+          <p className="text-xs text-[#8891A8]">{job.processed_records ?? 1} record(s) processed</p>
         </div>
         <Button variant="primary" size="sm" className="ml-auto" onClick={onDone}>Done</Button>
       </div>
@@ -68,7 +68,7 @@ function JobPoller({ jobId, onDone }) {
         <XCircleIcon className="w-5 h-5 text-red-400 shrink-0" />
         <div>
           <p className="text-sm text-red-400 font-medium">Ingest failed</p>
-          {job.error_message && <p className="text-xs text-[#94A3B8]">{job.error_message}</p>}
+          {job.error_message && <p className="text-xs text-[#8891A8]">{job.error_message}</p>}
         </div>
         <Button variant="ghost" size="sm" className="ml-auto" onClick={onDone}>Close</Button>
       </div>
@@ -79,17 +79,17 @@ function JobPoller({ jobId, onDone }) {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center gap-2 text-sm text-[#94A3B8]">
+      <div className="flex items-center gap-2 text-sm text-[#8891A8]">
         <Spinner className="w-4 h-4" />
         <span className="capitalize">{job.status}…</span>
         {pct !== null && <span className="ml-auto font-mono text-xs">{pct}%</span>}
       </div>
       {pct !== null && (
-        <div className="w-full bg-[#1C2333] rounded-full h-1.5">
-          <div className="bg-[#00D4AA] h-1.5 rounded-full transition-all" style={{ width: `${pct}%` }} />
+        <div className="w-full bg-[#1B2540] rounded-full h-1.5">
+          <div className="bg-[#4FA0A0] h-1.5 rounded-full transition-all" style={{ width: `${pct}%` }} />
         </div>
       )}
-      <p className="text-xs text-[#4B5563] font-mono">Job ID: {jobId}</p>
+      <p className="text-xs text-[#8891A8] font-mono">Job ID: {jobId}</p>
     </div>
   )
 }
@@ -180,11 +180,11 @@ export function IngestTransactionModal({ open, onClose, onSuccess }) {
               error={errors.amount}
             />
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs text-[#94A3B8] font-medium uppercase tracking-wider">Currency</label>
+              <label className="text-xs text-[#8891A8] font-medium uppercase tracking-wider">Currency</label>
               <select
                 value={form.currency}
                 onChange={set('currency')}
-                className="w-full bg-[#1C2333] border border-[#2D3748] rounded-md px-3 py-2 text-sm text-[#F7F9FC] focus:outline-none focus:border-[#00D4AA]/50"
+                className="w-full bg-[#1B2540] border border-[#26314D] rounded-md px-3 py-2 text-sm text-[#E8EAF0] focus:outline-none focus:border-[#4FA0A0]/50"
               >
                 <option value="NGN">NGN</option>
                 <option value="USD">USD</option>
@@ -200,11 +200,11 @@ export function IngestTransactionModal({ open, onClose, onSuccess }) {
               error={errors.occurred_at}
             />
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs text-[#94A3B8] font-medium uppercase tracking-wider">Channel</label>
+              <label className="text-xs text-[#8891A8] font-medium uppercase tracking-wider">Channel</label>
               <select
                 value={form.channel}
                 onChange={set('channel')}
-                className="w-full bg-[#1C2333] border border-[#2D3748] rounded-md px-3 py-2 text-sm text-[#F7F9FC] focus:outline-none focus:border-[#00D4AA]/50"
+                className="w-full bg-[#1B2540] border border-[#26314D] rounded-md px-3 py-2 text-sm text-[#E8EAF0] focus:outline-none focus:border-[#4FA0A0]/50"
               >
                 {CHANNELS.map((c) => (
                   <option key={c} value={c}>{c.toUpperCase()}</option>

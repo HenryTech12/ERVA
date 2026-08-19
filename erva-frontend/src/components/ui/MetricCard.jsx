@@ -25,7 +25,7 @@ export function MetricCard({ label, value, delta, deltaPositive, accent, note })
     high:   'border-l-red-500',
     medium: 'border-l-amber-500',
     low:    'border-l-green-500',
-    accent: 'border-l-[#00D4AA]',
+    accent: 'border-l-[#4FA0A0]',
   }
 
   return (
@@ -34,12 +34,12 @@ export function MetricCard({ label, value, delta, deltaPositive, accent, note })
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={cn(
-        'bg-[#111827] rounded-lg p-4 border border-[#2D3748] border-l-2',
-        accent ? borderColor[accent] : 'border-l-[#2D3748]'
+        'bg-[#131B2E] rounded-lg p-4 border border-[#26314D] border-l-2',
+        accent ? borderColor[accent] : 'border-l-[#26314D]'
       )}
     >
-      <p className="text-xs text-[#4B5563] uppercase tracking-widest font-medium mb-2">{label}</p>
-      <p className="text-3xl font-semibold font-mono text-[#F7F9FC]">
+      <p className="text-xs text-[#8891A8] uppercase tracking-widest font-medium mb-2">{label}</p>
+      <p className="text-3xl font-semibold font-mono text-[#E8EAF0]">
         <AnimatedNumber value={value} />
       </p>
       {delta && (
@@ -48,7 +48,7 @@ export function MetricCard({ label, value, delta, deltaPositive, accent, note })
         </p>
       )}
       {note && !delta && (
-        <p className="text-xs mt-1.5 text-[#4B5563]">{note}</p>
+        <p className="text-xs mt-1.5 text-[#8891A8]">{note}</p>
       )}
     </motion.div>
   )
