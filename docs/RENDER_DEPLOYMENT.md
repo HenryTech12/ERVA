@@ -17,8 +17,10 @@ root automatically and shows a preview of everything it's about to create:
 - `erva-db` — managed Postgres
 - `erva-cache` — managed Key Value store (Valkey, Redis-compatible)
 - `erva-api` — web service, built from `backend/Dockerfile`, public HTTPS URL
-- `erva-worker` — background worker, same Dockerfile, different start command
-  (`python -m app.workers.ingest_worker`), no public URL
+- `erva-worker` — background worker, built from `backend/Dockerfile.worker` (same base image and
+  `requirements.txt` as the API, just a different `CMD` — Render's docker runtime doesn't allow
+  overriding a container's command from `render.yaml`, so this needs its own Dockerfile rather
+  than a `startCommand` field), no public URL
 
 Click **Apply** to create everything at once.
 
