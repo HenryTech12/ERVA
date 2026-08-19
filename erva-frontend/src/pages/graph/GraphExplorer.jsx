@@ -1,0 +1,196 @@
+import { useMemo, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { PageHeader } from '@/components/layout/PageHeader'
+import { GraphCanvas } from '@/components/graph/GraphCanvas'
+import { GraphControls } from '@/components/graph/GraphControls'
+import { useGraphLayout } from '@/components/graph/useGraphLayout'
+import { useGraph } from '@/hooks/useGraph'
+import { useAlerts } from '@/hooks/useAlerts'
+import { useSimulationStore } from '@/store/simulationStore'
+import { deriveRiskLevel } from '@/utils/risk'
+import { RiskBadge } from '@/components/ui/RiskBadge'
+import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
+import { Spinner } from '@/components/ui/Spinner'
+import { XMarkIcon } from '@heroicons/react/24/outline'
+
+function useFullGraph() {
+  const { data: graphData, isLoading: graphLoading } = useGraph()
+  const { data: alerts = [] } = useAlerts()
+
+  const { nodes: rawNodes, links: rawLinks } = useMemo(() => {
+    const nodes = graphData?.nodes ?? []
+    const links = graphData?.links ?? []
+
+    // Build a risk map from alert entity IDs → highest risk level
+    const riskMap = new Map()
+    alerts.forEach((alert) => {
+      const level = alert.riskLevel ?? deriveRiskLevel(alert.riskScore ?? 0)
+      ;(alert.entityIds ?? []).forEach((id) => {
+        const current = riskMap.get(id)
+        // HIGH > MEDIUM > LOW — keep the worst
+        if (!current || level === 'HIGH' || (level === 'MEDIUM' && current === 'LOW')) {
+          riskMap.set(id, level)
+        }
+      })
+    })
+
+    const normNodes = nodes
+      .filter((n) => n.id)
+      .map((n) => ({
+        id: n.id,
+        label: n.label ?? n.id,
+        type: n.type ?? 'account',
+        risk: riskMap.get(n.id) ?? 'LOW',
+      }))
+
+    const nodeIds = new Set(normNodes.map((n) => n.id))
+    const normLinks = links
+      .filter((l) => l.source && l.target && nodeIds.has(l.source) && nodeIds.has(l.target))
+      .map((l) => ({
+        source: l.source,
+        target: l.target,
+        value: parseFloat(l.amount ?? 50),
+      }))
+
+    return { nodes: normNodes, links: normLinks }
+  }, [graphData, alerts])
+
+  return { rawNodes, rawLinks, isLoading: graphLoading }
+}
+
+export default function GraphExplorer() {
+  const navigate = useNavigate()
+  const [riskFilter, setRiskFilter] = useState('ALL')
+  const [selectedNode, setSelectedNode] = useState(null)
+  const [key, setKey] = useState(0)
+
+  const { rawNodes, rawLinks, isLoading } = useFullGraph()
+  const { nodes, links } = useGraphLayout(riskFilter, { nodes: rawNodes, links: rawLinks })
+
+  // ── Simulation highlight ────────────────────────────────────────────────────
+  const { highlightedNodeId, trustScore, triggeredAlert, clearSimulation } = useSimulationStore()
+
+  // Inject the highlighted node as HIGH risk so it renders red, even if the
+  // graph data hasn't propagated the new alert yet
+  const patchedNodes = useMemo(() => {
+    if (!highlightedNodeId) return nodes
+    return nodes.map((n) =>
+      n.id === highlightedNodeId ? { ...n, risk: 'HIGH', _simHighlight: true } : n
+    )
+  }, [nodes, highlightedNodeId])
+
+  // Auto-select the highlighted node so the detail panel opens immediately
+  useEffect(() => {
+    if (!highlightedNodeId) return
+    const node = patchedNodes.find((n) => n.id === highlightedNodeId)
+    if (node) setSelectedNode(node)
+  }, [highlightedNodeId, patchedNodes])
+
+  // Clear simulation state when user navigates away
+  useEffect(() => () => clearSimulation(), [clearSimulation])
+
+  return (
+    <div className="flex flex-col h-full -m-6">
+      <div className="px-6 pt-6 pb-0">
+        <PageHeader
+          title="Graph Explorer"
+          subtitle={`${nodes.length} nodes · ${links.length} edges`}
+        />
+      </div>
+
+      <GraphControls
+        riskFilter={riskFilter}
+        onRiskFilterChange={(r) => { setRiskFilter(r); setKey((k) => k + 1) }}
+        onReset={() => { setRiskFilter('ALL'); setKey((k) => k + 1) }}
+      />
+
+      <div className="flex flex-1 overflow-hidden min-h-0">
+        {/* Canvas — flex-1 fills all remaining height */}
+        <div className="flex-1 bg-[#0A0E1A] relative min-h-0">
+          {isLoading ? (
+            <div className="flex items-center justify-center h-full"><Spinner size="lg" /></div>
+          ) : nodes.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full gap-3 text-[#4B5563]">
+              <p className="text-sm">No graph data available</p>
+              <p className="text-xs font-mono">Ingest transactions to build the entity graph</p>
+            </div>
+          ) : (
+            <GraphCanvas
+              key={key}
+              nodes={patchedNodes}
+              links={links}
+              onNodeClick={setSelectedNode}
+            />
+          )}
+
+          {/* Legend */}
+          <div className="absolute bottom-4 left-4 bg-[#111827]/90 border border-[#2D3748] rounded-lg p-3 flex flex-col gap-1.5">
+            {[['HIGH', '#EF4444'], ['MEDIUM', '#F59E0B'], ['LOW', '#22C55E']].map(([label, color]) => (
+              <div key={label} className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full border-2" style={{ borderColor: color, backgroundColor: color + '33' }} />
+                <span className="text-[10px] text-[#94A3B8] font-mono">{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Node Detail Panel */}
+        {selectedNode && (
+          <div className="w-72 bg-[#111827] border-l border-[#2D3748] p-4 overflow-y-auto shrink-0">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-xs text-[#4B5563] uppercase tracking-wider">Node Details</p>
+              <button onClick={() => setSelectedNode(null)} className="p-1 rounded text-[#4B5563] hover:text-[#F7F9FC] hover:bg-[#1C2333] transition-colors">
+                <XMarkIcon className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Simulation highlight banner */}
+            {selectedNode._simHighlight && (
+              <div className="mb-4 p-3 rounded-lg bg-gradient-to-br from-[#BE185D]/20 to-[#F97316]/10 border border-[#BE185D]/40">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-[#F97316] text-sm animate-pulse">⚡</span>
+                  <p className="text-xs font-semibold text-[#F97316]">Live Transaction Detected</p>
+                </div>
+                {triggeredAlert && (
+                  <p className="text-[10px] text-[#94A3B8] leading-relaxed">
+                    {triggeredAlert.reason ?? triggeredAlert.pattern_type ?? 'Fraud pattern flagged'}
+                  </p>
+                )}
+                {trustScore && (
+                  <div className="mt-2 pt-2 border-t border-[#BE185D]/20">
+                    <p className="text-[10px] text-[#4B5563] uppercase tracking-wider mb-1">Trust Score</p>
+                    <p className="text-xl font-bold font-mono text-red-400">
+                      {(parseFloat(trustScore.risk_score ?? trustScore.riskScore ?? 0) * 100).toFixed(1)}%
+                    </p>
+                    {trustScore.reason && (
+                      <p className="text-[10px] text-[#94A3B8] mt-1 leading-relaxed line-clamp-3">
+                        {trustScore.reason}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="space-y-3">
+              <div>
+                <p className="text-base font-semibold text-[#F7F9FC]">{selectedNode.label}</p>
+                <p className="text-xs text-[#4B5563] font-mono mt-0.5">{selectedNode.id}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Badge>{selectedNode.type}</Badge>
+                <RiskBadge level={selectedNode.risk} />
+              </div>
+              <div className="pt-3 border-t border-[#2D3748]">
+                <Button variant="primary" size="sm" className="w-full" onClick={() => navigate(`/entities/${selectedNode.id}`)}>
+                  View Entity Profile →
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
