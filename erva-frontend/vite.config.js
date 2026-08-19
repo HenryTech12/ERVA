@@ -8,9 +8,4 @@ export default defineConfig({
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') },
   },
-  server: {
-    proxy: {
-      '/api': { target: 'https://erva-c5ccs.ondigitalocean.app', changeOrigin: true, secure: true },
-    },
-  },
 })

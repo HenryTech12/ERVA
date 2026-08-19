@@ -65,9 +65,18 @@ def _wait_for_api(base_url: str, retries: int = 30, delay: float = 2.0) -> None:
     raise RuntimeError(f"API at {base_url} did not become ready after {retries} retries")
 
 
+def _psycopg_url(url: str) -> str:
+    """Hosted providers hand out plain postgres:// / postgresql:// connection
+    strings — normalize to the psycopg3 driver scheme this app expects."""
+    for prefix in ("postgres://", "postgresql://"):
+        if url.startswith(prefix):
+            return "postgresql+psycopg://" + url[len(prefix):]
+    return url
+
+
 def load_entities(postgres_url: str) -> int:
     """Bulk-insert entities from CSV into Postgres. Skip already-present rows."""
-    engine = create_engine(postgres_url, pool_pre_ping=True)
+    engine = create_engine(_psycopg_url(postgres_url), pool_pre_ping=True)
     Session = sessionmaker(bind=engine)
 
     # Late import so this script is standalone — the backend package may not be on PYTHONPATH

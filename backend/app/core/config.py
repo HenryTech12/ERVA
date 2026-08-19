@@ -6,6 +6,13 @@ class Settings(BaseSettings):
     app_name: str = "ERVA Backend"
     app_version: str = "0.1.0"
 
+    # Comma-separated list of allowed frontend origins, e.g.
+    # "https://erva.vercel.app,https://erva-git-main-yourteam.vercel.app"
+    allowed_origins: str = "http://localhost:5173,http://localhost:4173"
+    # Optional regex to also allow Vercel preview deployment URLs, e.g.
+    # "https://erva-.*\.vercel\.app"
+    allowed_origin_regex: str = ""
+
     postgres_url: str = "postgresql+psycopg://erva:erva@postgres:5432/erva"
     redis_url: str = "redis://redis:6379/0"
 

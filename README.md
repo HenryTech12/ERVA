@@ -177,6 +177,34 @@ python scripts/train_anomaly_model.py
 
 ---
 
+## Deployment
+
+Backend on [Zerops](https://zerops.io), frontend on [Vercel](https://vercel.com), graph store on
+Neo4j AuraDB (Zerops has no managed graph database, so this stays external in every environment).
+
+**Backend (Zerops):** full walkthrough in
+[`docs/ZEROPS_DEPLOYMENT.md`](docs/ZEROPS_DEPLOYMENT.md) — the repo-root
+[`zerops.yml`](zerops.yml) drives the `api` and `worker` service builds automatically once the
+repo is connected; a project-import YAML in that doc provisions Postgres, Valkey (Redis), and
+both services in one step.
+
+**Frontend (Vercel):**
+1. Import the repo as a new Vercel project
+2. Project Settings → **Root Directory** → `erva-frontend` (this is a monorepo — Vercel won't
+   find `package.json` at the repo root)
+3. Framework preset: Vite (auto-detected); build command and output directory are also
+   auto-detected (`npm run build`, `dist`)
+4. Project Settings → **Environment Variables** → `VITE_API_BASE_URL` = your Zerops `api` service
+   URL + `/api/v1`, e.g. `https://api-xxxx.prg1.zerops.app/api/v1`
+5. `erva-frontend/vercel.json` already has the SPA rewrite (`/* → /index.html`) needed for
+   client-side routing — no changes needed there
+
+**Wiring the two together:** once both are deployed, set `ALLOWED_ORIGINS` (and optionally
+`ALLOWED_ORIGIN_REGEX` for Vercel preview URLs) on the Zerops `api` service to your real Vercel
+domain(s) — the backend rejects cross-origin requests from anything not on that list.
+
+---
+
 ## API Reference
 
 Interactive docs at `/docs`. Key endpoints:
